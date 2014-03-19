@@ -43,7 +43,6 @@ android {
 
 dependencies {
     compile 'com.android.support:appcompat-v7:+'
-
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.couchbase.cblite:CBLite:1.0.0-beta2'
     compile 'com.netflix.rxjava:rxjava-android:0.17.1'
