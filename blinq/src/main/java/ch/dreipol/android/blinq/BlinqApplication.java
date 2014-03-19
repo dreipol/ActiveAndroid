@@ -10,6 +10,10 @@ import ch.dreipol.android.blinq.util.Bog;
  * Created by phil on 19.03.14.
  */
 public class BlinqApplication extends Application implements Application.ActivityLifecycleCallbacks {
+
+    public static final String HOCKEY_APP_IDENTIFIER = "b6515d8c05bcc1ba45256f9dae09cfc9";
+
+
     @Override
     public void onCreate() {
         super.onCreate();

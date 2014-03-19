@@ -18,6 +18,9 @@ public class LaunchActivity extends BlinqBaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+
+
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
