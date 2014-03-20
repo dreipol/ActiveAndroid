@@ -1,6 +1,9 @@
 <resources>
 
     <color name="debug_orange">#ff6600</color>
+    <color name="debug_green">#66FF00</color>
+    <color name="debug_blue">#0066FF</color>
+    <color name="blinq_black">#000000</color>
 </resources>
 
 
