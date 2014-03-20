@@ -28,13 +28,21 @@ public abstract class BlinqBaseActivity extends Activity {
         });
     }
 
-    protected void startDebugActivity() {
-        Intent intent = new Intent(getApplicationContext(), DebugActivity.class);
-        startActivity(intent);
-    }
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return mGestureDetector.onTouchEvent(event) || super.onTouchEvent(event);
     }
+
+
+    protected abstract boolean shouldStartDebugActivity();
+
+
+    private void startDebugActivity() {
+        if (shouldStartDebugActivity()) {
+            Intent intent = new Intent(getApplicationContext(), DebugActivity.class);
+            startActivity(intent);
+        }
+    }
+
+
 }

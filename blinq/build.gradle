@@ -22,12 +22,28 @@ android {
     compileSdkVersion 19
     buildToolsVersion "19.0.1"
 
+
+
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 19
         versionCode 1
         versionName "1.0"
     }
+
+    productFlavors {
+
+        production {
+            packageName "ch.dreipol.android.blinq"
+        }
+
+        beta {
+            packageName "ch.dreipol.android.blinqbeta"
+
+        }
+    }
+
+
     buildTypes {
         release {
             runProguard false
@@ -38,6 +54,20 @@ android {
         exclude 'META-INF/ASL2.0'
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/NOTICE'
+    }
+
+    sourceSets {
+
+        main{
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+        }
+        production {
+            manifest.srcFile 'src/main/AndroidManifestProduction.xml'
+        }
+
+        beta {
+            manifest.srcFile 'src/main/AndroidManifestBeta.xml'
+        }
     }
 }
 

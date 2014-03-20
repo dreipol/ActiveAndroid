@@ -12,4 +12,10 @@ public class DebugActivity extends BlinqBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_debug);
     }
+
+    @Override
+    protected boolean shouldStartDebugActivity() {
+        return false;
+    }
+
 }

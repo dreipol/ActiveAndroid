@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="ch.dreipol.android.blinqtest" >
+    <application>
+        <meta-data android:name="BLINQ_FLAVOUR" android:value="BETA" />
+        <meta-data android:name="BLINQ_SERVER" android:value="https://beta.blinqapp.ch" />
+    </application>
+</manifest>

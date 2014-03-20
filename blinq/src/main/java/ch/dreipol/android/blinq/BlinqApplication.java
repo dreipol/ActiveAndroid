@@ -2,6 +2,8 @@ package ch.dreipol.android.blinq;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import ch.dreipol.android.blinq.util.Bog;
@@ -17,8 +19,9 @@ public class BlinqApplication extends Application implements Application.Activit
     @Override
     public void onCreate() {
         super.onCreate();
-        Bog.v(Bog.Category.SYSTEM, "Starting BLINQ");
+        Bog.v(Bog.Category.SYSTEM, "Starting BLINQ: " + getApplicationContext().getPackageName());
         registerActivityLifecycleCallbacks(this);
+        Bog.v(Bog.Category.SYSTEM, "BLINQ Flavour is: " +getFlavour());
     }
 
 
@@ -55,5 +58,19 @@ public class BlinqApplication extends Application implements Application.Activit
     @Override
     public void onActivityDestroyed(Activity activity) {
         Bog.v(Bog.Category.UI, "Destroyed Activity: " + activity.getLocalClassName());
+    }
+
+    public String getFlavour() {
+        String result = "Undefined";
+        try {
+            ApplicationInfo ai = getApplicationContext().getPackageManager().getApplicationInfo(getApplicationContext().getPackageName(), PackageManager.GET_META_DATA);
+            Bundle bundle = ai.metaData;
+            result = bundle.getString("BLINQ_FLAVOUR");
+        } catch (NullPointerException e) {
+            Bog.e(Bog.Category.SYSTEM, "Could not get Metadata", e);
+        } catch (PackageManager.NameNotFoundException e) {
+            Bog.e(Bog.Category.SYSTEM, "Could not get Metadata", e);
+        }
+        return result;
     }
 }

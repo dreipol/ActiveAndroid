@@ -16,6 +16,11 @@ public class HomeActivity extends BlinqBaseActivity {
         setContentView(R.layout.activity_home);
     }
 
+    @Override
+    protected boolean shouldStartDebugActivity() {
+        return true;
+    }
+
 
     @Override
     protected void onResume() {
