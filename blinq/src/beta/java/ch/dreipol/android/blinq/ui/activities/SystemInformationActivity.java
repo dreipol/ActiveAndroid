@@ -1,16 +1,17 @@
-package ch.dreipol.android.blinq.debug.ui.activities;
+package ch.dreipol.android.blinq.ui.activities;
 
 import android.os.Bundle;
 
 import ch.dreipol.android.blinq.R;
-import ch.dreipol.android.blinq.ui.activities.BlinqBaseActivity;
+import ch.dreipol.android.dreiworks.ui.activities.BaseActivity;
 
-public class DebugActivity extends BlinqBaseActivity {
+
+public class SystemInformationActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_debug);
+        setContentView(R.layout.activity_system_information);
     }
 
     @Override

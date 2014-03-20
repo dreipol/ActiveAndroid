@@ -2,6 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="ch.dreipol.android.blinqtest" >
     <application>
         <meta-data android:name="BLINQ_FLAVOUR" android:value="BETA" />
-        <meta-data android:name="BLINQ_SERVER" android:value="https://beta.blinqapp.ch" />
+        <meta-data android:name="BLINQ_SERVER" android:value="https://beta.server.blinqapp.ch" />
+
+
+        <activity
+            android:name="ch.dreipol.android.blinq.ui.activities.DebugActivity"
+            android:label="@string/title_activity_debug" >
+        </activity>
+
+        <activity
+            android:name="ch.dreipol.android.blinq.ui.activities.SystemInformationActivity"
+            android:label="@string/title_activity_system_information" >
+        </activity>
+
+
     </application>
 </manifest>

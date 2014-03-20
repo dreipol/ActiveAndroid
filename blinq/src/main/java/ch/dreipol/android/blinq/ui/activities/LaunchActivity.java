@@ -5,8 +5,9 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import ch.dreipol.android.blinq.R;
+import ch.dreipol.android.dreiworks.ui.activities.BaseActivity;
 
-public class LaunchActivity extends BlinqBaseActivity {
+public class LaunchActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -21,7 +21,7 @@ public class BlinqApplication extends Application implements Application.Activit
         super.onCreate();
         Bog.v(Bog.Category.SYSTEM, "Starting BLINQ: " + getApplicationContext().getPackageName());
         registerActivityLifecycleCallbacks(this);
-        Bog.v(Bog.Category.SYSTEM, "BLINQ Flavour is: " +getFlavour());
+        Bog.v(Bog.Category.SYSTEM, "BLINQ Flavour is: " + getFlavour());
     }
 
 
@@ -60,12 +60,14 @@ public class BlinqApplication extends Application implements Application.Activit
         Bog.v(Bog.Category.UI, "Destroyed Activity: " + activity.getLocalClassName());
     }
 
-    public String getFlavour() {
-        String result = "Undefined";
+
+    public BlinqApplicationFlavour getFlavour() {
+        BlinqApplicationFlavour result = BlinqApplicationFlavour.PRODUCTION;
         try {
             ApplicationInfo ai = getApplicationContext().getPackageManager().getApplicationInfo(getApplicationContext().getPackageName(), PackageManager.GET_META_DATA);
             Bundle bundle = ai.metaData;
-            result = bundle.getString("BLINQ_FLAVOUR");
+            String stringFlavour = bundle.getString("BLINQ_FLAVOUR");
+            result = BlinqApplicationFlavour.valueOf(stringFlavour);
         } catch (NullPointerException e) {
             Bog.e(Bog.Category.SYSTEM, "Could not get Metadata", e);
         } catch (PackageManager.NameNotFoundException e) {

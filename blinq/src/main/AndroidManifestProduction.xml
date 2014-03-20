@@ -2,6 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="ch.dreipol.android.blinq" >
     <application>
         <meta-data android:name="BLINQ_FLAVOUR" android:value="PRODUCTION" />
-        <meta-data android:name="BLINQ_SERVER" android:value="https://phone.blinqapp.ch" />
+        <meta-data android:name="BLINQ_SERVER" android:value="https://blinqapp.ch" />
     </application>
 </manifest>

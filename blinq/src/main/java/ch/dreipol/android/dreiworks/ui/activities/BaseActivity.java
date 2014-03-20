@@ -1,4 +1,4 @@
-package ch.dreipol.android.blinq.ui.activities;
+package ch.dreipol.android.dreiworks.ui.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,12 +6,10 @@ import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
-import ch.dreipol.android.blinq.debug.ui.activities.DebugActivity;
-
 /**
  * Created by phil on 19.03.14.
  */
-public abstract class BlinqBaseActivity extends Activity {
+public abstract class BaseActivity extends Activity {
 
     private GestureDetector mGestureDetector;
 
@@ -39,10 +37,14 @@ public abstract class BlinqBaseActivity extends Activity {
 
     private void startDebugActivity() {
         if (shouldStartDebugActivity()) {
-            Intent intent = new Intent(getApplicationContext(), DebugActivity.class);
-            startActivity(intent);
+            Intent intent = null;
+            try {
+                intent = new Intent(getApplicationContext(), Class.forName("ch.dreipol.android.blinq.ui.activities.DebugActivity"));
+                startActivity(intent);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
         }
     }
-
-
 }
