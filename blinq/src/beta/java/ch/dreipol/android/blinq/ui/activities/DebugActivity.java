@@ -12,7 +12,7 @@ public class DebugActivity extends BaseBlinqActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_debug);
 
-        findButtonWithId(R.layout.activity_system_information).setOnClickListener(createActivityClickListener(SystemInformationActivity.class, ActivityTransitionType.DEFAULT));
+        findButtonWithId(R.id.debug_system_information).setOnClickListener(createActivityClickListener(SystemInformationActivity.class, ActivityTransitionType.DEFAULT));
 
     }
 

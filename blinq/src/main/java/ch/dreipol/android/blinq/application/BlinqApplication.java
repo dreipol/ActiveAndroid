@@ -1,4 +1,4 @@
-package ch.dreipol.android.blinq;
+package ch.dreipol.android.blinq.application;
 
 import android.app.Activity;
 import android.app.Application;

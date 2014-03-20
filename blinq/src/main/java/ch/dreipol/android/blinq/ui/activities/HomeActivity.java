@@ -5,7 +5,7 @@ import android.os.Bundle;
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
 
-import ch.dreipol.android.blinq.BlinqApplication;
+import ch.dreipol.android.blinq.application.BlinqApplication;
 import ch.dreipol.android.blinq.R;
 
 public class HomeActivity extends BaseBlinqActivity {
