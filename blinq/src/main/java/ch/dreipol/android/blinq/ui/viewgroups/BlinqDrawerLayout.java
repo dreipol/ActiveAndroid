@@ -110,14 +110,14 @@ public class BlinqDrawerLayout extends ViewGroup {
                 mRightView.animate().translationX(0).alpha(mBaseAlpha);
                 break;
             case RIGHT:
-                mCenterView.animate().translationX(mRight);
-                mLeftView.animate().translationX(mRight).alpha(1.0f);
-                mRightView.animate().translationX(mRight).alpha(mBaseAlpha);
+                mCenterView.animate().translationX(mRight*0.75f);
+                mLeftView.animate().translationX(mRight*0.75f).alpha(1.0f);
+                mRightView.animate().translationX(mRight*0.75f).alpha(mBaseAlpha);
                 break;
             case LEFT:
-                mCenterView.animate().translationX(mLeft - mRight);
+                mCenterView.animate().translationX(mLeft - mRight*0.75f);
                 mLeftView.animate().translationX(mLeft - mRight).alpha(mBaseAlpha);
-                mRightView.animate().translationX(mLeft - mRight).alpha(1.0f);
+                mRightView.animate().translationX(mLeft - mRight*0.75f).alpha(1.0f);
                 break;
         }
 
@@ -125,18 +125,22 @@ public class BlinqDrawerLayout extends ViewGroup {
 
     private void centerViewUpdated(float x) {
         boolean toRight = x > 0;
-        mCenterView.setX(x);
-        float percentage = mInterpolator.getInterpolation(Math.abs(x) / mRight);
+        mCenterView.setX(x*0.95f);
+//        float percentage = mInterpolator.getInterpolation(Math.abs(x) / mRight);
+        float percentage = Math.abs(x) / mRight*0.75f;
         mBaseAlpha = 0.5f;
         float alpha = mBaseAlpha + (percentage * (1 - mBaseAlpha));
+
+
+        float rightPosition = getRightViewX(percentage);
+        float leftPosition = getLeftViewX(percentage);
+
         if (toRight) {
-            float leftPosition = (1 - percentage) * (mLeft - mRight);
             mLeftView.setX(leftPosition);
             mLeftView.setAlpha(alpha);
             mRightView.setX(mRight + percentage * (mRight));
         } else {
             mLeftView.setX(percentage * (mLeft - mRight) - mRight);
-            float rightPosition = mRight - (percentage) * (mRight);
             mRightView.setX(rightPosition);
             mRightView.setAlpha(alpha);
         }
@@ -150,6 +154,15 @@ public class BlinqDrawerLayout extends ViewGroup {
         } else {
             mSnap = DrawerSnap.CENTER;
         }
+    }
+
+    private float getLeftViewX(float percentage) {
+        return (1 - percentage) * (mLeft - mRight * 0.75f);
+    }
+
+    private float getRightViewX(float percentage) {
+        float right = mRight * 0.75f;
+        return right - (percentage) * right;
     }
 
     @Override
