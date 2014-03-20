@@ -7,9 +7,8 @@ import net.hockeyapp.android.UpdateManager;
 
 import ch.dreipol.android.blinq.BlinqApplication;
 import ch.dreipol.android.blinq.R;
-import ch.dreipol.android.dreiworks.ui.activities.BaseActivity;
 
-public class HomeActivity extends BaseActivity {
+public class HomeActivity extends BaseBlinqActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

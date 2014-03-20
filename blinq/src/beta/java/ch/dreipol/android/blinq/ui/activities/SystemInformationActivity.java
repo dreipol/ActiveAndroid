@@ -3,10 +3,9 @@ package ch.dreipol.android.blinq.ui.activities;
 import android.os.Bundle;
 
 import ch.dreipol.android.blinq.R;
-import ch.dreipol.android.dreiworks.ui.activities.BaseActivity;
 
 
-public class SystemInformationActivity extends BaseActivity {
+public class SystemInformationActivity extends BaseBlinqActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
