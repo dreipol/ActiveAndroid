@@ -6,7 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+
 import ch.dreipol.android.blinq.R;
+import ch.dreipol.android.blinq.util.Bog;
 
 /**
  * Created by phil on 21.03.14.
@@ -46,6 +50,19 @@ public class MainFragment extends Fragment {
 
 
         return v;
+    }
+    private boolean servicesConnected() {
+        // Check that Google Play services is available
+        int resultCode =
+                GooglePlayServicesUtil.isGooglePlayServicesAvailable(this.getActivity());
+        // If Google Play services is available
+        if (ConnectionResult.SUCCESS == resultCode) {
+            // In debug mode, log the status
+            Bog.d(Bog.Category.SYSTEM, "Location Updates Google Play services is available.");
+            return true;
+            // Google Play services was not available for some reason
+        }
+        return true;
     }
 
     public interface IMainFragmentListener {

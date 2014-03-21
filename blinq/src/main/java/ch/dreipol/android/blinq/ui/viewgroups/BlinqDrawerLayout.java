@@ -290,12 +290,12 @@ public class BlinqDrawerLayout extends ViewGroup {
         mDrawerLayoutListener = iDrawerLayoutListener;
     }
 
-    public RelativeLayout getRightContainer() {
-        return mRightView;
+    public int getRightContainer() {
+        return mRightView.getId();
     }
 
-    public RelativeLayout getLeftContainer() {
-        return mLeftView;
+    public int getLeftContainer() {
+        return mLeftView.getId();
     }
 
     public int getCenterContainer() {

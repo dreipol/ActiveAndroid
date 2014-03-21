@@ -9,6 +9,8 @@ import net.hockeyapp.android.UpdateManager;
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.application.BlinqApplication;
 import ch.dreipol.android.blinq.ui.fragments.MainFragment;
+import ch.dreipol.android.blinq.ui.fragments.MatchesListFragment;
+import ch.dreipol.android.blinq.ui.fragments.SettingsListFragment;
 import ch.dreipol.android.blinq.ui.viewgroups.BlinqDrawerLayout;
 import ch.dreipol.android.blinq.ui.viewgroups.DrawerSnap;
 
@@ -16,12 +18,14 @@ public class HomeActivity extends BaseBlinqActivity {
 
     private BlinqDrawerLayout layout;
     private MainFragment mainFragment;
+    private MatchesListFragment rightFragment;
+    private SettingsListFragment leftFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        layout = (BlinqDrawerLayout)findViewById(R.id.drawer_layout);
+        layout = (BlinqDrawerLayout) findViewById(R.id.drawer_layout);
 
 
         FragmentManager fragmentManager = getFragmentManager();
@@ -40,19 +44,33 @@ public class HomeActivity extends BaseBlinqActivity {
             }
         });
         fragmentManager.beginTransaction()
-            .add(layout.getCenterContainer(), mainFragment)
-            .commit();
+                .add(layout.getCenterContainer(), mainFragment)
+                .commit();
 
         layout.setDrawerLayoutListener(new IDrawerLayoutListener() {
 
             @Override
             public void beginOrContinueMovement() {
-                layout.getLeftContainer();
-                layout.getRightContainer();
+                if (rightFragment == null) {
+                    rightFragment = new MatchesListFragment();
+                    getFragmentManager().beginTransaction()
+                            .add(layout.getRightContainer(), rightFragment)
+                            .commit();
+
+                }
+
+                if (leftFragment == null) {
+                    leftFragment = new SettingsListFragment();
+                    getFragmentManager().beginTransaction()
+                            .add(layout.getLeftContainer(), leftFragment)
+                            .commit();
+
+                }
             }
         });
 
 
+        
 
 
     }
