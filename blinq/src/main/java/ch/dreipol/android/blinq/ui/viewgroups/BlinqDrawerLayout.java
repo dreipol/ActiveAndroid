@@ -6,6 +6,8 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Interpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
@@ -102,6 +104,33 @@ public class BlinqDrawerLayout extends ViewGroup {
             }
         });
 
+        final GestureDetector swipeDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                Bog.v(Bog.Category.UI, "Swipe Detected..." + velocityX);
+                boolean toLeft = velocityX < 0;
+
+                if (toLeft) {
+                    if (mSnap == DrawerSnap.RIGHT) {
+                        setDrawerPosition(DrawerSnap.CENTER);
+                    }else if(mSnap == DrawerSnap.CENTER){
+                        setDrawerPosition(DrawerSnap.LEFT);
+                    }
+
+                }else {
+                    if (mSnap == DrawerSnap.LEFT) {
+                        setDrawerPosition(DrawerSnap.CENTER);
+                    }else if(mSnap == DrawerSnap.CENTER){
+                        setDrawerPosition(DrawerSnap.RIGHT);
+                    }
+
+                }
+                Bog.v(Bog.Category.UI, "x " + (e1.getX() - e2.getX()));
+
+                return super.onFling(e1, e2, velocityX, velocityY);
+            }
+        });
+
 
         mCenterViewContainer.setOnTouchListener(new OnTouchListener() {
             @Override
@@ -115,7 +144,7 @@ public class BlinqDrawerLayout extends ViewGroup {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-
+                swipeDetector.onTouchEvent(event);
                 detector.onTouchEvent(event);
 
                 float eventX = event.getX();
@@ -156,27 +185,29 @@ public class BlinqDrawerLayout extends ViewGroup {
 
     private void centerViewUpdateFinished() {
         float centerTranslation = 0;
+        long animationDuration = 300;
+        Interpolator bounceInterpolator = new OvershootInterpolator(1.0f);
         switch (mSnap) {
             case CENTER:
-                mLeftViewContainer.animate().translationX(centerTranslation).scaleX(mBaseScale).scaleY(mBaseScale).rotationY(mBaseRotation).alpha(mBaseAlpha);
-                mRightViewContainer.animate().translationX(centerTranslation).scaleX(mBaseScale).scaleY(mBaseScale).rotationY(-mBaseRotation).alpha(mBaseAlpha);
+                mLeftViewContainer.animate().setInterpolator(bounceInterpolator).setDuration(animationDuration).translationX(centerTranslation).scaleX(mBaseScale).scaleY(mBaseScale).rotationY(mBaseRotation).alpha(mBaseAlpha);
+                mRightViewContainer.animate().setInterpolator(bounceInterpolator).setDuration(animationDuration).translationX(centerTranslation).scaleX(mBaseScale).scaleY(mBaseScale).rotationY(-mBaseRotation).alpha(mBaseAlpha);
                 break;
 
             case RIGHT:
                 centerTranslation = getScaledRight();
-                mLeftViewContainer.animate().translationX(mRight / 2).scaleX(1).scaleY(1).rotationY(0).alpha(1.0f);
-                mRightViewContainer.animate().translationX(centerTranslation).scaleX(mBaseScale).scaleY(mBaseScale).rotationY(-mBaseRotation).alpha(mBaseAlpha);
+                mLeftViewContainer.animate().setInterpolator(bounceInterpolator).setDuration(animationDuration).translationX(mRight / 2).scaleX(1).scaleY(1).rotationY(0).alpha(1.0f);
+                mRightViewContainer.animate().setInterpolator(bounceInterpolator).setDuration(animationDuration).translationX(centerTranslation).scaleX(mBaseScale).scaleY(mBaseScale).rotationY(-mBaseRotation).alpha(mBaseAlpha);
                 centerTranslation = centerTranslation - mBorderMargin;
                 break;
 
             case LEFT:
                 centerTranslation = mLeft - getScaledRight();
-                mLeftViewContainer.animate().translationX(-(mRight / 2)).scaleX(mBaseScale).scaleY(mBaseScale).rotationY(mBaseRotation).alpha(mBaseAlpha);
-                mRightViewContainer.animate().translationX(-(mRight / 2)).scaleX(1).scaleY(1).rotationY(0).alpha(1.0f);
+                mLeftViewContainer.animate().setInterpolator(bounceInterpolator).setDuration(animationDuration).translationX(-(mRight / 2)).scaleX(mBaseScale).scaleY(mBaseScale).rotationY(mBaseRotation).alpha(mBaseAlpha);
+                mRightViewContainer.animate().setInterpolator(bounceInterpolator).setDuration(animationDuration).translationX(-(mRight / 2)).scaleX(1).scaleY(1).rotationY(0).alpha(1.0f);
                 centerTranslation = centerTranslation + mBorderMargin;
                 break;
         }
-        mCenterViewContainer.animate().translationX(centerTranslation);
+        mCenterViewContainer.animate().setDuration(animationDuration).setInterpolator(bounceInterpolator).translationX(centerTranslation);
         final float finalCenterTranslation = centerTranslation;
 
         this.postDelayed(new Runnable() {
@@ -184,14 +215,14 @@ public class BlinqDrawerLayout extends ViewGroup {
             public void run() {
                 mXTranslation = finalCenterTranslation;
             }
-        }, 10);
+        }, 1);
 
     }
 
 
     private void centerViewUpdated(float x) {
 
-        if(mDrawerLayoutListener!=null){
+        if (mDrawerLayoutListener != null) {
             mDrawerLayoutListener.beginOrContinueMovement();
         }
 
@@ -202,28 +233,31 @@ public class BlinqDrawerLayout extends ViewGroup {
 
         float alpha = mBaseAlpha + (percentage * (1 - mBaseAlpha));
         float rotation = (1 - percentage) * mBaseRotation;
-        float scale = mBaseScale + (percentage * (1 - mBaseScale));
+//        not used for the moment...
+//        float scale = mBaseScale + (percentage * (1 - mBaseScale));
 
         float rightPosition = getRightViewX(percentage);
         float leftPosition = getLeftViewX(percentage);
         if (toRight) {
             mLeftViewContainer.setX(leftPosition);
             mLeftViewContainer.setAlpha(alpha);
-            mRightViewContainer.setX(mRight + percentage * (mRight));
+            mLeftViewContainer.setScaleX(Math.max(1, percentage));
 
+            mRightViewContainer.setX(mRight + (percentage * mRight));
         } else {
             mLeftViewContainer.setX(percentage * (mLeft - mRight) - mRight);
             mRightViewContainer.setX(rightPosition);
             mRightViewContainer.setAlpha(alpha);
+            mRightViewContainer.setScaleX(Math.max(1, percentage));
         }
 
         mRightViewContainer.setRotationY(-rotation);
-        mRightViewContainer.setScaleX(scale);
-        mRightViewContainer.setScaleY(scale);
+//        mRightViewContainer.setScaleX(scale);
+//        mRightViewContainer.setScaleY(scale);
 
         mLeftViewContainer.setRotationY(rotation);
-        mLeftViewContainer.setScaleX(scale);
-        mLeftViewContainer.setScaleY(scale);
+//        mLeftViewContainer.setScaleX(scale);
+//        mLeftViewContainer.setScaleY(scale);
 
         if (percentage > .3f) {
             if (toRight) {
