@@ -25,6 +25,9 @@ public class HomeActivity extends BaseBlinqActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+
+
         layout = (BlinqDrawerLayout) findViewById(R.id.drawer_layout);
 
 

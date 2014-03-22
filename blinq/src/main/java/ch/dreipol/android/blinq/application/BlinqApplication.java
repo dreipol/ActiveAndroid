@@ -2,10 +2,15 @@ package ch.dreipol.android.blinq.application;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import ch.dreipol.android.blinq.services.AppService;
+import ch.dreipol.android.blinq.services.IServiceConfiguration;
+import ch.dreipol.android.blinq.services.ILocationService;
+import ch.dreipol.android.blinq.services.impl.LocationService;
 import ch.dreipol.android.blinq.util.Bog;
 
 /**
@@ -22,6 +27,18 @@ public class BlinqApplication extends Application implements Application.Activit
         Bog.v(Bog.Category.SYSTEM, "Starting BLINQ: " + getApplicationContext().getPackageName());
         registerActivityLifecycleCallbacks(this);
         Bog.v(Bog.Category.SYSTEM, "BLINQ Flavour is: " + getFlavour());
+
+        AppService.initialize(new IServiceConfiguration() {
+            @Override
+            public Context getContext() {
+                return getApplicationContext();
+            }
+
+            @Override
+            public Class<? extends ILocationService> locationService() {
+                return LocationService.class;
+            }
+        });
     }
 
 

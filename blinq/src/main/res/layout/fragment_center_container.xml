@@ -77,10 +77,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             class="ch.dreipol.android.blinq.ui.textviews.SpecialMediumTextView"
-            android:id="@+id/view2"
+            android:id="@+id/location_details_textview"
             android:layout_below="@+id/progressBar"
             android:layout_centerHorizontal="true"
-            android:text="StandortInfos"
+            android:text="location_details"
             android:textSize="20dp"/>
 
     </RelativeLayout>

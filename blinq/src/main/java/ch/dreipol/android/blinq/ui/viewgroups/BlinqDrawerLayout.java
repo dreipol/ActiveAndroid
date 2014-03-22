@@ -13,7 +13,6 @@ import android.widget.RelativeLayout;
 
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.ui.activities.IDrawerLayoutListener;
-import ch.dreipol.android.blinq.util.Bog;
 import ch.dreipol.android.blinq.util.StaticResources;
 
 
@@ -107,7 +106,6 @@ public class BlinqDrawerLayout extends ViewGroup {
         final GestureDetector swipeDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                Bog.v(Bog.Category.UI, "Swipe Detected..." + velocityX);
                 boolean toLeft = velocityX < 0;
 
                 if (toLeft) {
@@ -125,7 +123,6 @@ public class BlinqDrawerLayout extends ViewGroup {
                     }
 
                 }
-                Bog.v(Bog.Category.UI, "x " + (e1.getX() - e2.getX()));
 
                 return super.onFling(e1, e2, velocityX, velocityY);
             }
@@ -286,8 +283,6 @@ public class BlinqDrawerLayout extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-
-        Bog.v(Bog.Category.UI, "Layouting DrawerView");
 
         mLeft = l;
         mRight = r;
