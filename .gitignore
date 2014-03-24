@@ -7,3 +7,6 @@
 /blinq-android.iml
 /blinq/.idea/
 /blinq/blinq.iml
+
+/libraries/facebook/build/
+/libraries/facebook/.idea/

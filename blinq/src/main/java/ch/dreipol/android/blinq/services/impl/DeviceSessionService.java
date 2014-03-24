@@ -8,6 +8,6 @@ import ch.dreipol.android.blinq.services.ISessionService;
 public class DeviceSessionService extends BaseService implements ISessionService {
     @Override
     public boolean hasFacebookSession() {
-        return true;
+        return false;
     }
 }
