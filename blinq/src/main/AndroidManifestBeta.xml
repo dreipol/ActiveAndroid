@@ -8,7 +8,7 @@
 
         <activity
             android:name="ch.dreipol.android.blinq.ui.activities.DebugActivity"
-            android:label="@string/title_activity_debug" >
+            android:label="@string/title_activity_debug">
         </activity>
 
         <activity

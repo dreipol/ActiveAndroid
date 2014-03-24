@@ -6,5 +6,8 @@
     <string name="main_fragment_location_title">Dein Standort: %s</string>
     <string name="fb_app_id_beta">243519472495283</string>
     <string name="fb_app_id_production">141965189318892</string>
+    <string name="title_activity_system_information">system information</string>
+    <string name="title_activity_debug">debug activity</string>
+    <string name="title_activity_login">Login</string>
 
 </resources>
