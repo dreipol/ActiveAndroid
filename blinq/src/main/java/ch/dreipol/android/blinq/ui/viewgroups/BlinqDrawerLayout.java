@@ -228,6 +228,7 @@ public class BlinqDrawerLayout extends ViewGroup {
 
         float percentage = Math.abs(x) / (getScaledRight() - mBorderMargin);
 
+
         float alpha = mBaseAlpha + (percentage * (1 - mBaseAlpha));
         float rotation = (1 - percentage) * mBaseRotation;
 //        not used for the moment...
@@ -235,17 +236,25 @@ public class BlinqDrawerLayout extends ViewGroup {
 
         float rightPosition = getRightViewX(percentage);
         float leftPosition = getLeftViewX(percentage);
-        if (toRight) {
-            mLeftViewContainer.setX(leftPosition);
-            mLeftViewContainer.setAlpha(alpha);
-            mLeftViewContainer.setScaleX(Math.max(1, percentage));
+        float maxPercentage = Math.max(1, percentage);
+        float additionalPercentage = 1.0f;
+        if (maxPercentage > 1) {
+            additionalPercentage = maxPercentage;
+        }else{
+            additionalPercentage = 1;
+        }
 
+
+        if (toRight) {
+            mLeftViewContainer.setX(leftPosition-(mBorderMargin * (1-additionalPercentage)));
+            mLeftViewContainer.setAlpha(alpha);
+            mLeftViewContainer.setScaleX(maxPercentage);
             mRightViewContainer.setX(mRight + (percentage * mRight));
         } else {
             mLeftViewContainer.setX(percentage * (mLeft - mRight) - mRight);
-            mRightViewContainer.setX(rightPosition);
+            mRightViewContainer.setX(rightPosition+(mBorderMargin * (1-additionalPercentage)));
             mRightViewContainer.setAlpha(alpha);
-            mRightViewContainer.setScaleX(Math.max(1, percentage));
+            mRightViewContainer.setScaleX(maxPercentage);
         }
 
         mRightViewContainer.setRotationY(-rotation);

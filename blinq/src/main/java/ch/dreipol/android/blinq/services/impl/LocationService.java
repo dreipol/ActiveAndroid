@@ -36,7 +36,10 @@ public class LocationService extends BaseService implements ILocationService, Lo
     public void setup(AppService appService) {
         super.setup(appService);
         mLocationManager = (LocationManager) getService().getContext().getSystemService(Context.LOCATION_SERVICE);
-        requestLocationUpdates();
+        if(available()){
+            requestLocationUpdates();
+        }
+
     }
 
     private void requestLocationUpdates() {
