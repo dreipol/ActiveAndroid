@@ -1,5 +1,5 @@
 
-package ch.dreipol.android.blinq;
+package ch.dreipol.android.blinq.services;
 
 import java.util.HashMap;
 import java.util.Map;
