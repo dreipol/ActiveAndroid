@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ch.dreipol.android.blinq.services.Profile;
 import retrofit.RestAdapter;
 import retrofit.http.Body;
 import retrofit.http.POST;
