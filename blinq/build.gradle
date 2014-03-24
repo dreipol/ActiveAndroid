@@ -12,15 +12,15 @@ apply plugin: 'android'
 
 repositories {
     mavenCentral()
-    maven {
-        url "http://files.couchbase.com/maven2/"
-    }
+    maven { url 'http://files.couchbase.com/maven2/' }
     mavenLocal()
 }
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.0.1"
+    buildToolsVersion '19.0.1'
+
+
 
     defaultConfig {
         minSdkVersion 14
@@ -28,6 +28,20 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    productFlavors {
+
+        production {
+            packageName "ch.dreipol.android.blinq"
+        }
+
+        beta {
+            packageName "ch.dreipol.android.blinqbeta"
+
+        }
+    }
+
+
     buildTypes {
         release {
             runProguard false
@@ -39,13 +53,26 @@ android {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/NOTICE'
     }
+
+    sourceSets {
+
+        production {
+            manifest.srcFile 'src/main/AndroidManifestProduction.xml'
+        }
+
+        beta {
+            manifest.srcFile 'src/main/AndroidManifestBeta.xml'
+        }
+    }
 }
 
 dependencies {
     compile 'com.android.support:appcompat-v7:+'
-
+    compile 'com.google.android.gms:play-services:4.2.42'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.couchbase.cblite:CBLite:1.0.0-beta2'
     compile 'com.netflix.rxjava:rxjava-android:0.17.1'
     compile 'com.squareup.retrofit:retrofit:1.4.1'
+    compile 'net.hockeyapp.android:HockeySDK:3.0.1'
+    compile project(':libraries:facebook')
 }

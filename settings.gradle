@@ -1,1 +1,2 @@
 include ':blinq'
+include ':libraries:facebook'
