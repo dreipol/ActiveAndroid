@@ -3,6 +3,7 @@
     <application>
         <meta-data android:name="BLINQ_FLAVOUR" android:value="BETA" />
         <meta-data android:name="BLINQ_SERVER" android:value="https://beta.server.blinqapp.ch" />
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="243519472495283" />
 
 
         <activity

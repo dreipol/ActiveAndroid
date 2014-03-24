@@ -10,6 +10,8 @@ import android.os.Bundle;
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.IServiceConfiguration;
 import ch.dreipol.android.blinq.services.ILocationService;
+import ch.dreipol.android.blinq.services.ISessionService;
+import ch.dreipol.android.blinq.services.impl.DeviceSessionService;
 import ch.dreipol.android.blinq.services.impl.LocationService;
 import ch.dreipol.android.blinq.util.Bog;
 
@@ -37,6 +39,11 @@ public class BlinqApplication extends Application implements Application.Activit
             @Override
             public Class<? extends ILocationService> locationService() {
                 return LocationService.class;
+            }
+
+            @Override
+            public Class<? extends ISessionService> sessionService() {
+                return DeviceSessionService.class;
             }
         });
     }

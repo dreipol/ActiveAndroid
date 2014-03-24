@@ -10,4 +10,6 @@ public interface IServiceConfiguration {
     Context getContext();
 
     Class<? extends ILocationService> locationService();
+
+    Class<? extends ISessionService> sessionService();
 }

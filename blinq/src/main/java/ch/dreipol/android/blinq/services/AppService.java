@@ -10,6 +10,7 @@ public class AppService {
     private static volatile AppService instance = null;
 
     private ILocationService mLocationService;
+    private ISessionService mSessionService;
 
 
     private Context mContext;
@@ -51,7 +52,7 @@ public class AppService {
     private void setup(IServiceConfiguration configuration) {
         try {
             mLocationService = configuration.locationService().newInstance();
-
+            mSessionService = configuration.sessionService().newInstance();
         } catch (InstantiationException e) {
             throw new RuntimeException(e);
         } catch (IllegalAccessException e) {
@@ -65,7 +66,11 @@ public class AppService {
         }
 
         getLocationService().setup(this);
+        getSessionService().setup(this);
     }
 
 
+    public ISessionService getSessionService() {
+        return mSessionService;
+    }
 }

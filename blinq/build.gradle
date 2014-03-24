@@ -12,15 +12,13 @@ apply plugin: 'android'
 
 repositories {
     mavenCentral()
-    maven {
-        url "http://files.couchbase.com/maven2/"
-    }
+    maven { url 'http://files.couchbase.com/maven2/' }
     mavenLocal()
 }
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.0.1"
+    buildToolsVersion '19.0.1'
 
 
 
@@ -76,4 +74,5 @@ dependencies {
     compile 'com.netflix.rxjava:rxjava-android:0.17.1'
     compile 'com.squareup.retrofit:retrofit:1.4.1'
     compile 'net.hockeyapp.android:HockeySDK:3.0.1'
+    compile project(':libraries:facebook')
 }

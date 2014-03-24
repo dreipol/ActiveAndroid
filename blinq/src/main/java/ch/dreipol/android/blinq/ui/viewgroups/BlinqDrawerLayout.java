@@ -258,12 +258,8 @@ public class BlinqDrawerLayout extends ViewGroup {
         }
 
         mRightViewContainer.setRotationY(-rotation);
-//        mRightViewContainer.setScaleX(scale);
-//        mRightViewContainer.setScaleY(scale);
 
         mLeftViewContainer.setRotationY(rotation);
-//        mLeftViewContainer.setScaleX(scale);
-//        mLeftViewContainer.setScaleY(scale);
 
         if (percentage > .3f) {
             if (toRight) {

@@ -1,7 +1,5 @@
 package ch.dreipol.android.blinq.services;
 
-import android.location.Location;
-
 import java.util.Observer;
 
 /**
@@ -16,10 +14,6 @@ public interface ILocationService extends IService{
     void addLocationObserver(Observer observer);
 
     void removeLocationObserver(Observer observer);
-
-    Location getCurrentLocation();
-
-    boolean hasLocation();
 
     String getCurrentLocationTitle();
 }

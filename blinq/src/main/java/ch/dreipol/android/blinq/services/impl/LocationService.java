@@ -46,14 +46,8 @@ public class LocationService extends BaseService implements ILocationService, Lo
         mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MILLISECS * 60 * 1, 100, this);
     }
 
-    @Override
     public Location getCurrentLocation() {
         return mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-    }
-
-    @Override
-    public boolean hasLocation() {
-        return getCurrentLocation() != null;
     }
 
     @Override
