@@ -2,12 +2,9 @@
 <resources>
 
     <string name="app_name">Blinq</string>
-    <string name="title_activity_debug">DebugActivity</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_system_information">SystemInformation</string>
     <string name="main_fragment_location_title">Dein Standort: %s</string>
-    <string name="title_activity_login">LoginActivity</string>
     <string name="fb_app_id_beta">243519472495283</string>
+    <string name="fb_app_id_production">141965189318892</string>
 
 </resources>
