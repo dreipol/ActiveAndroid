@@ -5,9 +5,15 @@ import android.os.Bundle;
 import android.widget.GridLayout;
 import android.widget.TextView;
 
+import com.facebook.SessionState;
+
 import java.util.Date;
 
 import ch.dreipol.android.blinq.R;
+import ch.dreipol.android.blinq.services.AppService;
+import ch.dreipol.android.blinq.services.IFacebookService;
+import ch.dreipol.android.blinq.services.impl.LocationService;
+import rx.functions.Action1;
 
 
 public class SystemInformationActivity extends BaseBlinqActivity {
@@ -19,6 +25,35 @@ public class SystemInformationActivity extends BaseBlinqActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_system_information);
         mGrid = (GridLayout) findViewById(R.id.sysinfo_grid);
+
+        AppService appService = AppService.getInstance();
+        appService.getLocationService().subscribeToLocation().subscribe(new Action1<LocationService.LocationInformation>() {
+            @Override
+            public void call(LocationService.LocationInformation locationInformation) {
+
+                addSeparatorRow();
+
+                addRow("Location:", locationInformation.locationName);
+                if(locationInformation.mLocation!=null){
+                    addRow("Coordinates:", locationInformation.mLocation.toString());
+                }
+
+            }
+        });
+        final IFacebookService facebookService = appService.getFacebookService();
+
+        facebookService.subscribeToSessionState().subscribe(new Action1<SessionState>() {
+            @Override
+            public void call(SessionState sessionState) {
+                addSeparatorRow();
+                if(sessionState !=null && sessionState.isOpened()){
+
+                    addRow("Facebook:", sessionState.toString() + " - " + facebookService.getAccessToken());
+                }else{
+                    addRow("Facebook:", "No FB Session");
+                }
+            }
+        });
 
         addRow("BOARD", Build.BOARD);
         addRow("BOOTLOADER", Build.BOOTLOADER);
@@ -40,6 +75,11 @@ public class SystemInformationActivity extends BaseBlinqActivity {
         addRow("TIME", new Date(Build.TIME).toString());
         addRow("TYPE", Build.TYPE);
         addRow("USER", Build.USER);
+        addSeparatorRow();
+    }
+
+    private void addSeparatorRow() {
+        addRow("","");
     }
 
     private void addRow(String name, String value) {

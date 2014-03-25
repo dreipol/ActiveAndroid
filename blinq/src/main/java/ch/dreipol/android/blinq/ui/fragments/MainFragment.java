@@ -11,9 +11,7 @@ import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.ILocationService;
 import ch.dreipol.android.blinq.services.impl.LocationService;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by phil on 21.03.14.
@@ -57,7 +55,7 @@ public class MainFragment extends Fragment {
         ILocationService locationService = AppService.getInstance().getLocationService();
 
 //        TODO: check out the threads.
-        locationService.subscribeToLocation().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<LocationService.LocationInformation>() {
+        locationService.subscribeToLocation().subscribe(new Action1<LocationService.LocationInformation>() {
             @Override
             public void call(LocationService.LocationInformation locationInformation) {
                 if (locationInformation.status == LocationService.LocationStatus.VALID) {

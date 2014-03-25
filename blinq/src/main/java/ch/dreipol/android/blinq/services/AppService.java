@@ -66,11 +66,11 @@ public class AppService {
         }
 
         getLocationService().setup(this);
-        getSessionService().setup(this);
+        getFacebookService().setup(this);
     }
 
 
-    public IFacebookService getSessionService() {
+    public IFacebookService getFacebookService() {
         return mSessionService;
     }
 }

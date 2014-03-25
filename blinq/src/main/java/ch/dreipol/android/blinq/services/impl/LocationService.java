@@ -18,6 +18,8 @@ import java.util.Locale;
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.ILocationService;
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import rx.subjects.BehaviorSubject;
 
 
@@ -116,8 +118,6 @@ public class LocationService extends BaseService implements ILocationService {
     }
 
 
-
-
     public Geocoder getGeoCoder() {
         if (mGeoCoder == null) {
             mGeoCoder = new Geocoder(getService().getContext(), Locale.getDefault());
@@ -127,7 +127,7 @@ public class LocationService extends BaseService implements ILocationService {
 
     @Override
     public Observable<LocationInformation> subscribeToLocation() {
-        return mLocationSubject;
+        return mLocationSubject.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
 }

@@ -7,6 +7,7 @@ import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 
+import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.util.Bog;
 import ch.dreipol.android.dreiworks.ui.activities.ActivityTransitionType;
 import ch.dreipol.android.dreiworks.ui.activities.BaseActivity;
@@ -68,6 +69,7 @@ public abstract class BaseBlinqActivity extends BaseActivity {
 
     protected void onSessionStateChange(Session session, SessionState state, Exception exception) {
         Bog.v(Bog.Category.FACEBOOK, state.toString());
+        AppService.getInstance().getFacebookService().updateSessionState(state);
     }
 
 
