@@ -2,6 +2,8 @@ package ch.dreipol.android.blinq.services;
 
 import com.facebook.SessionState;
 
+import java.util.List;
+
 import rx.Observable;
 
 /**
@@ -15,4 +17,6 @@ public interface IFacebookService extends IService{
     void updateSessionState(SessionState state);
 
     Observable<SessionState> subscribeToSessionState();
+
+    List<String> getPermissions();
 }

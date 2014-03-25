@@ -3,6 +3,9 @@ package ch.dreipol.android.blinq.services.impl;
 import com.facebook.Session;
 import com.facebook.SessionState;
 
+import java.util.Arrays;
+import java.util.List;
+
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.IFacebookService;
 import rx.Observable;
@@ -39,6 +42,18 @@ public class FacebookService extends BaseService implements IFacebookService {
 
     public Observable<SessionState> subscribeToSessionState() {
         return mSessionStateSubject.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public List<String> getPermissions() {
+        return Arrays.asList(
+                "user_about_me",
+                "user_birthday",
+                "user_likes",
+                "user_photos",
+                "user_status",
+                "user_education_history",
+                "email");
     }
 
 
