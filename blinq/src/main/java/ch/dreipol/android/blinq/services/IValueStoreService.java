@@ -9,4 +9,8 @@ public interface IValueStoreService extends IService{
 
     void put(String key, String value);
 
+    boolean has(String key);
+
+    void clear(String key);
+
 }

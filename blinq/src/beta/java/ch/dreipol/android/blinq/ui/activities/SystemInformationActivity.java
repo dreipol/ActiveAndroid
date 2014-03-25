@@ -5,13 +5,12 @@ import android.os.Bundle;
 import android.widget.GridLayout;
 import android.widget.TextView;
 
-import com.facebook.SessionState;
-
 import java.util.Date;
 
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.IFacebookService;
+import ch.dreipol.android.blinq.services.impl.FacebookService;
 import ch.dreipol.android.blinq.services.impl.LocationService;
 import rx.functions.Action1;
 
@@ -42,11 +41,11 @@ public class SystemInformationActivity extends BaseBlinqActivity {
         });
         final IFacebookService facebookService = appService.getFacebookService();
 
-        facebookService.subscribeToSessionState().subscribe(new Action1<SessionState>() {
+        facebookService.subscribeToSessionState().subscribe(new Action1<FacebookService.FacebookServiceStatus>() {
             @Override
-            public void call(SessionState sessionState) {
+            public void call(FacebookService.FacebookServiceStatus sessionState) {
                 addSeparatorRow();
-                if(sessionState !=null && sessionState.isOpened()){
+                if(sessionState.equals(FacebookService.FacebookServiceStatus.LOGGED_IN)){
 
                     addRow("Facebook:", sessionState.toString() + " - " + facebookService.getAccessToken());
                 }else{

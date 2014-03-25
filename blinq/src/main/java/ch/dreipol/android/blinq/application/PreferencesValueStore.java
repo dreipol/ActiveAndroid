@@ -19,16 +19,33 @@ public class PreferencesValueStore extends BaseService implements IValueStoreSer
         return preferences.getString(key, null);
     }
 
-    private SharedPreferences getPreferences() {
-        return getService().getContext().getSharedPreferences(
-                PREFERENCES, Context.MODE_PRIVATE);
-    }
 
     @Override
     public void put(String key, String value) {
-        SharedPreferences.Editor editor = getPreferences().edit();
+        SharedPreferences.Editor editor = getEditor();
         editor.putString(key, value);
         editor.commit();
 
+    }
+
+    @Override
+    public boolean has(String key) {
+        return getPreferences().contains(key) && get(key).length() > 0;
+    }
+
+    @Override
+    public void clear(String key) {
+        SharedPreferences.Editor editor = getEditor();
+        editor.remove(key);
+        editor.commit();
+    }
+
+    private SharedPreferences.Editor getEditor() {
+        return getPreferences().edit();
+    }
+
+    private SharedPreferences getPreferences() {
+        return getService().getContext().getSharedPreferences(
+                PREFERENCES, Context.MODE_PRIVATE);
     }
 }
