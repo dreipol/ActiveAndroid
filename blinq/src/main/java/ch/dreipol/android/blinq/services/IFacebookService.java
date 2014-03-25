@@ -20,4 +20,6 @@ public interface IFacebookService extends IService{
     Observable<FacebookService.FacebookServiceStatus> subscribeToSessionState();
 
     List<String> getPermissions();
+
+    String getFacebookId();
 }

@@ -37,9 +37,9 @@ public class FacebookService extends BaseService implements IFacebookService {
         super.setup(appService);
         FacebookServiceStatus state;
 
-        if (hasFacebookSession() && hasFaceookId()) {
+        if (hasFacebookSession() && hasFacebookId()) {
             state = FacebookServiceStatus.LOGGED_IN;
-        } else if (hasFacebookSession() && hasFaceookId()) {
+        } else if (hasFacebookSession() && hasFacebookId()) {
             state = FacebookServiceStatus.NO_FB_ID;
         } else {
             state = FacebookServiceStatus.LOGGED_OUT;
@@ -56,15 +56,15 @@ public class FacebookService extends BaseService implements IFacebookService {
         });
     }
 
-    private boolean hasFaceookId() {
+    private boolean hasFacebookId() {
         return getService().getValueStore().has(FB_ID);
     }
 
     public void updateSessionState(SessionState state) {
         FacebookServiceStatus facebookState = FacebookServiceStatus.LOGGED_OUT;
-        if (state.isOpened() && !hasFaceookId()) {
+        if (state.isOpened() && hasFacebookId()) {
             facebookState = FacebookServiceStatus.LOGGED_IN;
-        } else if (state.isOpened() && hasFaceookId()) {
+        } else if (state.isOpened() && !hasFacebookId()) {
             facebookState = FacebookServiceStatus.NO_FB_ID;
         }else{
             getService().getValueStore().clear(FB_ID);
@@ -88,6 +88,11 @@ public class FacebookService extends BaseService implements IFacebookService {
                 "user_status",
                 "user_education_history",
                 "email");
+    }
+
+    @Override
+    public String getFacebookId() {
+        return getService().getValueStore().get(FB_ID);
     }
 
 

@@ -47,7 +47,9 @@ public class SystemInformationActivity extends BaseBlinqActivity {
                 addSeparatorRow();
                 if(sessionState.equals(FacebookService.FacebookServiceStatus.LOGGED_IN)){
 
-                    addRow("Facebook:", sessionState.toString() + " - " + facebookService.getAccessToken());
+                    addRow("Facebook Session:", sessionState.toString() );
+                    addRow("Facebook Token:", facebookService.getAccessToken());
+                    addRow("Facebook Id:", facebookService.getFacebookId());
                 }else{
                     addRow("Facebook:", "No FB Session");
                 }
