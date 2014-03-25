@@ -10,7 +10,7 @@ public class AppService {
     private static volatile AppService instance = null;
 
     private ILocationService mLocationService;
-    private ISessionService mSessionService;
+    private IFacebookService mSessionService;
 
 
     private Context mContext;
@@ -70,7 +70,7 @@ public class AppService {
     }
 
 
-    public ISessionService getSessionService() {
+    public IFacebookService getSessionService() {
         return mSessionService;
     }
 }

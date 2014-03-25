@@ -130,6 +130,4 @@ public class LocationService extends BaseService implements ILocationService {
         return mLocationSubject;
     }
 
-
-
 }
