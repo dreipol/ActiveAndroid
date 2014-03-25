@@ -11,9 +11,10 @@ public class AppService {
 
     private ILocationService mLocationService;
     private IFacebookService mSessionService;
-
+    private IValueStoreService mValueStore;
 
     private Context mContext;
+
 
     private AppService(IServiceConfiguration configuration) {
         setup(configuration);
@@ -49,10 +50,14 @@ public class AppService {
         mLocationService.dispose();
     }
 
+
     private void setup(IServiceConfiguration configuration) {
         try {
             mLocationService = configuration.locationService().newInstance();
             mSessionService = configuration.sessionService().newInstance();
+            mValueStore = configuration.valueStoreService().newInstance();
+
+
         } catch (InstantiationException e) {
             throw new RuntimeException(e);
         } catch (IllegalAccessException e) {
@@ -67,10 +72,17 @@ public class AppService {
 
         getLocationService().setup(this);
         getFacebookService().setup(this);
+        getValueStore().setup(this);
     }
 
 
     public IFacebookService getFacebookService() {
         return mSessionService;
     }
+
+    public IValueStoreService getValueStore() {
+        return mValueStore;
+    }
+
+
 }

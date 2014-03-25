@@ -12,4 +12,7 @@ public interface IServiceConfiguration {
     Class<? extends ILocationService> locationService();
 
     Class<? extends IFacebookService> sessionService();
+
+    Class<? extends IValueStoreService> valueStoreService();
+
 }
