@@ -17,7 +17,7 @@ public interface IFacebookService extends IService{
 
     void updateSessionState(SessionState state);
 
-    Observable<FacebookService.FacebookServiceStatus> subscribeToSessionState();
+    Observable<FacebookService.FacebookServiceInfo> subscribeToSessionState();
 
     List<String> getPermissions();
 

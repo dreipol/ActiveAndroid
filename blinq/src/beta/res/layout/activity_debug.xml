@@ -6,14 +6,22 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Debug"
+        android:text="Debug Information"
         android:id="@+id/textView"
+        android:layout_gravity="center_horizontal"
+        android:textSize="20dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Facebook Infos"
+        android:id="@+id/debug_facebook_button"
         android:layout_gravity="center_horizontal"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="System Information"
+        android:text="Device Information"
         android:id="@+id/debug_system_information" android:layout_gravity="center_horizontal"/>
 
 </LinearLayout>

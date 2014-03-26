@@ -25,10 +25,10 @@ public class LoginActivity extends BaseBlinqActivity {
         IFacebookService facebookService = AppService.getInstance().getFacebookService();
 
         loginButton.setReadPermissions(facebookService.getPermissions());
-        facebookService.subscribeToSessionState().subscribe(new Action1<FacebookService.FacebookServiceStatus>() {
+        facebookService.subscribeToSessionState().subscribe(new Action1<FacebookService.FacebookServiceInfo>() {
             @Override
-            public void call(FacebookService.FacebookServiceStatus sessionState) {
-                if (sessionState.equals(FacebookService.FacebookServiceStatus.LOGGED_IN)) {
+            public void call(FacebookService.FacebookServiceInfo info) {
+                if (info.status.equals(FacebookService.FacebookServiceStatus.LOGGED_IN)) {
                     Intent startIntent = new Intent(getApplicationContext(), HomeActivity.class);
                     startActivity(startIntent);
 

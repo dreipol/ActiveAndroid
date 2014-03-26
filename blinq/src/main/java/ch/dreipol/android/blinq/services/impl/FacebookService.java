@@ -24,32 +24,54 @@ import rx.subjects.BehaviorSubject;
 public class FacebookService extends BaseService implements IFacebookService {
 
     public static final String FB_ID = "fbId";
+    private String FB_NAME = "fbName";
+
+    public class FacebookUser {
+        public String name;
+        public String id;
+
+        public FacebookUser() {
+            this.name = "";
+            this.id = "";
+        }
+    }
+
+
+    public class FacebookServiceInfo {
+        public FacebookServiceStatus status;
+        public FacebookUser user;
+
+        public boolean hasUser() {
+            return user != null;
+        }
+    }
 
     public enum FacebookServiceStatus {
         LOGGED_OUT, NO_FB_ID, LOGGED_IN
     }
 
 
-    private BehaviorSubject<FacebookServiceStatus> mSessionStateSubject;
+    private BehaviorSubject<FacebookServiceInfo> mSessionStateSubject;
 
     @Override
     public void setup(AppService appService) {
         super.setup(appService);
-        FacebookServiceStatus state;
-
+        FacebookServiceInfo info = new FacebookServiceInfo();
+        info.user = getFBUser();
         if (hasFacebookSession() && hasFacebookId()) {
-            state = FacebookServiceStatus.LOGGED_IN;
+            info.status = FacebookServiceStatus.LOGGED_IN;
         } else if (hasFacebookSession() && hasFacebookId()) {
-            state = FacebookServiceStatus.NO_FB_ID;
+            info.status = FacebookServiceStatus.NO_FB_ID;
         } else {
-            state = FacebookServiceStatus.LOGGED_OUT;
+            info.status = FacebookServiceStatus.LOGGED_OUT;
         }
 
-        mSessionStateSubject = BehaviorSubject.create(state);
-        subscribeToSessionState().subscribe(new Action1<FacebookServiceStatus>() {
+        mSessionStateSubject = BehaviorSubject.create(info);
+
+        subscribeToSessionState().subscribe(new Action1<FacebookServiceInfo>() {
             @Override
-            public void call(FacebookServiceStatus sessionState) {
-                if (sessionState.equals(FacebookServiceStatus.NO_FB_ID)) {
+            public void call(FacebookServiceInfo serviceInfo) {
+                if (serviceInfo.status.equals(FacebookServiceStatus.NO_FB_ID)) {
                     getMe();
                 }
             }
@@ -61,20 +83,33 @@ public class FacebookService extends BaseService implements IFacebookService {
     }
 
     public void updateSessionState(SessionState state) {
-        FacebookServiceStatus facebookState = FacebookServiceStatus.LOGGED_OUT;
+
+        FacebookServiceInfo info = new FacebookServiceInfo();
+        info.user = getFBUser();
         if (state.isOpened() && hasFacebookId()) {
-            facebookState = FacebookServiceStatus.LOGGED_IN;
+            info.status = FacebookServiceStatus.LOGGED_IN;
         } else if (state.isOpened() && !hasFacebookId()) {
-            facebookState = FacebookServiceStatus.NO_FB_ID;
-        }else{
+            info.status = FacebookServiceStatus.NO_FB_ID;
+        } else {
+            info.status = FacebookServiceStatus.LOGGED_OUT;
             getService().getValueStore().clear(FB_ID);
+
         }
 
-        mSessionStateSubject.onNext(facebookState);
+        mSessionStateSubject.onNext(info);
+    }
+
+    private FacebookUser getFBUser() {
+        FacebookUser user = new FacebookUser();
+        if (hasFacebookSession() && hasFacebookId()) {
+            user.id = getFacebookId();
+            user.name = getService().getValueStore().get(FB_NAME);
+        }
+        return user;
     }
 
 
-    public Observable<FacebookServiceStatus> subscribeToSessionState() {
+    public Observable<FacebookServiceInfo> subscribeToSessionState() {
         return mSessionStateSubject.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
@@ -114,6 +149,7 @@ public class FacebookService extends BaseService implements IFacebookService {
                 public void onCompleted(GraphUser user, Response response) {
                     Bog.v(Bog.Category.FACEBOOK, "Received Facebook User Id: " + user.getId());
                     AppService.getInstance().getValueStore().put(FB_ID, user.getId());
+                    AppService.getInstance().getValueStore().put(FB_NAME, user.getFirstName());
                     updateSessionState(Session.getActiveSession().getState());
                 }
             }).executeAsync();
@@ -125,5 +161,6 @@ public class FacebookService extends BaseService implements IFacebookService {
     public String getAccessToken() {
         return Session.getActiveSession().getAccessToken();
     }
+
 
 }

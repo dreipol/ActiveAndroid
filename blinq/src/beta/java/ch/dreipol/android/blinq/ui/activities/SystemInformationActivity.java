@@ -41,13 +41,13 @@ public class SystemInformationActivity extends BaseBlinqActivity {
         });
         final IFacebookService facebookService = appService.getFacebookService();
 
-        facebookService.subscribeToSessionState().subscribe(new Action1<FacebookService.FacebookServiceStatus>() {
+        facebookService.subscribeToSessionState().subscribe(new Action1<FacebookService.FacebookServiceInfo>() {
             @Override
-            public void call(FacebookService.FacebookServiceStatus sessionState) {
+            public void call(FacebookService.FacebookServiceInfo info) {
                 addSeparatorRow();
-                if(sessionState.equals(FacebookService.FacebookServiceStatus.LOGGED_IN)){
+                if(info.status.equals(FacebookService.FacebookServiceStatus.LOGGED_IN)){
 
-                    addRow("Facebook Session:", sessionState.toString() );
+                    addRow("Facebook Session:", info.toString());
                     addRow("Facebook Token:", facebookService.getAccessToken());
                     addRow("Facebook Id:", facebookService.getFacebookId());
                 }else{

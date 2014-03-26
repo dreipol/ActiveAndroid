@@ -16,8 +16,7 @@ public class PreferencesValueStore extends BaseService implements IValueStoreSer
     @Override
     public String get(String key) {
         SharedPreferences preferences = getPreferences();
-        String string = preferences.getString(key, null);
-        return string;
+        return preferences.getString(key, null);
     }
 
 
