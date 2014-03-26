@@ -15,6 +15,8 @@ import ch.dreipol.android.blinq.services.ICredentials;
 import ch.dreipol.android.blinq.services.IFacebookService;
 import ch.dreipol.android.blinq.services.INetworkService;
 import ch.dreipol.android.blinq.services.TaskStatus;
+import ch.dreipol.android.blinq.services.network.Pollworker;
+import ch.dreipol.android.blinq.services.network.retrofit.PollService;
 import ch.dreipol.android.blinq.services.network.retrofit.ProfileService;
 import ch.dreipol.android.blinq.services.network.retrofit.SwarmService;
 import ch.dreipol.android.blinq.util.Bog;
@@ -32,6 +34,7 @@ public class NetworkService extends BaseService implements INetworkService {
 
     private SwarmService mSwarmService;
     private ProfileService mProfileService;
+    private Pollworker mPollWorker;
 
 
     private void signBodyObject(JsonObject jsonObject) {
@@ -76,6 +79,7 @@ public class NetworkService extends BaseService implements INetworkService {
 
         mSwarmService = restAdapter.create(SwarmService.class);
         mProfileService = restAdapter.create(ProfileService.class);
+        mPollWorker = new Pollworker(restAdapter.create(PollService.class));
     }
 
 
@@ -94,6 +98,8 @@ public class NetworkService extends BaseService implements INetworkService {
                     @Override
                     public void call(TaskStatus taskStatus) {
                         Bog.v(Bog.Category.NETWORKING, taskStatus.toString());
+                        mPollWorker.addTaskStatus(taskStatus);
+                        mPollWorker.poll();
                     }
                 });
 
