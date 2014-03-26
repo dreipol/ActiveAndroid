@@ -7,18 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.Observable;
-import java.util.Observer;
-
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.ILocationService;
+import ch.dreipol.android.blinq.services.impl.LocationService;
+import rx.functions.Action1;
 
 /**
  * Created by phil on 21.03.14.
  */
 
-public class MainFragment extends Fragment implements Observer {
+public class MainFragment extends Fragment {
 
 
     private IMainFragmentListener mMainFragmentListener;
@@ -53,41 +52,28 @@ public class MainFragment extends Fragment implements Observer {
         mLocationDetailsTextView = (TextView) v.findViewById(R.id.location_details_textview);
 
 
-        ILocationService locationService = getLocationService();
-        if (locationService.available()) {
+        ILocationService locationService = AppService.getInstance().getLocationService();
 
-            updateLocation();
-            locationService.addLocationObserver(this);
-        }else{
-            mLocationDetailsTextView.setText("Location not available");
-        }
+//        TODO: check out the threads.
+        locationService.subscribeToLocation().subscribe(new Action1<LocationService.LocationInformation>() {
+            @Override
+            public void call(LocationService.LocationInformation locationInformation) {
+                if (locationInformation.status == LocationService.LocationStatus.VALID) {
+                    mLocationDetailsTextView.setText(locationInformation.locationName);
+                } else {
+                    mLocationDetailsTextView.setText("Location not available");
+                }
+            }
+        });
 
 
         return v;
     }
 
-    private void updateLocation() {
-        ILocationService locationService = getLocationService();
-        if (locationService.available()) {
-            mLocationDetailsTextView.setText(locationService.getCurrentLocationTitle());
-        }
-    }
-
-
-    private ILocationService getLocationService() {
-        return AppService.getInstance().getLocationService();
-    }
-
-
-    @Override
-    public void update(Observable observable, Object data) {
-        updateLocation();
-    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        getLocationService().removeLocationObserver(this);
     }
 
     public interface IMainFragmentListener {

@@ -8,10 +8,11 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import ch.dreipol.android.blinq.services.AppService;
+import ch.dreipol.android.blinq.services.IFacebookService;
 import ch.dreipol.android.blinq.services.IServiceConfiguration;
 import ch.dreipol.android.blinq.services.ILocationService;
-import ch.dreipol.android.blinq.services.ISessionService;
-import ch.dreipol.android.blinq.services.impl.DeviceSessionService;
+import ch.dreipol.android.blinq.services.IValueStoreService;
+import ch.dreipol.android.blinq.services.impl.FacebookService;
 import ch.dreipol.android.blinq.services.impl.LocationService;
 import ch.dreipol.android.blinq.util.Bog;
 
@@ -42,8 +43,13 @@ public class BlinqApplication extends Application implements Application.Activit
             }
 
             @Override
-            public Class<? extends ISessionService> sessionService() {
-                return DeviceSessionService.class;
+            public Class<? extends IFacebookService> sessionService() {
+                return FacebookService.class;
+            }
+
+            @Override
+            public Class<? extends IValueStoreService> valueStoreService() {
+                return PreferencesValueStore.class;
             }
         });
     }

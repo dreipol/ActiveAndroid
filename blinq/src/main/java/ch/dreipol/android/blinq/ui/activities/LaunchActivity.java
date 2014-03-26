@@ -32,7 +32,7 @@ public class LaunchActivity extends BaseBlinqActivity {
 
                 Intent startIntent;
 
-                if (AppService.getInstance().getSessionService().hasFacebookSession()) {
+                if (AppService.getInstance().getFacebookService().hasFacebookSession()) {
                     startIntent = new Intent(getApplicationContext(), HomeActivity.class);
                 } else {
                     startIntent = new Intent(getApplicationContext(), LoginActivity.class);

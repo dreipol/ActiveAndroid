@@ -16,6 +16,9 @@
             android:label="@string/title_activity_system_information" >
         </activity>
 
-
+        <activity
+            android:name="ch.dreipol.android.blinq.ui.activities.FacebookDebugActivity"
+            android:label="@string/title_activity_facebook_debug" >
+        </activity>
     </application>
 </manifest>

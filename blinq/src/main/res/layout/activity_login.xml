@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         class="com.facebook.widget.LoginButton"
-        android:id="@+id/view"
+        android:id="@+id/fb_login_button"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"/>
 </RelativeLayout>
