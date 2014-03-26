@@ -1,10 +1,10 @@
 
 package ch.dreipol.android.blinq.services;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.gson.annotations.Expose;
 
 public class TaskStatus {
 
@@ -49,4 +49,8 @@ public class TaskStatus {
         this.error = error;
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s: %s", task_id, status);
+    }
 }

@@ -13,6 +13,7 @@ public class DebugActivity extends BaseBlinqActivity {
         setContentView(R.layout.activity_debug);
 
         findButtonWithId(R.id.debug_system_information).setOnClickListener(createActivityClickListener(SystemInformationActivity.class, ActivityTransitionType.DEFAULT));
+        findButtonWithId(R.id.debug_network_services).setOnClickListener(createActivityClickListener(NetworkDebugActivity.class, ActivityTransitionType.DEFAULT));
         findButtonWithId(R.id.debug_facebook_button).setOnClickListener(createActivityClickListener(FacebookDebugActivity.class, ActivityTransitionType.DEFAULT));
 
     }

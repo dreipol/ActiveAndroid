@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Mutual_data {
+public class MutualData {
 
     private List<Object> schools = new ArrayList<Object>();
     private List<Object> likes = new ArrayList<Object>();

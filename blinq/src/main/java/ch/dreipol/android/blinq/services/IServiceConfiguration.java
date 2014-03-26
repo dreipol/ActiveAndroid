@@ -15,4 +15,5 @@ public interface IServiceConfiguration {
 
     Class<? extends IValueStoreService> valueStoreService();
 
+    Class<? extends INetworkService> networkService();
 }

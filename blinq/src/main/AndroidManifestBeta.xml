@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="ch.dreipol.android.blinqtest" >
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="ch.dreipol.android.blinqtest">
+
     <application>
-        <meta-data android:name="BLINQ_FLAVOUR" android:value="BETA" />
-        <meta-data android:name="BLINQ_SERVER" android:value="https://beta.server.blinqapp.ch" />
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/fb_app_id_beta" />
+        <meta-data
+            android:name="BLINQ_FLAVOUR"
+            android:value="BETA"/>
+        <meta-data
+            android:name="BLINQ_SERVER"
+            android:value="http://10.0.1.12:8000"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/fb_app_id_beta"/>
 
 
         <activity
@@ -13,12 +21,16 @@
 
         <activity
             android:name="ch.dreipol.android.blinq.ui.activities.SystemInformationActivity"
-            android:label="@string/title_activity_system_information" >
+            android:label="@string/title_activity_system_information">
         </activity>
 
         <activity
             android:name="ch.dreipol.android.blinq.ui.activities.FacebookDebugActivity"
-            android:label="@string/title_activity_facebook_debug" >
+            android:label="@string/title_activity_facebook_debug">
+        </activity>
+        <activity
+            android:name="ch.dreipol.android.blinq.ui.activities.NetworkDebugActivity"
+            android:label="@string/title_activity_network_debug">
         </activity>
     </application>
 </manifest>

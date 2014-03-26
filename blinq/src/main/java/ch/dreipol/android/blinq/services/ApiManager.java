@@ -1,7 +1,5 @@
 package ch.dreipol.android.blinq.services;
 
-import org.json.JSONObject;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -12,14 +10,10 @@ import retrofit.RestAdapter;
 import retrofit.http.Body;
 import retrofit.http.POST;
 import rx.Observable;
-import rx.Observer;
 import rx.Subscriber;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
-import rx.subscriptions.Subscriptions;
 
 /**
  * Created by melbic on 14/03/14.
@@ -88,8 +82,8 @@ public class ApiManager {
         Observable<TaskStatus> swarmStatus = apiManager.getSwarmTask(map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io());
-        .poll()
-                .
+//        .poll()
+//                .
 
         poll(swarmStatus);
         return swarmStatus
@@ -117,36 +111,35 @@ public class ApiManager {
                     public void call(Object o) {
 
                     }
-                })
-        ;
+                });
         apiManager.poll(null)
                 .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .
-
+                .observeOn(Schedulers.io());
+//                .
+        return null;
     }
 
 
-    public static void example() {
-        Observable o = Observable.create(new Observable.OnSubscribe<JSONObject>() {
-
-            @Override
-            public void call(Subscriber<? super JSONObject> subscriber) {
-                try {
-                    // Do the request
-                    // ...
-                    observer.onNext(jsonResponse);
-                    observer.onCompleted();
-                } catch (Exception e) {
-                    observer.onError(e);
-                }
-
-                return Subscriptions.empty();
-            }
-        }
-    }
-
-    );
+//    public static void example() {
+//        Observable o = Observable.create(new Observable.OnSubscribe<JSONObject>() {
+//
+//            @Override
+//            public void call(Subscriber<? super JSONObject> subscriber) {
+//                try {
+//                    // Do the request
+//                    // ...
+//                    observer.onNext(jsonResponse);
+//                    observer.onCompleted();
+//                } catch (Exception e) {
+//                    observer.onError(e);
+//                }
+//
+//                return Subscriptions.empty();
+//            }
+//        }
+//    }
+//
+//    );
 
 }
-}
+//}

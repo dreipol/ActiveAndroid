@@ -1,6 +1,12 @@
 package ch.dreipol.android.blinq.services;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+
+import ch.dreipol.android.blinq.application.BlinqApplicationFlavour;
+import ch.dreipol.android.blinq.util.Bog;
 
 /**
  * Created by phil on 22.03.14.
@@ -12,13 +18,10 @@ public class AppService {
     private ILocationService mLocationService;
     private IFacebookService mSessionService;
     private IValueStoreService mValueStore;
+    private INetworkService mNetworkService;
 
     private Context mContext;
 
-
-    private AppService(IServiceConfiguration configuration) {
-        setup(configuration);
-    }
 
     public static AppService getInstance() {
         if (instance == null) {
@@ -46,17 +49,43 @@ public class AppService {
         return mContext;
     }
 
-    private void clear() {
-        mLocationService.dispose();
+
+    public BlinqApplicationFlavour getFlavour() {
+        return BlinqApplicationFlavour.valueOf(getMetadata("BLINQ_FLAVOUR"));
     }
 
+    public String getMetadata(String key) {
+
+        String result = "unknown value";
+        try {
+            ApplicationInfo ai = getContext().getPackageManager().getApplicationInfo(getContext().getPackageName(), PackageManager.GET_META_DATA);
+            Bundle bundle = ai.metaData;
+            result = bundle.getString(key);
+        } catch (PackageManager.NameNotFoundException e) {
+            Bog.e(Bog.Category.SYSTEM, "Could not get Metadata", e);
+        }
+        return result;
+    }
+
+    public IFacebookService getFacebookService() {
+        return mSessionService;
+    }
+
+    public IValueStoreService getValueStore() {
+        return mValueStore;
+    }
+
+
+    public INetworkService getNetworkService() {
+        return mNetworkService;
+    }
 
     private void setup(IServiceConfiguration configuration) {
         try {
             mLocationService = configuration.locationService().newInstance();
             mSessionService = configuration.sessionService().newInstance();
             mValueStore = configuration.valueStoreService().newInstance();
-
+            mNetworkService = configuration.networkService().newInstance();
 
         } catch (InstantiationException e) {
             throw new RuntimeException(e);
@@ -73,16 +102,16 @@ public class AppService {
         getLocationService().setup(this);
         getFacebookService().setup(this);
         getValueStore().setup(this);
+        getNetworkService().setup(this);
     }
 
 
-    public IFacebookService getFacebookService() {
-        return mSessionService;
-    }
-
-    public IValueStoreService getValueStore() {
-        return mValueStore;
+    private void clear() {
+        mLocationService.dispose();
     }
 
 
+    private AppService(IServiceConfiguration configuration) {
+        setup(configuration);
+    }
 }

@@ -18,7 +18,7 @@ public class Profile {
     private String sex;
     private List<Photo> photos = new ArrayList<Photo>();
     private Boolean liked_me;
-    private Mutual_data mutual_data;
+    private MutualData mutual_data;
     private Boolean approved;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -102,11 +102,11 @@ public class Profile {
         this.liked_me = liked_me;
     }
 
-    public Mutual_data getMutual_data() {
+    public MutualData getMutual_data() {
         return mutual_data;
     }
 
-    public void setMutual_data(Mutual_data mutual_data) {
+    public void setMutual_data(MutualData mutual_data) {
         this.mutual_data = mutual_data;
     }
 

@@ -9,6 +9,7 @@
     <string name="title_activity_system_information">system information</string>
     <string name="title_activity_debug">debug activity</string>
     <string name="title_activity_login">Login</string>
-    <string name="title_activity_facebook_debug">Facebook Debug</string>
+    <string name="title_activity_facebook_debug">Facebook Debugging</string>
+    <string name="title_activity_network_debug">Network Debugging</string>
 
 </resources>

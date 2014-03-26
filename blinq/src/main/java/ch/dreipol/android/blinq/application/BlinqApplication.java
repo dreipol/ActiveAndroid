@@ -3,17 +3,17 @@ package ch.dreipol.android.blinq.application;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.IFacebookService;
-import ch.dreipol.android.blinq.services.IServiceConfiguration;
 import ch.dreipol.android.blinq.services.ILocationService;
+import ch.dreipol.android.blinq.services.INetworkService;
+import ch.dreipol.android.blinq.services.IServiceConfiguration;
 import ch.dreipol.android.blinq.services.IValueStoreService;
 import ch.dreipol.android.blinq.services.impl.FacebookService;
 import ch.dreipol.android.blinq.services.impl.LocationService;
+import ch.dreipol.android.blinq.services.impl.NetworkService;
 import ch.dreipol.android.blinq.util.Bog;
 
 /**
@@ -29,7 +29,7 @@ public class BlinqApplication extends Application implements Application.Activit
         super.onCreate();
         Bog.v(Bog.Category.SYSTEM, "Starting BLINQ: " + getApplicationContext().getPackageName());
         registerActivityLifecycleCallbacks(this);
-        Bog.v(Bog.Category.SYSTEM, "BLINQ Flavour is: " + getFlavour());
+
 
         AppService.initialize(new IServiceConfiguration() {
             @Override
@@ -51,7 +51,13 @@ public class BlinqApplication extends Application implements Application.Activit
             public Class<? extends IValueStoreService> valueStoreService() {
                 return PreferencesValueStore.class;
             }
+
+            @Override
+            public Class<? extends INetworkService> networkService() {
+                return NetworkService.class;
+            }
         });
+        Bog.v(Bog.Category.SYSTEM, "BLINQ Flavour is: " + AppService.getInstance().getFlavour());
     }
 
 
@@ -88,21 +94,5 @@ public class BlinqApplication extends Application implements Application.Activit
     @Override
     public void onActivityDestroyed(Activity activity) {
         Bog.v(Bog.Category.UI, "Destroyed Activity: " + activity.getLocalClassName());
-    }
-
-
-    public BlinqApplicationFlavour getFlavour() {
-        BlinqApplicationFlavour result = BlinqApplicationFlavour.PRODUCTION;
-        try {
-            ApplicationInfo ai = getApplicationContext().getPackageManager().getApplicationInfo(getApplicationContext().getPackageName(), PackageManager.GET_META_DATA);
-            Bundle bundle = ai.metaData;
-            String stringFlavour = bundle.getString("BLINQ_FLAVOUR");
-            result = BlinqApplicationFlavour.valueOf(stringFlavour);
-        } catch (NullPointerException e) {
-            Bog.e(Bog.Category.SYSTEM, "Could not get Metadata", e);
-        } catch (PackageManager.NameNotFoundException e) {
-            Bog.e(Bog.Category.SYSTEM, "Could not get Metadata", e);
-        }
-        return result;
     }
 }

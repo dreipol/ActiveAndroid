@@ -14,19 +14,17 @@ public class ConnectionSignatureCreator {
     private final static String ALGORITHM = "HmacSHA256";
 
     public static String signatureForCredentials(ICredentials credentials) {
-        String data = String.format("userId=%s&token=%s", credentials.getUserID(), credentials.getUserID());
-
-        return hmacsha256(data, SECRET);
+        return hmacsha256(String.format("userId=%s&token=%s", credentials.getUserID(), credentials.getToken()));
     }
 
-    public static String hmacsha256(String data, String key) {
+    public static String hmacsha256(String data) {
         String output = "";
         try {
             byte[] bytes;
             SecretKeySpec keySpec = new SecretKeySpec(SECRET.getBytes(), ALGORITHM);
             Mac mac = Mac.getInstance(ALGORITHM);
             mac.init(keySpec);
-            bytes = mac.doFinal(key.getBytes());
+            bytes = mac.doFinal(data.getBytes());
             output = convertBytesToString(bytes);
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
