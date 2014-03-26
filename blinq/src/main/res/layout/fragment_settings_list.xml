@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -27,33 +28,15 @@
         android:text="New Button"
         android:id="@+id/button2"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button3"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button4"/>
 
-    <Button
-        android:layout_width="match_parent"
+    <ch.dreipol.android.blinq.ui.buttons.SettingsButton
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button5"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button6"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button7"/>
+        app:buttonText="Hello World"
+        app:leftImage="@drawable/icon_menu_match_standard"
+        app:rightImage="@drawable/blinq_schriftzug_test"
+        app:downBackground="@drawable/blinq_schriftzug"
+        android:id="@+id/view"
+        android:layout_gravity="center_horizontal"/>
 </LinearLayout>
