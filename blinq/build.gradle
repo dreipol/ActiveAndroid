@@ -71,6 +71,7 @@ dependencies {
     compile 'com.google.android.gms:play-services:4.2.42'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.couchbase.cblite:CBLite:1.0.0-beta2'
+    compile 'com.netflix.rxjava:rxjava-core:0.17.1'
     compile 'com.netflix.rxjava:rxjava-android:0.17.1'
     compile 'com.squareup.retrofit:retrofit:1.4.1'
     compile 'net.hockeyapp.android:HockeySDK:3.0.1'

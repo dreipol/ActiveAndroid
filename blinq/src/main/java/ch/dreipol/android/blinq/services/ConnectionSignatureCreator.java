@@ -13,8 +13,13 @@ public class ConnectionSignatureCreator {
     private final static String SECRET = "[NSURL URLWithString:@https://beta.server.blinqapp.ch/]";
     private final static String ALGORITHM = "HmacSHA256";
 
+    public static String signatureForCredentials(ICredentials credentials) {
+        String data = String.format("userId=%s&token=%s", credentials.getUserID(), credentials.getUserID());
 
-    public static String tokenForKey(String key) {
+        return hmacsha256(data, SECRET);
+    }
+
+    public static String hmacsha256(String data, String key) {
         String output = "";
         try {
             byte[] bytes;
