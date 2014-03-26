@@ -127,7 +127,7 @@ public class LocationService extends BaseService implements ILocationService {
 
     @Override
     public Observable<LocationInformation> subscribeToLocation() {
-        return mLocationSubject.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        return mLocationSubject.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
     }
 
 }

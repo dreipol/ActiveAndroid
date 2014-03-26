@@ -121,7 +121,7 @@ public class FacebookService extends BaseService implements IFacebookService {
 
 
     public Observable<FacebookServiceInfo> subscribeToSessionState() {
-        return mSessionStateSubject.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        return mSessionStateSubject.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
