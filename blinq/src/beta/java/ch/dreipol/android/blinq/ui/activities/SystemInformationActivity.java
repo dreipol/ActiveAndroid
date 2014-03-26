@@ -33,7 +33,7 @@ public class SystemInformationActivity extends BaseBlinqActivity {
                 addSeparatorRow();
 
                 addRow("Location:", locationInformation.locationName);
-                if(locationInformation.mLocation!=null){
+                if (locationInformation.mLocation != null) {
                     addRow("Coordinates:", locationInformation.mLocation.toString());
                 }
 
@@ -45,12 +45,12 @@ public class SystemInformationActivity extends BaseBlinqActivity {
             @Override
             public void call(FacebookService.FacebookServiceInfo info) {
                 addSeparatorRow();
-                if(info.status.equals(FacebookService.FacebookServiceStatus.LOGGED_IN)){
+                if (info.status.equals(FacebookService.FacebookServiceStatus.LOGGED_IN)) {
 
                     addRow("Facebook Session:", info.toString());
                     addRow("Facebook Token:", facebookService.getAccessToken());
                     addRow("Facebook Id:", facebookService.getFacebookId());
-                }else{
+                } else {
                     addRow("Facebook:", "No FB Session");
                 }
             }
@@ -80,13 +80,13 @@ public class SystemInformationActivity extends BaseBlinqActivity {
     }
 
     private void addSeparatorRow() {
-        addRow("","");
+        addRow("", "");
     }
 
     private void addRow(String name, String value) {
         TextView nameTv = new TextView(this);
         nameTv.setText(name);
-        TextView valueTv= new TextView(this);
+        TextView valueTv = new TextView(this);
         valueTv.setText(value);
 //        GridLayout.Spec  titleTxtSpecC1 = GridLayout.spec(0);
 //        GridLayout.Spec  titleTxtSpecC2 = GridLayout.spec(1);

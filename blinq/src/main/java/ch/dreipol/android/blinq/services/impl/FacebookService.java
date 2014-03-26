@@ -21,6 +21,7 @@ import rx.subjects.BehaviorSubject;
 /**
  * Created by phil on 24.03.14.
  */
+
 public class FacebookService extends BaseService implements IFacebookService {
 
     public static final String FB_ID = "fbId";
@@ -47,7 +48,17 @@ public class FacebookService extends BaseService implements IFacebookService {
     }
 
     public enum FacebookServiceStatus {
-        LOGGED_OUT, NO_FB_ID, LOGGED_IN
+        LOGGED_OUT(0), NO_FB_ID(1), LOGGED_IN(2);
+
+        private final int value;
+
+        private FacebookServiceStatus(int val) {
+            this.value = val;
+        }
+
+        public int getValue() {
+            return this.value;
+        }
     }
 
 
@@ -67,7 +78,6 @@ public class FacebookService extends BaseService implements IFacebookService {
         }
 
         mSessionStateSubject = BehaviorSubject.create(info);
-
         subscribeToSessionState().subscribe(new Action1<FacebookServiceInfo>() {
             @Override
             public void call(FacebookServiceInfo serviceInfo) {
@@ -93,6 +103,7 @@ public class FacebookService extends BaseService implements IFacebookService {
         } else {
             info.status = FacebookServiceStatus.LOGGED_OUT;
             getService().getValueStore().clear(FB_ID);
+            getService().getValueStore().clear(FB_NAME);
 
         }
 
