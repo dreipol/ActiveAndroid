@@ -1,4 +1,4 @@
-package ch.dreipol.android.blinq;
+package ch.dreipol.android.blinq.services;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -13,8 +13,13 @@ public class ConnectionSignatureCreator {
     private final static String SECRET = "[NSURL URLWithString:@https://beta.server.blinqapp.ch/]";
     private final static String ALGORITHM = "HmacSHA256";
 
-    
-    public static String tokenForKey(String key) {
+    public static String signatureForCredentials(ICredentials credentials) {
+        String data = String.format("userId=%s&token=%s", credentials.getUserID(), credentials.getUserID());
+
+        return hmacsha256(data, SECRET);
+    }
+
+    public static String hmacsha256(String data, String key) {
         String output = "";
         try {
             byte[] bytes;
