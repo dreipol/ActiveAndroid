@@ -25,12 +25,11 @@ public class SettingsButton extends RelativeLayout {
 
         ImageView leftImageView = new ImageView(getContext());
 
-        LayoutParams p = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        LayoutParams p = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         p.addRule(ALIGN_PARENT_LEFT, CENTER_IN_PARENT);
 
-        LayoutParams pT = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        LayoutParams pT = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         pT.addRule(CENTER_IN_PARENT, CENTER_IN_PARENT);
-
 
         TextView textView = new TextView(getContext());
 
