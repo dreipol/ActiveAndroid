@@ -1,5 +1,7 @@
 package ch.dreipol.android.blinq.services.network.retrofit;
 
+import com.google.gson.JsonElement;
+
 import java.util.Map;
 
 import ch.dreipol.android.blinq.services.TaskStatus;
@@ -12,5 +14,5 @@ import rx.Observable;
  */
 public interface ProfileService {
     @POST("/me/")
-    Observable<TaskStatus> getMe(@Body Map meBody);
+    Observable<TaskStatus<JsonElement>> getMe(@Body Map meBody);
 }

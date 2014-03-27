@@ -14,11 +14,11 @@ public class Profile {
     private String last_active;
     private String color_top;
     private Integer age;
-    private Integer fb_id;
+    private long fb_id;
     private String sex;
     private List<Photo> photos = new ArrayList<Photo>();
     private Boolean liked_me;
-    private MutualData mutual_data;
+    private MutualData mMutualData;
     private Boolean approved;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -70,11 +70,11 @@ public class Profile {
         this.age = age;
     }
 
-    public Integer getFb_id() {
+    public Long getFb_id() {
         return fb_id;
     }
 
-    public void setFb_id(Integer fb_id) {
+    public void setFb_id(Long fb_id) {
         this.fb_id = fb_id;
     }
 
@@ -102,12 +102,12 @@ public class Profile {
         this.liked_me = liked_me;
     }
 
-    public MutualData getMutual_data() {
-        return mutual_data;
+    public MutualData getMutualData() {
+        return mMutualData;
     }
 
-    public void setMutual_data(MutualData mutual_data) {
-        this.mutual_data = mutual_data;
+    public void setMutualData(MutualData mutualData) {
+        this.mMutualData = mutualData;
     }
 
     public Boolean getApproved() {

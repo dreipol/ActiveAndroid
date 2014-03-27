@@ -1,8 +1,11 @@
 package ch.dreipol.android.blinq.services.network.retrofit;
 
+import com.google.gson.JsonElement;
+
 import java.util.List;
 import java.util.Map;
 
+import ch.dreipol.android.blinq.services.Profile;
 import ch.dreipol.android.blinq.services.TaskStatus;
 import retrofit.http.Body;
 import retrofit.http.POST;
@@ -14,5 +17,5 @@ import rx.Observable;
 public interface PollService {
 
     @POST("/poll/")
-    Observable<List<TaskStatus>> poll(@Body Map pollBody);
+    Observable<List<TaskStatus<JsonElement>>> poll(@Body Map pollBody);
 }

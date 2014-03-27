@@ -45,6 +45,10 @@ public class FacebookService extends BaseService implements IFacebookService {
         public boolean hasUser() {
             return user != null;
         }
+
+        public boolean isLoggedIn() {
+            return status == FacebookServiceStatus.LOGGED_IN;
+        }
     }
 
     public enum FacebookServiceStatus {

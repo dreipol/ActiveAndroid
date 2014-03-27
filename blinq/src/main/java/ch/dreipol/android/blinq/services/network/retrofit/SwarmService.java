@@ -1,5 +1,7 @@
 package ch.dreipol.android.blinq.services.network.retrofit;
 
+import com.google.gson.JsonElement;
+
 import java.util.Map;
 
 import ch.dreipol.android.blinq.services.TaskStatus;
@@ -13,5 +15,5 @@ import rx.Observable;
 public interface SwarmService {
 
     @POST("/swarm/")
-    Observable<TaskStatus> getSwarmTask(@Body Map swarmBody);
+    Observable<TaskStatus<JsonElement>> getSwarmTask(@Body Map swarmBody);
 }
