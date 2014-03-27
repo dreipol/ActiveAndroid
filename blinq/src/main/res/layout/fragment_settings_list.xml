@@ -5,38 +5,66 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/blinq_dark_grey">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="HI or BYE"
-        android:id="@+id/textView"
-        android:textColor="@color/blinq_white"
-        android:textSize="20dp"
-        android:layout_margin="15dp"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button2"/>
-
-
+              android:background="@color/blinq_dark_grey"
+              android:weightSum="1">
 
     <ch.dreipol.android.blinq.ui.buttons.SettingsButton
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        app:buttonText="Hello World"
-        app:leftImage="@drawable/icon_menu_match_standard"
-        app:rightImage="@drawable/blinq_schriftzug_test"
-        app:downBackground="@drawable/blinq_schriftzug"
-        android:id="@+id/view"
+        android:layout_height="50dp"
+        app:buttonText="HAI OR BAI"
+        app:buttonTextColor="@color/blinq_white"
+        app:leftImage="@drawable/icon_menu_main_standard"
+        app:downBackground="@drawable/listenelement_selected"
+        android:background="@drawable/listenelement_standard"
+        android:id="@+id/home"
         android:layout_gravity="center_horizontal"/>
+
+    <ch.dreipol.android.blinq.ui.buttons.SettingsButton
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        app:buttonText="Hello World"
+        app:buttonTextColor="@color/blinq_white"
+        app:leftImage="@drawable/icon_menu_match_standard"
+        app:downBackground="@drawable/listenelement_selected"
+        android:background="@drawable/listenelement_standard"
+        android:id="@+id/matches"
+        android:layout_gravity="center_horizontal"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="30dp"/>
+
+    <ch.dreipol.android.blinq.ui.buttons.SettingsButton
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        app:buttonText="Hello World"
+        app:buttonTextColor="@color/blinq_white"
+        app:leftImage="@drawable/icon_menu_profile_standard"
+        app:downBackground="@drawable/listenelement_selected"
+        android:background="@drawable/listenelement_standard"
+        android:id="@+id/profile"
+        android:layout_gravity="center_horizontal"/>
+
+    <ch.dreipol.android.blinq.ui.buttons.SettingsButton
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        app:buttonText="Hello World"
+        app:buttonTextColor="@color/blinq_white"
+        app:leftImage="@drawable/icon_menu_searchsettings_standard"
+        app:downBackground="@drawable/listenelement_selected"
+        android:background="@drawable/listenelement_standard"
+        android:id="@+id/settings"
+        android:layout_gravity="center_horizontal"/>
+
+    <ch.dreipol.android.blinq.ui.buttons.SettingsButton
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        app:buttonText="Hello World"
+        app:buttonTextColor="@color/blinq_white"
+        app:leftImage="@drawable/icon_menu_help_standard"
+        app:downBackground="@drawable/listenelement_selected"
+        android:background="@drawable/listenelement_standard"
+        android:id="@+id/help"
+        android:layout_gravity="center_horizontal"/>
+
 </LinearLayout>
