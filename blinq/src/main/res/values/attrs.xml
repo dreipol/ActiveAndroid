@@ -5,7 +5,8 @@
         <attr name="buttonTextColor" format="color"/>
         <attr name="leftImage" format="reference"/>
         <attr name="downBackground" format="reference" />
-
     </declare-styleable>
+
+
 
 </resources>
