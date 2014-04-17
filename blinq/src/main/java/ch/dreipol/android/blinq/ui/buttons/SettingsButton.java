@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -13,7 +14,7 @@ import ch.dreipol.android.blinq.R;
 /**
  * Created by phil on 26.03.14.
  */
-public class SettingsButton extends RelativeLayout {
+public class SettingsButton extends FrameLayout {
     public SettingsButton(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -23,13 +24,14 @@ public class SettingsButton extends RelativeLayout {
     private void init(AttributeSet attrs) {
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.SettingsButton);
 
+        
         ImageView leftImageView = new ImageView(getContext());
+//
+        RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        p.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.CENTER_IN_PARENT);
 
-        LayoutParams p = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        p.addRule(ALIGN_PARENT_LEFT, CENTER_IN_PARENT);
-
-        LayoutParams pT = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        pT.addRule(CENTER_IN_PARENT, CENTER_IN_PARENT);
+        RelativeLayout.LayoutParams pT = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        pT.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.CENTER_IN_PARENT);
 
         TextView textView = new TextView(getContext());
 
