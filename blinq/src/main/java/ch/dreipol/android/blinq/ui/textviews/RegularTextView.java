@@ -14,7 +14,7 @@ public class RegularTextView extends TextView {
 
     public RegularTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        Typeface font = StaticResources.regular(this, context.getAssets());
+        Typeface font = StaticResources.avenirMedium(this, context.getAssets());
         setTypeface(font, Typeface.NORMAL);
     }
 }

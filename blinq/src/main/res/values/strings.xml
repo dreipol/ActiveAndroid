@@ -11,5 +11,10 @@
     <string name="title_activity_login">Login</string>
     <string name="title_activity_facebook_debug">Facebook Debugging</string>
     <string name="title_activity_network_debug">Network Debugging</string>
+    <string name="blinq_help_title">Hilfe</string>
+    <string name="blinq_settings_title">Einstellungen</string>
+    <string name="blinq_profile_title">Profil</string>
+    <string name="blinq_matches_title">Matches</string>
+    <string name="blinq_hi_or_bye_title">HI oder BYE</string>
 
 </resources>

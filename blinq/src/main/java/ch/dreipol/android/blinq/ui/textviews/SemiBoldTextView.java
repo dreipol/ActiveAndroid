@@ -14,7 +14,7 @@ public class SemiBoldTextView extends TextView {
 
     public SemiBoldTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        Typeface font = StaticResources.semiBold(this, context.getAssets());
+        Typeface font = StaticResources.archerSemiBold(this, context.getAssets());
         setTypeface(font, Typeface.NORMAL);
     }
 }

@@ -32,23 +32,23 @@ public class MainFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_center_container, container, false);
 
 
-        v.findViewById(R.id.settings_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mMainFragmentListener != null) {
-                    mMainFragmentListener.onSettingsClick();
-                }
-
-            }
-        });
-        v.findViewById(R.id.match_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mMainFragmentListener != null) {
-                    mMainFragmentListener.onMatchesClick();
-                }
-            }
-        });
+//        v.findViewById(R.id.settings_button).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (mMainFragmentListener != null) {
+//                    mMainFragmentListener.onSettingsClick();
+//                }
+//
+//            }
+//        });
+//        v.findViewById(R.id.match_button).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (mMainFragmentListener != null) {
+//                    mMainFragmentListener.onMatchesClick();
+//                }
+//            }
+//        });
         mLocationDetailsTextView = (TextView) v.findViewById(R.id.location_details_textview);
 
 

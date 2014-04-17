@@ -8,18 +8,19 @@ import net.hockeyapp.android.UpdateManager;
 
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.application.BlinqApplication;
+import ch.dreipol.android.blinq.ui.fragments.ISettingsListListener;
 import ch.dreipol.android.blinq.ui.fragments.MainFragment;
 import ch.dreipol.android.blinq.ui.fragments.MatchesListFragment;
 import ch.dreipol.android.blinq.ui.fragments.SettingsListFragment;
 import ch.dreipol.android.blinq.ui.viewgroups.BlinqDrawerLayout;
 import ch.dreipol.android.blinq.ui.viewgroups.DrawerSnap;
 
-public class HomeActivity extends BaseBlinqActivity {
+public class HomeActivity extends BaseBlinqActivity implements ISettingsListListener{
 
-    private BlinqDrawerLayout layout;
-    private MainFragment mainFragment;
-    private MatchesListFragment rightFragment;
-    private SettingsListFragment leftFragment;
+    private BlinqDrawerLayout mLayout;
+    private MainFragment mMainFragment;
+    private MatchesListFragment mRightFragment;
+    private SettingsListFragment mLeftFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,49 +29,53 @@ public class HomeActivity extends BaseBlinqActivity {
 
 
 
-        layout = (BlinqDrawerLayout) findViewById(R.id.drawer_layout);
+        mLayout = (BlinqDrawerLayout) findViewById(R.id.drawer_layout);
 
 
         FragmentManager fragmentManager = getFragmentManager();
-        mainFragment = new MainFragment();
-        mainFragment.setMainFragmentListener(new MainFragment.IMainFragmentListener() {
+        mMainFragment = new MainFragment();
+        mMainFragment.setMainFragmentListener(new MainFragment.IMainFragmentListener() {
             @Override
             public void onSettingsClick() {
-                layout.setDrawerPosition(DrawerSnap.RIGHT);
+                mLayout.setDrawerPosition(DrawerSnap.RIGHT);
             }
 
             @Override
             public void onMatchesClick() {
-                layout.setDrawerPosition(DrawerSnap.LEFT);
+                mLayout.setDrawerPosition(DrawerSnap.LEFT);
 
 
             }
         });
         fragmentManager.beginTransaction()
-                .add(layout.getCenterContainer(), mainFragment)
+                .add(mLayout.getCenterContainer(), mMainFragment)
                 .commit();
 
-        layout.setDrawerLayoutListener(new IDrawerLayoutListener() {
+        mLayout.setDrawerLayoutListener(new IDrawerLayoutListener() {
 
             @Override
             public void beginOrContinueMovement() {
-                if (rightFragment == null) {
-                    rightFragment = new MatchesListFragment();
+                if (mRightFragment == null) {
+                    mRightFragment = new MatchesListFragment();
                     getFragmentManager().beginTransaction()
-                            .add(layout.getRightContainer(), rightFragment)
+                            .add(mLayout.getRightContainer(), mRightFragment)
                             .commit();
 
                 }
 
-                if (leftFragment == null) {
-                    leftFragment = new SettingsListFragment();
+                if (mLeftFragment == null) {
+                    mLeftFragment = new SettingsListFragment(HomeActivity.this);
+
                     getFragmentManager().beginTransaction()
-                            .add(layout.getLeftContainer(), leftFragment)
+                            .add(mLayout.getLeftContainer(), mLeftFragment)
                             .commit();
 
                 }
             }
         });
+
+
+
 
 
         
@@ -96,5 +101,30 @@ public class HomeActivity extends BaseBlinqActivity {
     public void onBackPressed() {
         super.onBackPressed();
         moveTaskToBack(true);
+    }
+
+    @Override
+    public void helpTapped() {
+
+    }
+
+    @Override
+    public void settingsTapped() {
+
+    }
+
+    @Override
+    public void profileTapped() {
+
+    }
+
+    @Override
+    public void matchesTapped() {
+        mLayout.setDrawerPosition(DrawerSnap.LEFT);
+    }
+
+    @Override
+    public void homeTapped() {
+        mLayout.setDrawerPosition(DrawerSnap.CENTER);
     }
 }

@@ -44,9 +44,9 @@ public class StaticResources {
     }
 
 
-    public static Typeface regular(View targetView, AssetManager assets) {
+    public static Typeface avenirMedium(View targetView, AssetManager assets) {
         if (regular == null) {
-            String fontName = "Archer-Medium.otf";
+            String fontName = "avenirmedium.otf";
             regular = getFromAsset(targetView, assets, fontName);
         }
         return regular;
@@ -62,7 +62,7 @@ public class StaticResources {
 
     }
 
-    public static Typeface semiBold(View targetView, AssetManager assets) {
+    public static Typeface archerSemiBold(View targetView, AssetManager assets) {
         if (semiBold == null) {
             String fontName = "Archer-Semibold.otf";
             semiBold = getFromAsset(targetView, assets, fontName);
@@ -72,7 +72,7 @@ public class StaticResources {
 
     public static Typeface specialMedium(View targetView, AssetManager assets) {
         if (specialMedium== null) {
-            String fontName = "avenirmedium";
+            String fontName = "JustMeAgainDownHerelasttry-Regular.ttf";
             specialMedium = getFromAsset(targetView, assets, fontName);
         }
         return specialMedium;

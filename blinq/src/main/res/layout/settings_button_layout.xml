@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
-              android:layout_width="fill_parent"
-              android:layout_height="50dp"
-              android:clickable="false"
-              android:focusable="false"
-              android:focusableInTouchMode="false">
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -23,9 +17,10 @@
         class="ch.dreipol.android.blinq.ui.textviews.RegularTextView"
         android:id="@+id/text_view"
         android:text="Hello World"
-        android:textColor="@color/blinq_white"
+        android:textSize="20dp"
+        android:textColor="@color/blinq_settings_text_color"
         android:layout_toRightOf="@+id/icon_view"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"/>
 
-</RelativeLayout>
+</merge>

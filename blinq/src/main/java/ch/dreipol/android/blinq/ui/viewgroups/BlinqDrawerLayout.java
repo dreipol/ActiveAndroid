@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import ch.dreipol.android.blinq.R;
+import ch.dreipol.android.blinq.ui.activities.HeaderView;
 import ch.dreipol.android.blinq.ui.activities.IDrawerLayoutListener;
 import ch.dreipol.android.blinq.util.StaticResources;
 
@@ -24,10 +25,11 @@ public class BlinqDrawerLayout extends ViewGroup {
     private final RelativeLayout mLeftView;
     private final RelativeLayout mRightView;
     private final RelativeLayout mCenterView;
+    private final HeaderView mHeaderView;
     private View mBackgroundView;
-    private FrameLayout mLeftViewContainer;
-    private FrameLayout mRightViewContainer;
-    private FrameLayout mCenterViewContainer;
+    private RelativeLayout mLeftViewContainer;
+    private RelativeLayout mRightViewContainer;
+    private RelativeLayout mCenterViewContainer;
     private int mLeft;
     private int mRight;
     private DrawerSnap mSnap;
@@ -47,17 +49,17 @@ public class BlinqDrawerLayout extends ViewGroup {
         mBackgroundView.setBackgroundColor(getResources().getColor(R.color.blinq_black));
         addView(mBackgroundView);
 
-        mLeftViewContainer = new FrameLayout(context);
+        mLeftViewContainer = new RelativeLayout(context);
         mLeftViewContainer.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         mLeftViewContainer.setBackgroundColor(getResources().getColor(R.color.blinq_dark_grey));
         addView(mLeftViewContainer);
 
-        mRightViewContainer = new FrameLayout(context);
+        mRightViewContainer = new RelativeLayout(context);
         mRightViewContainer.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         mRightViewContainer.setBackgroundColor(getResources().getColor(R.color.blinq_dark_grey));
         addView(mRightViewContainer);
 
-        mCenterViewContainer = new FrameLayout(context);
+        mCenterViewContainer = new RelativeLayout(context);
         mCenterViewContainer.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         mCenterViewContainer.setBackgroundColor(getResources().getColor(R.color.blinq_white));
         addView(mCenterViewContainer);
@@ -65,9 +67,21 @@ public class BlinqDrawerLayout extends ViewGroup {
 
         mBorderMargin = StaticResources.convertDisplayPointsToPixel(getContext(), 60);
 
+        mHeaderView = new HeaderView(context);
+        mHeaderView.setId(StaticResources.generateViewId());
+
+
+        mCenterViewContainer.addView(mHeaderView, new LayoutParams(LayoutParams.MATCH_PARENT, StaticResources.convertDisplayPointsToPixel(context, 44)));
+
         mCenterView = new RelativeLayout(context);
+
+
         mCenterView.setId(StaticResources.generateViewId());
-        mCenterViewContainer.addView(mCenterView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        RelativeLayout.LayoutParams centerParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+
+        centerParams.addRule(RelativeLayout.BELOW, mHeaderView.getId());
+
+        mCenterViewContainer.addView(mCenterView, centerParams);
 
         mLeftView = new RelativeLayout(context);
         mLeftView.setId(StaticResources.generateViewId());

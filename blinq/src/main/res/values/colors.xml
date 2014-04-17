@@ -5,6 +5,7 @@
     <color name="debug_blue">#0066FF</color>
     <color name="blinq_black">#000000</color>
     <color name="blinq_white">#FFFFFF</color>
+    <color name="blinq_settings_text_color">#AAAAAA</color>
     <color name="blinq_dark_grey">#ff2f2f2f</color>
     <color name="blinq_darker_grey">#FF202020</color>
     <color name="blinq_light_grey">#eaeaea</color>

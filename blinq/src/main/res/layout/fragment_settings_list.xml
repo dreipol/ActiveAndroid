@@ -11,7 +11,7 @@
     <ch.dreipol.android.blinq.ui.buttons.SettingsButton
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        app:buttonText="HAI OR BAI"
+        app:buttonText="@string/blinq_hi_or_bye_title"
         app:buttonTextColor="@color/blinq_white"
         app:leftImage="@drawable/icon_menu_main_standard"
         app:downBackground="@drawable/listenelement_selected"
@@ -22,7 +22,7 @@
     <ch.dreipol.android.blinq.ui.buttons.SettingsButton
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        app:buttonText="Hello World"
+        app:buttonText="@string/blinq_matches_title"
         app:buttonTextColor="@color/blinq_white"
         app:leftImage="@drawable/icon_menu_match_standard"
         app:downBackground="@drawable/listenelement_selected"
@@ -37,7 +37,7 @@
     <ch.dreipol.android.blinq.ui.buttons.SettingsButton
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        app:buttonText="Hello World"
+        app:buttonText="@string/blinq_profile_title"
         app:buttonTextColor="@color/blinq_white"
         app:leftImage="@drawable/icon_menu_profile_standard"
         app:downBackground="@drawable/listenelement_selected"
@@ -48,7 +48,7 @@
     <ch.dreipol.android.blinq.ui.buttons.SettingsButton
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        app:buttonText="Hello World"
+        app:buttonText="@string/blinq_settings_title"
         app:buttonTextColor="@color/blinq_white"
         app:leftImage="@drawable/icon_menu_searchsettings_standard"
         app:downBackground="@drawable/listenelement_selected"
@@ -59,7 +59,7 @@
     <ch.dreipol.android.blinq.ui.buttons.SettingsButton
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        app:buttonText="Hello World"
+        app:buttonText="@string/blinq_help_title"
         app:buttonTextColor="@color/blinq_white"
         app:leftImage="@drawable/icon_menu_help_standard"
         app:downBackground="@drawable/listenelement_selected"

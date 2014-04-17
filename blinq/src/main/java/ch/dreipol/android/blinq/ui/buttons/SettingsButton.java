@@ -20,7 +20,6 @@ public class SettingsButton extends RelativeLayout {
         LayoutInflater inflater = AppService.getInstance().getRuntimeService().getLayoutInflator(context);
         inflater.inflate(R.layout.settings_button_layout, this, true);
         init(attrs);
-
     }
 
     private void init(AttributeSet attrs) {
@@ -33,8 +32,9 @@ public class SettingsButton extends RelativeLayout {
         textView.setTextColor(a.getColor(R.styleable.SettingsButton_buttonTextColor, 1));
 
         leftImageView.setImageDrawable(a.getDrawable(R.styleable.SettingsButton_leftImage));
-
         a.recycle();
 
     }
+
+
 }
