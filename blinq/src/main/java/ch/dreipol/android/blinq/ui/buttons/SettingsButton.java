@@ -24,7 +24,7 @@ public class SettingsButton extends FrameLayout {
     private void init(AttributeSet attrs) {
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.SettingsButton);
 
-        
+
         ImageView leftImageView = new ImageView(getContext());
 //
         RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);

@@ -11,7 +11,9 @@ public interface IServiceConfiguration {
 
     Class<? extends ILocationService> locationService();
 
-    Class<? extends IFacebookService> sessionService();
+    Class<? extends IRuntimeService> runtimeService();
+
+    Class<? extends IFacebookService> facebookService();
 
     Class<? extends IValueStoreService> valueStoreService();
 

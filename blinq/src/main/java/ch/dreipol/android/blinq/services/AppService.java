@@ -1,27 +1,26 @@
 package ch.dreipol.android.blinq.services;
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
 
-import ch.dreipol.android.blinq.application.BlinqApplicationFlavour;
-import ch.dreipol.android.blinq.util.Bog;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by phil on 22.03.14.
  */
 public class AppService {
 
-    private static volatile AppService instance = null;
 
-    private ILocationService mLocationService;
-    private IFacebookService mSessionService;
-    private IValueStoreService mValueStore;
-    private INetworkService mNetworkService;
+
+    public enum ServiceType {
+        RUNTIME, LOCATION, FACEBOOK, NETWORK, VALUE_STORE,
+    }
+
+    private static volatile AppService instance = null;
 
     private Context mContext;
 
+    private Map<ServiceType, IService> mServices;
 
     public static AppService getInstance() {
         if (instance == null) {
@@ -41,57 +40,44 @@ public class AppService {
         }
     }
 
+// convenience methods...
+
     public ILocationService getLocationService() {
-        return mLocationService;
+        return (ILocationService) getService(ServiceType.LOCATION);
+    }
+
+    public IFacebookService getFacebookService() {
+        return (IFacebookService) getService(ServiceType.FACEBOOK);
+    }
+
+    public IValueStoreService getValueStore() {
+        return (IValueStoreService) getService(ServiceType.VALUE_STORE);
+    }
+
+    public INetworkService getNetworkService() {
+        return (INetworkService) getService(ServiceType.NETWORK);
+    }
+
+    public IRuntimeService getRuntimeService() {
+        return (IRuntimeService) getService(ServiceType.RUNTIME);
     }
 
     public Context getContext() {
         return mContext;
     }
 
-
-    public BlinqApplicationFlavour getFlavour() {
-        return BlinqApplicationFlavour.valueOf(getMetadata("BLINQ_FLAVOUR"));
+    public void registerService(ServiceType serviceType, IService service) {
+        mServices.put(serviceType, service);
+        service.setup(this);
     }
 
-    public String getMetadata(String key) {
-
-        String result = "unknown value";
-        try {
-            ApplicationInfo ai = getContext().getPackageManager().getApplicationInfo(getContext().getPackageName(), PackageManager.GET_META_DATA);
-            Bundle bundle = ai.metaData;
-            result = bundle.getString(key);
-        } catch (PackageManager.NameNotFoundException e) {
-            Bog.e(Bog.Category.SYSTEM, "Could not get Metadata", e);
-        }
-        return result;
-    }
-
-    public IFacebookService getFacebookService() {
-        return mSessionService;
-    }
-
-    public IValueStoreService getValueStore() {
-        return mValueStore;
-    }
-
-
-    public INetworkService getNetworkService() {
-        return mNetworkService;
+    public IService getService(ServiceType serviceType) {
+        return mServices.get(serviceType);
     }
 
     private void setup(IServiceConfiguration configuration) {
-        try {
-            mLocationService = configuration.locationService().newInstance();
-            mSessionService = configuration.sessionService().newInstance();
-            mValueStore = configuration.valueStoreService().newInstance();
-            mNetworkService = configuration.networkService().newInstance();
 
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+        mServices = new HashMap<ServiceType, IService>();
 
         mContext = configuration.getContext();
 
@@ -99,15 +85,26 @@ public class AppService {
             throw new RuntimeException("Cannot work with a null context");
         }
 
-        getLocationService().setup(this);
-        getFacebookService().setup(this);
-        getValueStore().setup(this);
-        getNetworkService().setup(this);
+        try {
+            registerService(ServiceType.LOCATION, configuration.locationService().newInstance());
+            registerService(ServiceType.RUNTIME, configuration.runtimeService().newInstance());
+            registerService(ServiceType.FACEBOOK, configuration.facebookService().newInstance());
+            registerService(ServiceType.NETWORK, configuration.networkService().newInstance());
+            registerService(ServiceType.VALUE_STORE, configuration.valueStoreService().newInstance());
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 
     private void clear() {
-        mLocationService.dispose();
+        for (IService service : mServices.values()) {
+            service.dispose();
+        }
+        mServices = new HashMap<ServiceType, IService>();
     }
 
 

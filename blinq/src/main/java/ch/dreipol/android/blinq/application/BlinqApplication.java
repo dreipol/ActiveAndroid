@@ -9,11 +9,13 @@ import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.IFacebookService;
 import ch.dreipol.android.blinq.services.ILocationService;
 import ch.dreipol.android.blinq.services.INetworkService;
+import ch.dreipol.android.blinq.services.IRuntimeService;
 import ch.dreipol.android.blinq.services.IServiceConfiguration;
 import ch.dreipol.android.blinq.services.IValueStoreService;
 import ch.dreipol.android.blinq.services.impl.FacebookService;
 import ch.dreipol.android.blinq.services.impl.LocationService;
 import ch.dreipol.android.blinq.services.impl.NetworkService;
+import ch.dreipol.android.blinq.services.impl.RuntimeService;
 import ch.dreipol.android.blinq.util.Bog;
 
 /**
@@ -43,7 +45,12 @@ public class BlinqApplication extends Application implements Application.Activit
             }
 
             @Override
-            public Class<? extends IFacebookService> sessionService() {
+            public Class<? extends IRuntimeService> runtimeService() {
+                return RuntimeService.class;
+            }
+
+            @Override
+            public Class<? extends IFacebookService> facebookService() {
                 return FacebookService.class;
             }
 
@@ -57,7 +64,7 @@ public class BlinqApplication extends Application implements Application.Activit
                 return NetworkService.class;
             }
         });
-        Bog.v(Bog.Category.SYSTEM, "BLINQ Flavour is: " + AppService.getInstance().getFlavour());
+        Bog.v(Bog.Category.SYSTEM, "BLINQ Flavour is: " + AppService.getInstance().getRuntimeService().getFlavour());
     }
 
 
