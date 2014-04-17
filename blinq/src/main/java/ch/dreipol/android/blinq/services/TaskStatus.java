@@ -2,34 +2,35 @@
 package ch.dreipol.android.blinq.services;
 
 import com.google.gson.annotations.Expose;
-
-import java.util.ArrayList;
-import java.util.List;
-
-public class TaskStatus {
+enum Status {}
+public class TaskStatus<T> {
 
     @Expose
-    private String status;
+    private ServerStatus status;
     @Expose
-    private List<Object> message = new ArrayList<Object>();
+    private T message;
     @Expose
     private String task_id;
     @Expose
     private String error;
 
-    public String getStatus() {
+    public ServerStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(ServerStatus status) {
         this.status = status;
     }
 
-    public List<Object> getMessage() {
+    public void setStatus(String status) {
+        this.status = ServerStatus.fromString(status);
+    }
+
+    public T getMessage() {
         return message;
     }
 
-    public void setMessage(List<Object> message) {
+    public void setMessage(T message) {
         this.message = message;
     }
 
@@ -52,5 +53,11 @@ public class TaskStatus {
     @Override
     public String toString() {
         return String.format("%s: %s", task_id, status);
+    }
+
+    public static <T> TaskStatus<T> initialStatus() {
+        TaskStatus<T> task = new TaskStatus<T>();
+        task.setStatus("initial");
+        return task;
     }
 }

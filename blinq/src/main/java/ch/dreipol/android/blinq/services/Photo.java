@@ -8,10 +8,10 @@ public class Photo {
 
     private String full_id;
     private String profile_id;
-    private Integer object_id;
+    private Long object_id;
     private String thumb_id;
     private Integer eviction;
-    private Integer pk;
+    private Long pk;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     public String getFull_id() {
@@ -30,11 +30,11 @@ public class Photo {
         this.profile_id = profile_id;
     }
 
-    public Integer getObject_id() {
+    public Long getObject_id() {
         return object_id;
     }
 
-    public void setObject_id(Integer object_id) {
+    public void setObject_id(Long object_id) {
         this.object_id = object_id;
     }
 
@@ -54,11 +54,11 @@ public class Photo {
         this.eviction = eviction;
     }
 
-    public Integer getPk() {
+    public Long getPk() {
         return pk;
     }
 
-    public void setPk(Integer pk) {
+    public void setPk(Long pk) {
         this.pk = pk;
     }
 
