@@ -29,13 +29,13 @@
         android:layout_height="fill_parent"
         android:background="@drawable/grey_round_bottomcorner">
 
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
+        <view
+            class="ch.dreipol.android.blinq.ui.loaders.SearchLoader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/progressBar"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="80dp"/>
+            android:layout_marginTop="30dp"/>
 
         <view
             android:layout_width="wrap_content"

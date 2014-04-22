@@ -5,7 +5,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/blinq_dark_grey"
+              android:background="@color/blinq_almost_black"
               android:weightSum="1">
 
     <ch.dreipol.android.blinq.ui.buttons.SettingsButton
