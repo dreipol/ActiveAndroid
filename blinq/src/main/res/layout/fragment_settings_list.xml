@@ -14,8 +14,6 @@
         app:buttonText="@string/blinq_hi_or_bye_title"
         app:buttonTextColor="@color/blinq_white"
         app:leftImage="@drawable/icon_menu_main_standard"
-        app:downBackground="@drawable/listenelement_selected"
-        android:background="@drawable/listenelement_standard"
         android:id="@+id/home"
         android:layout_gravity="center_horizontal"/>
 
@@ -25,8 +23,6 @@
         app:buttonText="@string/blinq_matches_title"
         app:buttonTextColor="@color/blinq_white"
         app:leftImage="@drawable/icon_menu_match_standard"
-        app:downBackground="@drawable/listenelement_selected"
-        android:background="@drawable/listenelement_standard"
         android:id="@+id/matches"
         android:layout_gravity="center_horizontal"/>
 
@@ -40,8 +36,6 @@
         app:buttonText="@string/blinq_profile_title"
         app:buttonTextColor="@color/blinq_white"
         app:leftImage="@drawable/icon_menu_profile_standard"
-        app:downBackground="@drawable/listenelement_selected"
-        android:background="@drawable/listenelement_standard"
         android:id="@+id/profile"
         android:layout_gravity="center_horizontal"/>
 
@@ -51,8 +45,6 @@
         app:buttonText="@string/blinq_settings_title"
         app:buttonTextColor="@color/blinq_white"
         app:leftImage="@drawable/icon_menu_searchsettings_standard"
-        app:downBackground="@drawable/listenelement_selected"
-        android:background="@drawable/listenelement_standard"
         android:id="@+id/settings"
         android:layout_gravity="center_horizontal"/>
 
@@ -62,8 +54,6 @@
         app:buttonText="@string/blinq_help_title"
         app:buttonTextColor="@color/blinq_white"
         app:leftImage="@drawable/icon_menu_help_standard"
-        app:downBackground="@drawable/listenelement_selected"
-        android:background="@drawable/listenelement_standard"
         android:id="@+id/help"
         android:layout_gravity="center_horizontal"/>
 

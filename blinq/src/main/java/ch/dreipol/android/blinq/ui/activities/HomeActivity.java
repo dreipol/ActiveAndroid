@@ -58,8 +58,6 @@ public class HomeActivity extends BaseBlinqActivity implements ISettingsListList
             @Override
             public void onMatchesClick() {
                 mLayout.setDrawerPosition(DrawerPosition.LEFT);
-
-
             }
         });
         fragmentManager.beginTransaction()
@@ -119,17 +117,17 @@ public class HomeActivity extends BaseBlinqActivity implements ISettingsListList
 
     @Override
     public void helpTapped() {
-
+        mLayout.setDrawerPosition(DrawerPosition.CENTER);
     }
 
     @Override
     public void settingsTapped() {
-
+        mLayout.setDrawerPosition(DrawerPosition.CENTER);
     }
 
     @Override
     public void profileTapped() {
-
+        mLayout.setDrawerPosition(DrawerPosition.CENTER);
     }
 
     @Override
