@@ -18,7 +18,7 @@
         android:id="@+id/text_view"
         android:text="Hello World"
         android:textSize="20dp"
-        android:textColor="@color/blinq_settings_text_color"
+        android:textColor="@color/blinq_text_light_grey_AAAAAA"
         android:layout_toRightOf="@+id/icon_view"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"/>

@@ -13,7 +13,7 @@ import ch.dreipol.android.blinq.ui.fragments.MainFragment;
 import ch.dreipol.android.blinq.ui.fragments.MatchesListFragment;
 import ch.dreipol.android.blinq.ui.fragments.SettingsListFragment;
 import ch.dreipol.android.blinq.ui.viewgroups.BlinqDrawerLayout;
-import ch.dreipol.android.blinq.ui.viewgroups.DrawerSnap;
+import ch.dreipol.android.blinq.ui.viewgroups.DrawerPosition;
 
 public class HomeActivity extends BaseBlinqActivity implements ISettingsListListener{
 
@@ -37,12 +37,12 @@ public class HomeActivity extends BaseBlinqActivity implements ISettingsListList
         mMainFragment.setMainFragmentListener(new MainFragment.IMainFragmentListener() {
             @Override
             public void onSettingsClick() {
-                mLayout.setDrawerPosition(DrawerSnap.RIGHT);
+                mLayout.setDrawerPosition(DrawerPosition.RIGHT);
             }
 
             @Override
             public void onMatchesClick() {
-                mLayout.setDrawerPosition(DrawerSnap.LEFT);
+                mLayout.setDrawerPosition(DrawerPosition.LEFT);
 
 
             }
@@ -78,7 +78,7 @@ public class HomeActivity extends BaseBlinqActivity implements ISettingsListList
 
 
 
-        
+
 
 
     }
@@ -99,8 +99,13 @@ public class HomeActivity extends BaseBlinqActivity implements ISettingsListList
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        moveTaskToBack(true);
+
+        if(!mLayout.getDrawerPosition().equals(DrawerPosition.CENTER)){
+            mLayout.setDrawerPosition(DrawerPosition.CENTER);
+        }else{
+            super.onBackPressed();
+            moveTaskToBack(true);
+        }
     }
 
     @Override
@@ -120,11 +125,11 @@ public class HomeActivity extends BaseBlinqActivity implements ISettingsListList
 
     @Override
     public void matchesTapped() {
-        mLayout.setDrawerPosition(DrawerSnap.LEFT);
+        mLayout.setDrawerPosition(DrawerPosition.LEFT);
     }
 
     @Override
     public void homeTapped() {
-        mLayout.setDrawerPosition(DrawerSnap.CENTER);
+        mLayout.setDrawerPosition(DrawerPosition.CENTER);
     }
 }

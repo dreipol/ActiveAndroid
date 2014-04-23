@@ -33,18 +33,14 @@ public class SearchLoader extends RelativeLayout{
         rotator.setRepeatMode(Animation.INFINITE);
         rotationMask.startAnimation(rotator);
 
-
-
         ImageView mask= new ImageView(context);
         mask.setImageDrawable(getResources().getDrawable(R.drawable.searchding_darueber));
         mask.setAdjustViewBounds(true);
         addView(mask, new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-
-//        int[] colors =new int []{getResources().getColor(R.color.blinq_light_grey), getResources().getColor(R.color.blinq_dark_grey)};
-        Random rnd = new Random();
-        int color1 = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-        int color2 = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+        Random random = new Random();
+        int color1 = generateColor(random);
+        int color2 = generateColor(random);
 
         int[] colors =new int []{color1,color2};
         GradientDrawable backgroundGradient  = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colors);
@@ -52,6 +48,9 @@ public class SearchLoader extends RelativeLayout{
 
     }
 
+    private int generateColor(Random rnd) {
+        return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+    }
 
 
 }

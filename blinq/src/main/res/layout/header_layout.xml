@@ -3,7 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
                 android:layout_height="44dp"
-                android:background="@color/blinq_almost_certainly_black">
+                android:background="@color/blinq_background_almost_black_2f2f2f">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -33,7 +33,7 @@
         android:layout_marginLeft="58dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/icon_menu_match_standard"
+        android:src="@drawable/icon_match_standard"
         android:adjustViewBounds="true"/>
 
 </RelativeLayout>

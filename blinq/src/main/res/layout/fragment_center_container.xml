@@ -21,7 +21,11 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:text="Suche nach Personen in deiner Nähe..."
-            android:textSize="20dp"/>
+            android:textSize="20dp"
+            android:layout_margin="15dp"
+            android:textAlignment="center"
+            android:gravity="center"/>
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -46,6 +50,15 @@
             android:layout_centerHorizontal="true"
             android:text="location_details"
             android:textSize="20dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/test_button"
+            android:layout_below="@+id/location_details_textview"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="36dp"/>
 
     </RelativeLayout>
 
