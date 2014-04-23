@@ -2,6 +2,7 @@ package ch.dreipol.android.blinq.ui.activities;
 
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.view.View;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
@@ -15,7 +16,7 @@ import ch.dreipol.android.blinq.ui.fragments.SettingsListFragment;
 import ch.dreipol.android.blinq.ui.viewgroups.BlinqDrawerLayout;
 import ch.dreipol.android.blinq.ui.viewgroups.DrawerPosition;
 
-public class HomeActivity extends BaseBlinqActivity implements ISettingsListListener{
+public class HomeActivity extends BaseBlinqActivity implements ISettingsListListener {
 
     private BlinqDrawerLayout mLayout;
     private MainFragment mMainFragment;
@@ -28,8 +29,22 @@ public class HomeActivity extends BaseBlinqActivity implements ISettingsListList
         setContentView(R.layout.activity_home);
 
 
-
         mLayout = (BlinqDrawerLayout) findViewById(R.id.drawer_layout);
+
+
+        mLayout.findViewById(R.id.settings_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mLayout.setDrawerPosition(DrawerPosition.RIGHT);
+
+            }
+        });
+        mLayout.findViewById(R.id.match_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mLayout.setDrawerPosition(DrawerPosition.LEFT);
+            }
+        });
 
 
         FragmentManager fragmentManager = getFragmentManager();
@@ -75,12 +90,6 @@ public class HomeActivity extends BaseBlinqActivity implements ISettingsListList
         });
 
 
-
-
-
-
-
-
     }
 
     @Override
@@ -100,9 +109,9 @@ public class HomeActivity extends BaseBlinqActivity implements ISettingsListList
     @Override
     public void onBackPressed() {
 
-        if(!mLayout.getDrawerPosition().equals(DrawerPosition.CENTER)){
+        if (!mLayout.getDrawerPosition().equals(DrawerPosition.CENTER)) {
             mLayout.setDrawerPosition(DrawerPosition.CENTER);
-        }else{
+        } else {
             super.onBackPressed();
             moveTaskToBack(true);
         }

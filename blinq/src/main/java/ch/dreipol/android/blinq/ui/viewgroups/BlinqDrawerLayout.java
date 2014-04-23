@@ -29,8 +29,8 @@ public class BlinqDrawerLayout extends ViewGroup {
     private final RelativeLayout mCenterView;
     private final HeaderView mHeaderView;
     private View mBackgroundView;
-    private RelativeLayout mLeftViewContainer;
-    private RelativeLayout mRightViewContainer;
+    private FrameLayout mLeftViewContainer;
+    private FrameLayout mRightViewContainer;
     private RelativeLayout mCenterViewContainer;
     private int mLeft;
     private int mRight;
@@ -48,17 +48,17 @@ public class BlinqDrawerLayout extends ViewGroup {
     public BlinqDrawerLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         mBackgroundView = new View(context);
-        mBackgroundView.setBackgroundColor(getResources().getColor(R.color.blinq_black));
+        mBackgroundView.setBackgroundColor(getResources().getColor(R.color.blinq_background_almost_black_2f2f2f));
         addView(mBackgroundView);
 
-        mLeftViewContainer = new RelativeLayout(context);
+        mLeftViewContainer = new FrameLayout(context);
         mLeftViewContainer.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-        mLeftViewContainer.setBackgroundColor(getResources().getColor(R.color.blinq_background_dark_grey_474747));
+        mLeftViewContainer.setBackgroundColor(getResources().getColor(R.color.blinq_background_almost_black_2f2f2f));
         addView(mLeftViewContainer);
 
-        mRightViewContainer = new RelativeLayout(context);
+        mRightViewContainer = new FrameLayout(context);
         mRightViewContainer.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-        mRightViewContainer.setBackgroundColor(getResources().getColor(R.color.blinq_background_dark_grey_474747));
+        mRightViewContainer.setBackgroundColor(getResources().getColor(R.color.blinq_background_almost_black_2f2f2f));
         addView(mRightViewContainer);
 
         mCenterViewContainer = new RelativeLayout(context);
@@ -350,6 +350,7 @@ public class BlinqDrawerLayout extends ViewGroup {
         float right = getScaledRight() / 2;
         return right - (percentage) * right;
     }
+
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {

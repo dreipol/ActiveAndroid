@@ -51,15 +51,6 @@
             android:text="location_details"
             android:textSize="20dp"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/test_button"
-            android:layout_below="@+id/location_details_textview"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="36dp"/>
-
     </RelativeLayout>
 
 </LinearLayout>

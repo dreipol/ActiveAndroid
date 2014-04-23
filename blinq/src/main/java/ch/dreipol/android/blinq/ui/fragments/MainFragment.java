@@ -11,7 +11,6 @@ import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.ILocationService;
 import ch.dreipol.android.blinq.services.impl.LocationService;
-import ch.dreipol.android.blinq.util.Bog;
 import rx.functions.Action1;
 
 /**
@@ -33,30 +32,8 @@ public class MainFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_center_container, container, false);
 
 
-//        v.findViewById(R.id.settings_button).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (mMainFragmentListener != null) {
-//                    mMainFragmentListener.onSettingsClick();
-//                }
-//
-//            }
-//        });
-//        v.findViewById(R.id.match_button).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (mMainFragmentListener != null) {
-//                    mMainFragmentListener.onMatchesClick();
-//                }
-//            }
-//        });
+
         mLocationDetailsTextView = (TextView) v.findViewById(R.id.location_details_textview);
-        v.findViewById(R.id.test_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bog.d(Bog.Category.UI, "Test BUtton Tappeditapped");
-            }
-        });
 
         ILocationService locationService = AppService.getInstance().getLocationService();
 
