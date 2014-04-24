@@ -14,10 +14,22 @@
         android:src="@drawable/blinq_schriftzug"
         android:adjustViewBounds="true"/>
 
+    <view
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        class="ch.dreipol.android.blinq.ui.textviews.RegularTextView"
+        android:id="@+id/blinq_header_title"
+        android:layout_alignParentBottom="false"
+        android:layout_centerInParent="true"
+        android:text="Header Title"
+        android:textColor="@color/blinq_text_light_grey_AAAAAA"
+        android:textSize="22dp"
+        android:visibility="gone"/>
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/settings_button"
+        android:id="@+id/blinq_header_left_button"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:src="@drawable/icon_menu_standard"
@@ -28,7 +40,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/match_button"
+        android:id="@+id/blinq_header_right_button"
         android:layout_alignParentBottom="false"
         android:layout_marginLeft="58dp"
         android:layout_alignParentRight="true"

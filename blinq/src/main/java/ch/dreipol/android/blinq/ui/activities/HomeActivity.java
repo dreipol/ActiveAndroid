@@ -1,20 +1,24 @@
 package ch.dreipol.android.blinq.ui.activities;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.view.View;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
 
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.application.BlinqApplication;
+import ch.dreipol.android.blinq.ui.fragments.IHeaderConfigurationProvider;
 import ch.dreipol.android.blinq.ui.fragments.ISettingsListListener;
 import ch.dreipol.android.blinq.ui.fragments.MainFragment;
 import ch.dreipol.android.blinq.ui.fragments.MatchesListFragment;
 import ch.dreipol.android.blinq.ui.fragments.SettingsListFragment;
+import ch.dreipol.android.blinq.ui.fragments.webview.HelpWebViewFragment;
 import ch.dreipol.android.blinq.ui.viewgroups.BlinqDrawerLayout;
 import ch.dreipol.android.blinq.ui.viewgroups.DrawerPosition;
+import ch.dreipol.android.blinq.util.exceptions.BlinqRuntimeException;
 
 public class HomeActivity extends BaseBlinqActivity implements ISettingsListListener {
 
@@ -22,6 +26,7 @@ public class HomeActivity extends BaseBlinqActivity implements ISettingsListList
     private MainFragment mMainFragment;
     private MatchesListFragment mRightFragment;
     private SettingsListFragment mLeftFragment;
+    private Fragment mCurrentCenterFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,38 +36,25 @@ public class HomeActivity extends BaseBlinqActivity implements ISettingsListList
 
         mLayout = (BlinqDrawerLayout) findViewById(R.id.drawer_layout);
 
+//
+//        mLayout.findViewById(R.id.blinq_header_left_button).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mLayout.setDrawerPosition(DrawerPosition.RIGHT);
+//
+//            }
+//        });
+//        mLayout.findViewById(R.id.blinq_header_right_button).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mLayout.setDrawerPosition(DrawerPosition.LEFT);
+//            }
+//        });
+//
 
-        mLayout.findViewById(R.id.settings_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mLayout.setDrawerPosition(DrawerPosition.RIGHT);
 
-            }
-        });
-        mLayout.findViewById(R.id.match_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mLayout.setDrawerPosition(DrawerPosition.LEFT);
-            }
-        });
+        setCenterFragment(MainFragment.class);
 
-
-        FragmentManager fragmentManager = getFragmentManager();
-        mMainFragment = new MainFragment();
-        mMainFragment.setMainFragmentListener(new MainFragment.IMainFragmentListener() {
-            @Override
-            public void onSettingsClick() {
-                mLayout.setDrawerPosition(DrawerPosition.RIGHT);
-            }
-
-            @Override
-            public void onMatchesClick() {
-                mLayout.setDrawerPosition(DrawerPosition.LEFT);
-            }
-        });
-        fragmentManager.beginTransaction()
-                .add(mLayout.getCenterContainer(), mMainFragment)
-                .commit();
 
         mLayout.setDrawerLayoutListener(new IDrawerLayoutListener() {
 
@@ -88,6 +80,49 @@ public class HomeActivity extends BaseBlinqActivity implements ISettingsListList
         });
 
 
+    }
+
+    private void setCenterFragment(Class<? extends Fragment> newCenterFragmentClass) {
+        FragmentManager fragmentManager = getFragmentManager();
+
+        Fragment newFragment;
+        if (newCenterFragmentClass.isInstance(MainFragment.class)) {
+            if (mMainFragment == null) {
+                mMainFragment = new MainFragment();
+            }
+            newFragment = mMainFragment;
+        } else {
+            try {
+                newFragment = newCenterFragmentClass.newInstance();
+            } catch (InstantiationException e) {
+                throw getBlinqRuntimeException();
+            } catch (IllegalAccessException e) {
+                throw getBlinqRuntimeException();
+            }
+        }
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        if (mCurrentCenterFragment != null) {
+            fragmentTransaction.replace(mLayout.getCenterContainer(), newFragment);
+        } else {
+            fragmentTransaction
+                    .add(mLayout.getCenterContainer(), newFragment);
+        }
+
+        fragmentTransaction.commit();
+
+        mCurrentCenterFragment = newFragment;
+
+        if(mCurrentCenterFragment instanceof IHeaderConfigurationProvider){
+            IHeaderConfigurationProvider headerProvider = (IHeaderConfigurationProvider) mCurrentCenterFragment;
+            mLayout.updateHeaderConfiguration(headerProvider.getHeaderConfiguration());
+        }
+
+    }
+
+    private BlinqRuntimeException getBlinqRuntimeException() {
+        return new BlinqRuntimeException("Could not instantiate Fragment");
     }
 
     @Override
@@ -118,6 +153,7 @@ public class HomeActivity extends BaseBlinqActivity implements ISettingsListList
     @Override
     public void helpTapped() {
         mLayout.setDrawerPosition(DrawerPosition.CENTER);
+        setCenterFragment(HelpWebViewFragment.class);
     }
 
     @Override
@@ -138,5 +174,6 @@ public class HomeActivity extends BaseBlinqActivity implements ISettingsListList
     @Override
     public void homeTapped() {
         mLayout.setDrawerPosition(DrawerPosition.CENTER);
+        setCenterFragment(MainFragment.class);
     }
 }

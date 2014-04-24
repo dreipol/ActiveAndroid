@@ -14,8 +14,9 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import ch.dreipol.android.blinq.R;
-import ch.dreipol.android.blinq.ui.activities.HeaderView;
 import ch.dreipol.android.blinq.ui.activities.IDrawerLayoutListener;
+import ch.dreipol.android.blinq.ui.headers.HeaderView;
+import ch.dreipol.android.blinq.ui.headers.IHeaderViewConfiguration;
 import ch.dreipol.android.blinq.util.StaticResources;
 
 
@@ -69,7 +70,7 @@ public class BlinqDrawerLayout extends ViewGroup {
 
         mBorderMargin = StaticResources.convertDisplayPointsToPixel(getContext(), 60);
 
-        mHeaderView = new HeaderView(context);
+        mHeaderView = new HeaderView(context, null);
         mHeaderView.setId(StaticResources.generateViewId());
 
 
@@ -203,7 +204,7 @@ public class BlinqDrawerLayout extends ViewGroup {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         int actionMasked = ev.getActionMasked();
-        if (isTouchInCenter(ev) && actionMasked != MotionEvent.ACTION_DOWN && actionMasked != MotionEvent.ACTION_UP) {
+        if (isTouchInCenter(ev) && actionMasked != MotionEvent.ACTION_DOWN && actionMasked != MotionEvent.ACTION_UP && actionMasked !=MotionEvent.ACTION_MOVE) {
             return true;
         } else {
             mInitialX = ev.getX() - mXTranslation;
@@ -404,5 +405,9 @@ public class BlinqDrawerLayout extends ViewGroup {
 
     public DrawerPosition getDrawerPosition() {
         return mSnap;
+    }
+
+    public void updateHeaderConfiguration(IHeaderViewConfiguration headerConfiguration) {
+        mHeaderView.updateConfiguration(headerConfiguration);
     }
 }

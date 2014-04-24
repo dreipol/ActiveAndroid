@@ -11,26 +11,22 @@ import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.ILocationService;
 import ch.dreipol.android.blinq.services.impl.LocationService;
+import ch.dreipol.android.blinq.ui.headers.IHeaderViewConfiguration;
 import rx.functions.Action1;
 
 /**
  * Created by phil on 21.03.14.
  */
 
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements IHeaderConfigurationProvider {
 
 
-    private IMainFragmentListener mMainFragmentListener;
     private TextView mLocationDetailsTextView;
 
-    public void setMainFragmentListener(IMainFragmentListener mainFragmentListener) {
-        mMainFragmentListener = mainFragmentListener;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_center_container, container, false);
-
 
 
         mLocationDetailsTextView = (TextView) v.findViewById(R.id.location_details_textview);
@@ -59,11 +55,18 @@ public class MainFragment extends Fragment {
         super.onDestroy();
     }
 
-    public interface IMainFragmentListener {
+    @Override
+    public IHeaderViewConfiguration getHeaderConfiguration() {
+        return new IHeaderViewConfiguration() {
+            @Override
+            public boolean showTitle() {
+                return false;
+            }
 
-        public void onSettingsClick();
-
-        public void onMatchesClick();
-
+            @Override
+            public String getTitle() {
+                return null;
+            }
+        };
     }
 }
