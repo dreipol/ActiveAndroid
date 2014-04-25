@@ -33,6 +33,7 @@
 
     <style name="BlinqDefaultToggleButton" parent="BlinqDefaultButton">
         <item name="android:background">@drawable/default_toggle_button</item>
+        <item name="android:textColor">@drawable/default_toggle_button_text_color</item>
 
     </style>
 </resources>
