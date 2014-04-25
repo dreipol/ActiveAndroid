@@ -152,8 +152,41 @@
                     android:id="@+id/toggleButton3"
                     android:checked="false"/>
             </LinearLayout>
+
+            <view
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                class="ch.dreipol.android.blinq.ui.textviews.SemiBoldTextView"
+                android:id="@+id/view111223"
+                android:text="Vibration"/>
+
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ToggleButton
+                    android:layout_width="80dp"
+                    android:background="@drawable/default_switch_left_button"
+                    android:layout_height="wrap_content"
+                    android:text="On"
+                    android:id="@+id/toggleButton212"
+                    android:checked="true"/>
+
+                <ToggleButton
+                    android:layout_width="80dp"
+                    android:background="@drawable/default_switch_right_button"
+                    android:layout_height="wrap_content"
+                    android:text="Off"
+                    android:id="@+id/toggleButton33"
+                    android:checked="false"/>
+            </LinearLayout>
         </LinearLayout>
 
 
     </ScrollView>
+
 </RelativeLayout>
