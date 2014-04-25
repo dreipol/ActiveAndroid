@@ -14,6 +14,7 @@ import ch.dreipol.android.blinq.ui.fragments.IHeaderConfigurationProvider;
 import ch.dreipol.android.blinq.ui.fragments.ISettingsListListener;
 import ch.dreipol.android.blinq.ui.fragments.MainFragment;
 import ch.dreipol.android.blinq.ui.fragments.MatchesListFragment;
+import ch.dreipol.android.blinq.ui.fragments.MySettingsFragment;
 import ch.dreipol.android.blinq.ui.fragments.SettingsListFragment;
 import ch.dreipol.android.blinq.ui.fragments.webview.HelpWebViewFragment;
 import ch.dreipol.android.blinq.ui.viewgroups.BlinqDrawerLayout;
@@ -159,6 +160,8 @@ public class HomeActivity extends BaseBlinqActivity implements ISettingsListList
     @Override
     public void settingsTapped() {
         mLayout.setDrawerPosition(DrawerPosition.CENTER);
+        setCenterFragment(MySettingsFragment.class);
+
     }
 
     @Override
