@@ -14,6 +14,7 @@ import ch.dreipol.android.blinq.util.Bog;
 import rx.Observable;
 import rx.Scheduler;
 import rx.Subscription;
+import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.observables.GroupedObservable;
@@ -28,18 +29,24 @@ public class Pollworker {
 
     private HashMap<String, BehaviorSubject<TaskStatus<JsonElement>>> mTaskMap;
     private PollService mService;
+    private Scheduler.Worker mWorker;
 
     public Pollworker(PollService service) {
 
         mService = service;
         mTaskMap = new HashMap<String, BehaviorSubject<TaskStatus<JsonElement>>>();
-        Scheduler scheduler = Schedulers.newThread();
-        Subscription subscription = scheduler.schedulePeriodically(new Action1<Scheduler.Inner>() {
+        mWorker = Schedulers.io().createWorker();
+        mWorker.schedulePeriodically(new Action0() {
             @Override
-            public void call(Scheduler.Inner inner) {
-                poll();
+            public void call() {
+                if (mTaskMap.size() > 0) {
+                    poll();
+                } else {
+                    mWorker.unsubscribe();
+                }
             }
         }, 200, 2000, TimeUnit.MILLISECONDS);
+//TODO: remove subscription when finished aso
     }
 
     private void poll() {

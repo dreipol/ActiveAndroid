@@ -27,13 +27,16 @@
         <item name="android:textSize">16sp</item>
         <item name="android:shadowColor">@color/blinq_white</item>
         <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">2</item>
-        <item name="android:shadowRadius">1</item>
+<item name="android:shadowDy">2</item>
+<item name="android:shadowRadius">1</item>
     </style>
 
-    <style name="BlinqDefaultToggleButton" parent="BlinqDefaultButton">
-        <item name="android:background">@drawable/default_toggle_button</item>
-        <item name="android:textColor">@drawable/default_toggle_button_text_color</item>
+<style name="BlinqDefaultToggleButton" parent="BlinqDefaultButton">
+<item name="android:background">@drawable/default_toggle_button</item>
+<item name="android:textColor">@drawable/default_toggle_button_text_color</item>
 
-    </style>
-</resources>
+</style>
+
+    <!--TODO: Phil mit dem richtigen Wert ersetzen-->
+<drawable name="default_button_text_color">@color/blinq_black</drawable>
+    </resources>
