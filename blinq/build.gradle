@@ -71,6 +71,7 @@ dependencies {
 //    compile 'com.android.support:appcompat-v7:+'
 
     compile('com.google.android.gms:play-services:5.0.77')
+    compile('com.google.guava:guava:17.0')
 
     compile('com.android.support:support-v4:19.1.0')
 

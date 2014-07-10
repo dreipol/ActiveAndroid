@@ -3,6 +3,13 @@ package ch.dreipol.android.blinq.application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Maps;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 import ch.dreipol.android.blinq.services.IValueStoreService;
 import ch.dreipol.android.blinq.services.impl.BaseService;
 
@@ -17,6 +24,19 @@ public class PreferencesValueStore extends BaseService implements IValueStoreSer
     public String get(String key) {
         SharedPreferences preferences = getPreferences();
         return preferences.getString(key, null);
+    }
+
+    @Override
+    public int getInt(String key) {
+        SharedPreferences preferences = getPreferences();
+        return preferences.getInt(key, -1);
+    }
+
+    @Override
+    public void put(String key, int value) {
+        SharedPreferences.Editor editor = getEditor();
+        editor.putInt(key, value);
+        editor.commit();
     }
 
 
@@ -38,6 +58,18 @@ public class PreferencesValueStore extends BaseService implements IValueStoreSer
         SharedPreferences.Editor editor = getEditor();
         editor.remove(key);
         editor.commit();
+    }
+
+    @Override
+    public Map<String, ?> getEntriesAsMap(final Set<String> keys) {
+        SharedPreferences preferences = getPreferences();
+
+        return Maps.filterEntries(preferences.getAll(), new Predicate<Map.Entry<String, ?>>() {
+            @Override
+            public boolean apply(Map.Entry<String, ?> input) {
+                return keys.contains(input.getKey());
+            }
+        });
     }
 
     private SharedPreferences.Editor getEditor() {

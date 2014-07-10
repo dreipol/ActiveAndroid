@@ -112,6 +112,7 @@ public class Pollworker {
                 public void call(TaskStatus<JsonElement> taskStatus) {
                     Subject<TaskStatus<JsonElement>, TaskStatus<JsonElement>> subject = mTaskMap.remove(taskStatus.getTask_id());
                     subject.onNext(taskStatus);
+                    subject.onCompleted();
                 }
             });
             subscription = taskStatus.connect();
