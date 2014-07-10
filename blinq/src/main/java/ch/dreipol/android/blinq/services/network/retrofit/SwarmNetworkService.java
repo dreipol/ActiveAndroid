@@ -12,7 +12,7 @@ import rx.Observable;
 /**
  * Created by phil on 26.03.14.
  */
-public interface SwarmService {
+public interface SwarmNetworkService {
 
     @POST("/swarm/")
     Observable<TaskStatus<JsonElement>> getSwarmTask(@Body Map swarmBody);

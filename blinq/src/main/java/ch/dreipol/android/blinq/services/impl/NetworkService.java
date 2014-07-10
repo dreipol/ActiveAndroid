@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.internal.bind.DateTypeAdapter;
 import com.google.gson.reflect.TypeToken;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +24,7 @@ import ch.dreipol.android.blinq.services.TaskStatus;
 import ch.dreipol.android.blinq.services.network.Pollworker;
 import ch.dreipol.android.blinq.services.network.retrofit.PollService;
 import ch.dreipol.android.blinq.services.network.retrofit.ProfileService;
-import ch.dreipol.android.blinq.services.network.retrofit.SwarmService;
+import ch.dreipol.android.blinq.services.network.retrofit.SwarmNetworkService;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 import retrofit.mime.TypedOutput;
@@ -39,7 +40,7 @@ import rx.subjects.BehaviorSubject;
 public class NetworkService extends BaseService implements INetworkService {
 
 
-    private SwarmService mSwarmService;
+    private SwarmNetworkService mSwarmService;
     private ProfileService mProfileService;
     private Pollworker mPollWorker;
 
@@ -81,7 +82,7 @@ public class NetworkService extends BaseService implements INetworkService {
                 .setConverter(new BlinqConverter(gson)).setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
 
-        mSwarmService = restAdapter.create(SwarmService.class);
+        mSwarmService = restAdapter.create(SwarmNetworkService.class);
         mProfileService = restAdapter.create(ProfileService.class);
         mPollWorker = new Pollworker(restAdapter.create(PollService.class));
     }
@@ -97,7 +98,16 @@ public class NetworkService extends BaseService implements INetworkService {
 
     @Override
     public Observable<Profile> getSwarm(Map swarmBody) {
-        return getRequestObservable(mSwarmService.getSwarmTask(swarmBody), TypeToken.get(Profile.class));
+        TypeToken tt = new TypeToken<Collection<Profile>>() {
+        };
+        return getRequestObservable(mSwarmService.getSwarmTask(swarmBody), tt)
+                .flatMap(new Func1<Collection<Profile>, Observable<Profile>>() {
+
+                    @Override
+                    public Observable<Profile> call(Collection<Profile> profiles) {
+                        return Observable.from(profiles);
+                    }
+                });
     }
 
     @Override
