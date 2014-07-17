@@ -5,7 +5,6 @@ import com.google.gson.JsonElement;
 import java.util.List;
 import java.util.Map;
 
-import ch.dreipol.android.blinq.services.Profile;
 import ch.dreipol.android.blinq.services.TaskStatus;
 import retrofit.http.Body;
 import retrofit.http.POST;

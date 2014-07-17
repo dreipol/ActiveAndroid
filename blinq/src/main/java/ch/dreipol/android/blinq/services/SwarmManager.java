@@ -1,19 +1,15 @@
 package ch.dreipol.android.blinq.services;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
-import ch.dreipol.android.blinq.util.Bog;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
+import ch.dreipol.android.blinq.services.model.Profile;
+import ch.dreipol.android.dreiworks.collections.LinkedSetList;
 import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
-import rx.subjects.PublishSubject;
-import rx.subjects.Subject;
 
 /**
  * Created by melbic on 10/07/14.
@@ -22,18 +18,25 @@ public class SwarmManager implements ISwarmService {
 
 
     private final INetworkService mNetworkService;
-    private final PublishSubject<Profile> mSwarmSubject;
-    private final HashSet<Long> mShowedProfileSet;
+    private final LinkedSetList<Long, Profile> mProfilesList;
+    private final Iterator<Profile> mIterator;
+    private IValueStoreService mValueStore;
 
     public SwarmManager() {
         mNetworkService = AppService.getInstance().getNetworkService();
-        mSwarmSubject = PublishSubject.create();
-        mShowedProfileSet = new HashSet<Long>();
+        mProfilesList = new LinkedSetList<Long, Profile>(new Func1<Profile, Long>() {
+            @Override
+            public Long call(Profile profile) {
+                return profile.getFb_id();
+            }
+        });
+        mIterator = mProfilesList.iterator();
         getSwarm();
     }
 
     @Override
     public Profile next() {
+        mIterator.next();
 //        mSwarmSubject.toBlocking().toFuture()
         return null;
     }
@@ -50,32 +53,16 @@ public class SwarmManager implements ISwarmService {
     }
 
     private void getSwarm() {
-        IValueStoreService valueStore = AppService.getInstance().getValueStore();
+        mValueStore = AppService.getInstance().getValueStore();
         HashSet<String> keys = new HashSet<String>(Arrays.asList("radius", "min_age", "max_age"));
-        Map<String, ?> searchSettings = valueStore.getEntriesAsMap(keys);
-        mNetworkService.getSwarm(searchSettings).count().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe(
-                new Action1<Integer>() {
-                    @Override
-                    public void call(Integer integer) {
-                        Bog.v(Bog.Category.NETWORKING, integer.toString());
-                    }
-                }
-                ,
-                new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        Bog.e(Bog.Category.NETWORKING, "", throwable);
+        Map<String, ?> searchSettings = mValueStore.getEntriesAsMap(keys);
 
-                    }
-                },
-                new Action0() {
-                    @Override
-                    public void call() {
-                        Bog.v(Bog.Category.NETWORKING, "complete" );
-
-                    }
-                }
-        );
+        mNetworkService.getSwarm(searchSettings).subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io()).subscribe(new Action1<Map<Long, Profile>>() {
+            @Override
+            public void call(Map<Long, Profile> longProfileMap) {
+                mProfilesList.addAll(longProfileMap);
+            }
+        });
     }
 }

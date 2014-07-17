@@ -4,16 +4,19 @@ import android.os.Bundle;
 import android.view.View;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.IValueStoreService;
-import ch.dreipol.android.blinq.services.Profile;
+import ch.dreipol.android.blinq.services.model.Profile;
 import ch.dreipol.android.blinq.services.SwarmManager;
 import ch.dreipol.android.blinq.util.Bog;
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -33,7 +36,7 @@ public class NetworkDebugActivity extends BaseBlinqActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_network_debug);
         IValueStoreService valueStore = AppService.getInstance().getValueStore();
-        valueStore.put("radius", 200);
+        valueStore.put("radius", -1);
         valueStore.put("min_age", 18);
         valueStore.put("max_age", 69);
         mManager = new SwarmManager();
@@ -46,7 +49,12 @@ public class NetworkDebugActivity extends BaseBlinqActivity {
                 aMap.put("max_age", 69);
                 AppService.getInstance().getNetworkService().getSwarm(aMap)
                         .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
+                        .observeOn(AndroidSchedulers.mainThread()).flatMap(new Func1<Map<Long, Profile>, Observable<Profile>>() {
+                    @Override
+                    public Observable<Profile> call(Map<Long, Profile> longProfileMap) {
+                        return Observable.from(longProfileMap.values());
+                    }
+                })
                         .subscribe(printProfileAction());
             }
         });

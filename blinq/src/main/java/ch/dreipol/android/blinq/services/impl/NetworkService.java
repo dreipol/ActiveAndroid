@@ -18,7 +18,7 @@ import ch.dreipol.android.blinq.services.ConnectionSignatureCreator;
 import ch.dreipol.android.blinq.services.ICredentials;
 import ch.dreipol.android.blinq.services.IFacebookService;
 import ch.dreipol.android.blinq.services.INetworkService;
-import ch.dreipol.android.blinq.services.Profile;
+import ch.dreipol.android.blinq.services.model.Profile;
 import ch.dreipol.android.blinq.services.ServerStatus;
 import ch.dreipol.android.blinq.services.TaskStatus;
 import ch.dreipol.android.blinq.services.network.Pollworker;
@@ -97,17 +97,20 @@ public class NetworkService extends BaseService implements INetworkService {
 
 
     @Override
-    public Observable<Profile> getSwarm(Map swarmBody) {
+    public Observable<Map<Long, Profile>> getSwarm(Map swarmBody) {
         TypeToken tt = new TypeToken<Collection<Profile>>() {
         };
-        return getRequestObservable(mSwarmService.getSwarmTask(swarmBody), tt)
-                .flatMap(new Func1<Collection<Profile>, Observable<Profile>>() {
-
-                    @Override
-                    public Observable<Profile> call(Collection<Profile> profiles) {
-                        return Observable.from(profiles);
-                    }
-                });
+        return getRequestObservable(mSwarmService.getSwarmTask(swarmBody), tt).flatMap(new Func1<Collection<Profile>, Observable<Profile>>() {
+            @Override
+            public Observable<Profile> call(Collection<Profile> collection) {
+                return Observable.from(collection);
+            }
+        }).toMap(new Func1<Profile, Long>() {
+            @Override
+            public Long call(Profile p) {
+                return p.getFb_id();
+            }
+        });
     }
 
     @Override
