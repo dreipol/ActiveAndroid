@@ -17,7 +17,9 @@ public interface IServiceConfiguration {
 
     Class<? extends IValueStoreService> valueStoreService();
 
-    Class<? extends INetworkService> networkService();
+    Class<? extends INetworkMethods> networkService();
 
     Class<? extends IImageCacheService> imageCacheService();
+
+    Class<? extends IMatchesService> matchesService();
 }

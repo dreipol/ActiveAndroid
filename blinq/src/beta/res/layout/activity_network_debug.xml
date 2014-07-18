@@ -48,4 +48,10 @@
         android:text="Raw Me"
         android:id="@+id/test_raw_me"
         android:layout_gravity="center_horizontal"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Load Matches"
+        android:id="@+id/test_matches"
+        android:layout_gravity="center_horizontal"/>
 </LinearLayout>

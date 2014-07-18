@@ -17,14 +17,16 @@ import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.ConnectionSignatureCreator;
 import ch.dreipol.android.blinq.services.ICredentials;
 import ch.dreipol.android.blinq.services.IFacebookService;
-import ch.dreipol.android.blinq.services.INetworkService;
+import ch.dreipol.android.blinq.services.INetworkMethods;
+import ch.dreipol.android.blinq.services.model.Match;
 import ch.dreipol.android.blinq.services.model.Profile;
 import ch.dreipol.android.blinq.services.ServerStatus;
 import ch.dreipol.android.blinq.services.TaskStatus;
 import ch.dreipol.android.blinq.services.network.Pollworker;
+import ch.dreipol.android.blinq.services.network.retrofit.IMatchesNetworkService;
+import ch.dreipol.android.blinq.services.network.retrofit.SwarmNetworkService;
 import ch.dreipol.android.blinq.services.network.retrofit.PollService;
 import ch.dreipol.android.blinq.services.network.retrofit.ProfileService;
-import ch.dreipol.android.blinq.services.network.retrofit.SwarmNetworkService;
 import ch.dreipol.android.blinq.util.Bog;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
@@ -38,12 +40,14 @@ import rx.subjects.BehaviorSubject;
 /**
  * Created by phil on 26.03.14.
  */
-public class NetworkService extends BaseService implements INetworkService {
+public class NetworkService extends BaseService implements INetworkMethods {
 
-
-    private SwarmNetworkService mSwarmService;
+    private IMatchesNetworkService mMatchesNetworkService;
+    private SwarmNetworkService mSwarmNetworkService;
     private ProfileService mProfileService;
     private Pollworker mPollWorker;
+    public static final TypeToken PROFILE_COLLECTION_TYPE_TOKEN = new TypeToken<Collection<Profile>>() {
+    };
 
 
     private void signBodyObject(JsonObject jsonObject) {
@@ -83,8 +87,9 @@ public class NetworkService extends BaseService implements INetworkService {
                 .setConverter(new BlinqConverter(gson)).setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
 
-        mSwarmService = restAdapter.create(SwarmNetworkService.class);
+        mSwarmNetworkService = restAdapter.create(SwarmNetworkService.class);
         mProfileService = restAdapter.create(ProfileService.class);
+        mMatchesNetworkService = restAdapter.create(IMatchesNetworkService.class);
         mPollWorker = new Pollworker(restAdapter.create(PollService.class));
     }
 
@@ -99,9 +104,7 @@ public class NetworkService extends BaseService implements INetworkService {
 
     @Override
     public Observable<Map<Long, Profile>> getSwarm(Map swarmBody) {
-        TypeToken tt = new TypeToken<Collection<Profile>>() {
-        };
-        return getRequestObservable(mSwarmService.getSwarmTask(swarmBody), tt).flatMap(new Func1<Collection<Profile>, Observable<Profile>>() {
+        return getRequestObservable(mSwarmNetworkService.getSwarmTask(swarmBody), PROFILE_COLLECTION_TYPE_TOKEN).flatMap(new Func1<Collection<Profile>, Observable<Profile>>() {
             @Override
             public Observable<Profile> call(Collection<Profile> collection) {
                 return Observable.from(collection);
@@ -119,7 +122,7 @@ public class NetworkService extends BaseService implements INetworkService {
         Map m = new HashMap();
         m.put("otherId", other.getFb_id());
 
-        return getRequestObservable(mSwarmService.getHiTask(m), TypeToken.get(Profile.class));
+        return getRequestObservable(mSwarmNetworkService.getHiTask(m), TypeToken.get(Profile.class));
     }
 
     @Override
@@ -128,7 +131,7 @@ public class NetworkService extends BaseService implements INetworkService {
         final Long fb_id = other.getFb_id();
         m.put("otherId", fb_id);
 
-        mSwarmService.getByeTask(m).subscribe(new Action1<TaskStatus<JsonElement>>() {
+        mSwarmNetworkService.getByeTask(m).subscribe(new Action1<TaskStatus<JsonElement>>() {
             @Override
             public void call(TaskStatus<JsonElement> taskStatus) {
                 Bog.v(Bog.Category.NETWORKING, "Said bye to " + fb_id);
@@ -139,6 +142,12 @@ public class NetworkService extends BaseService implements INetworkService {
     @Override
     public Observable<Profile> getMe() {
         return getRequestObservable(mProfileService.getMe(new HashMap()), TypeToken.get(Profile.class));
+    }
+
+    @Override
+    public void loadMatches() {
+        getService().getMatchesService().loadMatches(getRequestObservable(mMatchesNetworkService.getMatchesTask(new HashMap()), new TypeToken<Collection<Match>>() {
+        }));
     }
 
 
@@ -183,6 +192,8 @@ public class NetworkService extends BaseService implements INetworkService {
 //        TODO: make lazy, move key to a central place
         return getService().getRuntimeService().getMetadata("BLINQ_SERVER");
     }
+
+
 
 
     private class BlinqConverter extends GsonConverter {

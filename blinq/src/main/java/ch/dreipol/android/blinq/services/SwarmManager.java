@@ -2,8 +2,6 @@ package ch.dreipol.android.blinq.services;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -18,10 +16,14 @@ import rx.schedulers.Schedulers;
 
 /**
  * Created by melbic on 10/07/14.
+ * <p/>
+ * To use the swarm manager use one or both of the swarm iterators.
+ * There are two iterators to use it like a ping-pong buffer.
  */
 public class SwarmManager {
     public static final int ITERATOR_COUNT = 2;
-    private final INetworkService mNetworkService;
+    public static final int AHEAD_LOADING = 4;
+    private final INetworkMethods mNetworkService;
     private final FunctionMap<Long, Profile> mProfilesMap;
     private final CompoundIterator<Profile> mProfileIterator;
     private SwarmObservable mProfilesChangedObservable;
@@ -53,10 +55,6 @@ public class SwarmManager {
         mProfilesChangedObservable.addObserver(swarmIterator);
         return swarmIterator;
     }
-
-//    public List<ILazyIterator<Profile>> iterators() {
-//        return mProfileIterator.iterators();
-//    }
 
     private void getSwarm() {
         IValueStoreService valueStore = AppService.getInstance().getValueStore();
@@ -94,16 +92,26 @@ public class SwarmManager {
 
         @Override
         public void hi() {
-            Profile other = mIterator.head();
-            moveAndSet();
-            mNetworkService.hi(other);
+            like(true);
         }
 
         @Override
         public void bye() {
+            like(false);
+        }
+
+        private void like(boolean doesLike) {
             Profile other = mIterator.head();
             moveAndSet();
-            mNetworkService.bye(other);
+            if (mProfileIterator.aheadCount() < AHEAD_LOADING) {
+                getSwarm();
+            }
+
+            if (doesLike) {
+                mNetworkService.hi(other);
+            } else {
+                mNetworkService.bye(other);
+            }
         }
 
         private void moveAndSet() {

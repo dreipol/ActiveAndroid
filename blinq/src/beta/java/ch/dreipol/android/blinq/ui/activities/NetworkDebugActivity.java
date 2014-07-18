@@ -78,7 +78,12 @@ public class NetworkDebugActivity extends BaseBlinqActivity {
             }
         });
 
-
+        findButtonWithId(R.id.test_matches).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppService.getInstance().getNetworkService().loadMatches();
+            }
+        });
         findButtonWithId(R.id.test_raw_me).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
