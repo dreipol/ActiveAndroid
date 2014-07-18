@@ -23,4 +23,7 @@ public interface ILazyIterator<T> {
      * @throws NoSuchElementException
      */
     public void move() throws NoSuchElementException;
+
+    public boolean tryMove();
+    public boolean headIsSet();
 }

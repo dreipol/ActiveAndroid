@@ -16,4 +16,10 @@ public interface SwarmNetworkService {
 
     @POST("/swarm/")
     Observable<TaskStatus<JsonElement>> getSwarmTask(@Body Map swarmBody);
+
+    @POST("/hi/")
+    Observable<TaskStatus<JsonElement>> getHiTask(@Body Map swarmBody);
+
+    @POST("/bye/")
+    Observable<TaskStatus<JsonElement>> getByeTask(@Body Map swarmBody);
 }

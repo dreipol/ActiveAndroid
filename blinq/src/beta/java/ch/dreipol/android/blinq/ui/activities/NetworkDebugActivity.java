@@ -2,13 +2,17 @@ package ch.dreipol.android.blinq.ui.activities;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.AppService;
+import ch.dreipol.android.blinq.services.IProfileListener;
+import ch.dreipol.android.blinq.services.ISwarmIterator;
 import ch.dreipol.android.blinq.services.IValueStoreService;
+import ch.dreipol.android.blinq.services.model.Photo;
 import ch.dreipol.android.blinq.services.model.Profile;
 import ch.dreipol.android.blinq.services.SwarmManager;
 import ch.dreipol.android.blinq.util.Bog;
@@ -40,24 +44,40 @@ public class NetworkDebugActivity extends BaseBlinqActivity {
         valueStore.put("min_age", 18);
         valueStore.put("max_age", 69);
         mManager = new SwarmManager();
-        findButtonWithId(R.id.test_raw_swarm).setOnClickListener(new View.OnClickListener() {
+        final ISwarmIterator swarmIterator = mManager.firstIterator();
+        swarmIterator.setProfileListener(new IProfileListener() {
             @Override
-            public void onClick(View v) {
-                HashMap aMap = new HashMap();
-                aMap.put("radius", 200);
-                aMap.put("min_age", 18);
-                aMap.put("max_age", 69);
-                AppService.getInstance().getNetworkService().getSwarm(aMap)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread()).flatMap(new Func1<Map<Long, Profile>, Observable<Profile>>() {
+            public void setProfile(Profile profile) {
+                final Photo photo = profile.getPhotos().get(0);
+                runOnUiThread(new Runnable() {
                     @Override
-                    public Observable<Profile> call(Map<Long, Profile> longProfileMap) {
-                        return Observable.from(longProfileMap.values());
+                    public void run() {
+                        AppService.getInstance().getImageCacheService().displayPhoto(photo, (ImageView) findViewById(R.id.test_imageView));
                     }
-                })
-                        .subscribe(printProfileAction());
+                });
             }
         });
+
+        findButtonWithId(R.id.test_swarm).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mManager.reloadSwarm();
+            }
+        });
+
+        findButtonWithId(R.id.test_say_hi).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                swarmIterator.hi();
+            }
+        });
+        findButtonWithId(R.id.test_say_bye).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                swarmIterator.bye();
+            }
+        });
+
 
         findButtonWithId(R.id.test_raw_me).setOnClickListener(new View.OnClickListener() {
             @Override

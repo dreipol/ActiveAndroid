@@ -11,9 +11,8 @@ import java.util.Map;
 public class AppService {
 
 
-
     public enum ServiceType {
-        RUNTIME, LOCATION, FACEBOOK, NETWORK, VALUE_STORE,
+        RUNTIME, LOCATION, FACEBOOK, NETWORK, VALUE_STORE, IMAGE_CACHE,
     }
 
     private static volatile AppService instance = null;
@@ -62,6 +61,10 @@ public class AppService {
         return (IRuntimeService) getService(ServiceType.RUNTIME);
     }
 
+    public IImageCacheService getImageCacheService() {
+        return (IImageCacheService) getService(ServiceType.IMAGE_CACHE);
+    }
+
     public Context getContext() {
         return mContext;
     }
@@ -91,6 +94,8 @@ public class AppService {
             registerService(ServiceType.FACEBOOK, configuration.facebookService().newInstance());
             registerService(ServiceType.NETWORK, configuration.networkService().newInstance());
             registerService(ServiceType.VALUE_STORE, configuration.valueStoreService().newInstance());
+            registerService(ServiceType.IMAGE_CACHE, configuration.imageCacheService().newInstance());
+
         } catch (InstantiationException e) {
             throw new RuntimeException(e);
         } catch (IllegalAccessException e) {

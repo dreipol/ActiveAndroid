@@ -1,27 +1,30 @@
 package ch.dreipol.android.dreiworks.collections;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import rx.functions.Func1;
 
+//TODO: using map implement Map<K,O>
 /**
  * Created by melbic on 16/07/14.
  * Linked List which takes and key to detect if an object is already in th list
  */
-public class LinkedSetList<K, O> implements Iterable<O> {
+public class FunctionMap<K, O> implements Iterable<O> {
     private Set<K> mKeySet;
-    private LinkedList<O> mObjects;
+    private List<O> mObjects;
     private Func1<O, K> mSelectorFunction;
+    private Iterator<O> mIterator;
 
-    public LinkedSetList(Func1<O, K> selectorFunc) {
+    public FunctionMap(Func1<O, K> selectorFunc) {
         mSelectorFunction = selectorFunc;
         mKeySet = new HashSet<K>();
-        mObjects = new LinkedList<O>();
+        mObjects = new ArrayList<O>();
     }
 
     public boolean add(O object) {
@@ -38,7 +41,7 @@ public class LinkedSetList<K, O> implements Iterable<O> {
         boolean anythingAdded = false;
         for (O object : collection) {
             if (!contains(object)) {
-                mObjects.addLast(object);
+                mObjects.add(object);
                 anythingAdded = true;
             }
         }
@@ -57,6 +60,15 @@ public class LinkedSetList<K, O> implements Iterable<O> {
 
     }
 
+    public Set<K> keySet() {
+        return mKeySet;
+    }
+
+    public List<O> values() {
+        return mObjects;
+    }
+
+
     public boolean contains(Object object) {
 //        TODO: does it work like this?
         K key;
@@ -74,18 +86,23 @@ public class LinkedSetList<K, O> implements Iterable<O> {
         return mSelectorFunction.call(o);
     }
 
-    /**
-     * Creates a getIterator set with n iterators
-     * @param n
-     * @return the CompoundIterator
-     */
-//    public Collection<java.util.Iterator<O>> iterators(int n) {
-//
-//    }
+    public void setIterator(Iterator<O> iterator) {
+
+        mIterator = iterator;
+    }
 
     @Override
     public Iterator<O> iterator() {
-        return new Iterator<O>();
+
+        return _iterator();
+    }
+
+    private Iterator<O> _iterator() {
+        if (mIterator != null) {
+            return mIterator;
+        } else {
+            return mObjects.iterator();
+        }
     }
 
 
@@ -96,29 +113,5 @@ public class LinkedSetList<K, O> implements Iterable<O> {
     private void removeKeyForObject(Object object) {
         K k = keyForObject(object);
         mKeySet.remove(k);
-    }
-
-    class Iterator<T> implements FutureAwareIterator<O> {
-        private int mIndex = 0;
-
-        @Override
-        public boolean hasNext() {
-            return mIndex < mObjects.size();
-        }
-
-        @Override
-        public O next() {
-            return mObjects.get(mIndex++);
-        }
-
-        @Override
-        public void remove() {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public int aheadCount() {
-            return mObjects.size() - mIndex;
-        }
     }
 }

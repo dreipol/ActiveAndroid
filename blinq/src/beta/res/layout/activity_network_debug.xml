@@ -7,13 +7,41 @@
               android:layout_height="match_parent"
               tools:context="ch.dreipol.android.blinq.ui.activities.NetworkDebugActivity">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/test_imageView"
+        android:layout_gravity="center_horizontal"
+        />
+
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Raw Swarm"
-        android:id="@+id/test_raw_swarm"
-        android:layout_gravity="center_horizontal"/>
-
+        android:text="Bye!"
+        android:id="@+id/test_say_bye"
+        android:layout_weight = "1"
+        android:layout_gravity="center_horizontal"
+        />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hi!"
+            android:id="@+id/test_say_hi"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight = "1"
+            />
+    </TableRow>
+    <Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Update Swarm"
+    android:id="@+id/test_swarm"
+    android:layout_gravity="center_horizontal"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

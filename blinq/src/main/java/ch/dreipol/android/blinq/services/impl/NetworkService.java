@@ -25,6 +25,7 @@ import ch.dreipol.android.blinq.services.network.Pollworker;
 import ch.dreipol.android.blinq.services.network.retrofit.PollService;
 import ch.dreipol.android.blinq.services.network.retrofit.ProfileService;
 import ch.dreipol.android.blinq.services.network.retrofit.SwarmNetworkService;
+import ch.dreipol.android.blinq.util.Bog;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 import retrofit.mime.TypedOutput;
@@ -114,9 +115,32 @@ public class NetworkService extends BaseService implements INetworkService {
     }
 
     @Override
+    public Observable<Profile> hi(Profile other) {
+        Map m = new HashMap();
+        m.put("otherId", other.getFb_id());
+
+        return getRequestObservable(mSwarmService.getHiTask(m), TypeToken.get(Profile.class));
+    }
+
+    @Override
+    public void bye(Profile other) {
+        Map m = new HashMap();
+        final Long fb_id = other.getFb_id();
+        m.put("otherId", fb_id);
+
+        mSwarmService.getByeTask(m).subscribe(new Action1<TaskStatus<JsonElement>>() {
+            @Override
+            public void call(TaskStatus<JsonElement> taskStatus) {
+                Bog.v(Bog.Category.NETWORKING, "Said bye to " + fb_id);
+            }
+        });
+    }
+
+    @Override
     public Observable<Profile> getMe() {
         return getRequestObservable(mProfileService.getMe(new HashMap()), TypeToken.get(Profile.class));
     }
+
 
     private <T> Observable<T> getRequestObservable(Observable<TaskStatus<JsonElement>> observable, final TypeToken<T> typeToken) {
 //        Observable<FacebookService.FacebookServiceInfo> facebookObservable = this.getService().getFacebookService().subscribeToSessionState().subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).filter(new Func1<FacebookService.FacebookServiceInfo, Boolean>() {

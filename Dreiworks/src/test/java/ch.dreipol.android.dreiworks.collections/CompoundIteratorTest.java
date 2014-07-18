@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 /**
@@ -48,9 +49,65 @@ public class CompoundIteratorTest {
         }
     }
 
-    @Test
-    public void test2IteratorsWithoutMoving() {
+    @Test(expected = IllegalAccessError.class)
+    public void testIteratorNotMoved() {
         CompoundIterator<Integer> compoundIterator = new CompoundIterator<Integer>(2, mList);
+        ILazyIterator<Integer> firstIterator = compoundIterator.getIterator(0);
+        Integer i = firstIterator.head();
+    }
 
+    @Test(expected = NoSuchElementException.class)
+    public void testLimit() {
+        CompoundIterator<Integer> compoundIterator = new CompoundIterator<Integer>(2, mList);
+        ILazyIterator<Integer> firstIterator = compoundIterator.getIterator(0);
+        ILazyIterator<Integer> secondIterator = compoundIterator.getIterator(1);
+
+        ILazyIterator<Integer> it;
+        for (Integer i : mList) {
+            it = (i % 2) == 0 ? secondIterator : firstIterator;
+            it.move();
+            Assert.assertEquals(i, it.head());
+        }
+        Assert.assertFalse(firstIterator.hasNext());
+        Assert.assertFalse(secondIterator.hasNext());
+        firstIterator.move();
+    }
+
+    @Test
+    public void testAsIterator() {
+        CompoundIterator<Integer> compoundIterator = new CompoundIterator<Integer>(2, mList);
+        int number = 0;
+        Assert.assertEquals(10, compoundIterator.aheadCount());
+        while (compoundIterator.hasNext()) {
+            Integer i = compoundIterator.next();
+            Assert.assertEquals(number++, i.intValue());
+        }
+        Assert.assertEquals(0, compoundIterator.aheadCount());
+    }
+
+    @Test
+    public void testMixedUsage() {
+        CompoundIterator<Integer> compoundIterator = new CompoundIterator<Integer>(2, mList);
+        ILazyIterator<Integer> firstIterator = compoundIterator.getIterator(0);
+        ILazyIterator<Integer> secondIterator = compoundIterator.getIterator(1);
+
+        Integer number = null;
+        for (Integer i : mList) {
+            switch (i % 3) {
+                case 0:
+                    firstIterator.move();
+                    number = firstIterator.head();
+                    break;
+                case 1:
+                    secondIterator.move();
+                    number = secondIterator.head();
+                    break;
+                case 2:
+                    number = compoundIterator.next();
+                    break;
+
+            }
+            Assert.assertEquals(number, i);
+        }
     }
 }

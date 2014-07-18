@@ -7,8 +7,7 @@ import ch.dreipol.android.blinq.services.model.Profile;
 /**
  * Created by phil on 26.03.14.
  */
-public interface INetworkService extends IService{
-    rx.Observable<Map<Long, Profile>> getSwarm(Map swarmBody);
+public interface INetworkService extends IService, ISwarmNetworkService{
 
     rx.Observable<Profile> getMe();
 }

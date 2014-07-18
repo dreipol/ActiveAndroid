@@ -3,10 +3,15 @@ package ch.dreipol.android.blinq.services;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
 import ch.dreipol.android.blinq.services.model.Profile;
-import ch.dreipol.android.dreiworks.collections.LinkedSetList;
+import ch.dreipol.android.dreiworks.collections.CompoundIterator;
+import ch.dreipol.android.dreiworks.collections.FunctionMap;
+import ch.dreipol.android.dreiworks.collections.ILazyIterator;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -14,55 +19,130 @@ import rx.schedulers.Schedulers;
 /**
  * Created by melbic on 10/07/14.
  */
-public class SwarmManager implements ISwarmService {
-
-
+public class SwarmManager {
+    public static final int ITERATOR_COUNT = 2;
     private final INetworkService mNetworkService;
-    private final LinkedSetList<Long, Profile> mProfilesList;
-    private final Iterator<Profile> mIterator;
-    private IValueStoreService mValueStore;
+    private final FunctionMap<Long, Profile> mProfilesMap;
+    private final CompoundIterator<Profile> mProfileIterator;
+    private SwarmObservable mProfilesChangedObservable;
 
     public SwarmManager() {
         mNetworkService = AppService.getInstance().getNetworkService();
-        mProfilesList = new LinkedSetList<Long, Profile>(new Func1<Profile, Long>() {
+        mProfilesMap = new FunctionMap<Long, Profile>(new Func1<Profile, Long>() {
             @Override
             public Long call(Profile profile) {
                 return profile.getFb_id();
             }
         });
-        mIterator = mProfilesList.iterator();
+        mProfilesMap.setIterator(new CompoundIterator<Profile>(ITERATOR_COUNT, mProfilesMap.values()));
+        mProfileIterator = (CompoundIterator<Profile>) mProfilesMap.iterator();
+        mProfilesChangedObservable = new SwarmObservable();
         getSwarm();
     }
 
-    @Override
-    public Profile next() {
-        mIterator.next();
-//        mSwarmSubject.toBlocking().toFuture()
-        return null;
+    public ISwarmIterator firstIterator() {
+        return getIterator(0);
     }
 
-    @Override
-    public void hi() {
-//        TODO: say hi
+    public ISwarmIterator secondIterator() {
+        return getIterator(1);
     }
 
-    @Override
-    public void bye() {
-//        TODO: say bye
-
+    private ISwarmIterator getIterator(int i) {
+        SwarmIterator swarmIterator = new SwarmIterator(mProfileIterator.getIterator(i));
+        mProfilesChangedObservable.addObserver(swarmIterator);
+        return swarmIterator;
     }
+
+//    public List<ILazyIterator<Profile>> iterators() {
+//        return mProfileIterator.iterators();
+//    }
 
     private void getSwarm() {
-        mValueStore = AppService.getInstance().getValueStore();
+        IValueStoreService valueStore = AppService.getInstance().getValueStore();
         HashSet<String> keys = new HashSet<String>(Arrays.asList("radius", "min_age", "max_age"));
-        Map<String, ?> searchSettings = mValueStore.getEntriesAsMap(keys);
+        Map<String, ?> searchSettings = valueStore.getEntriesAsMap(keys);
 
         mNetworkService.getSwarm(searchSettings).subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io()).subscribe(new Action1<Map<Long, Profile>>() {
             @Override
             public void call(Map<Long, Profile> longProfileMap) {
-                mProfilesList.addAll(longProfileMap);
+                if (mProfilesMap.addAll(longProfileMap)) {
+                    mProfilesChangedObservable._setChanged();
+                    mProfilesChangedObservable.notifyObservers();
+                }
             }
         });
+    }
+
+    public void reloadSwarm() {
+//        TODO: reset all
+        getSwarm();
+    }
+
+    private class SwarmIterator implements ISwarmIterator, Observer {
+        private ILazyIterator<Profile> mIterator;
+        private IProfileListener mListener;
+        private boolean mIsWaitingForProfiles = false;
+
+        private SwarmIterator(ILazyIterator<Profile> it) {
+            mIterator = it;
+            if (!mIterator.headIsSet() && !mIterator.tryMove()) {
+                mIsWaitingForProfiles = true;
+            }
+        }
+
+        @Override
+        public void hi() {
+            Profile other = mIterator.head();
+            moveAndSet();
+            mNetworkService.hi(other);
+        }
+
+        @Override
+        public void bye() {
+            Profile other = mIterator.head();
+            moveAndSet();
+            mNetworkService.bye(other);
+        }
+
+        private void moveAndSet() {
+            if (mIterator.tryMove()) {
+                setProfile();
+            } else {
+                synchronized (SwarmIterator.this) {
+                    mIsWaitingForProfiles = true;
+                }
+            }
+        }
+
+        private void setProfile() {
+            mListener.setProfile(mIterator.head());
+        }
+
+        @Override
+        public void setProfileListener(IProfileListener listener) {
+            mListener = listener;
+            if (mIterator.headIsSet() || mIterator.tryMove()) {
+                setProfile();
+            }
+        }
+
+        @Override
+        public void update(Observable observable, Object data) {
+            synchronized (SwarmIterator.this) {
+                if (mIsWaitingForProfiles) {
+                    mIsWaitingForProfiles = false;
+                    mIterator.move();
+                    setProfile();
+                }
+            }
+        }
+    }
+
+    private class SwarmObservable extends Observable {
+        void _setChanged() {
+            setChanged();
+        }
     }
 }
