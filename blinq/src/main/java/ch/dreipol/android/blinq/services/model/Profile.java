@@ -1,5 +1,5 @@
 
-package ch.dreipol.android.blinq.services;
+package ch.dreipol.android.blinq.services.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -126,4 +126,11 @@ public class Profile {
         this.additionalProperties.put(name, value);
     }
 
+    @Override
+    public String toString() {
+        return "Profile{" +
+                "first_name='" + first_name + '\'' +
+                ", fb_id=" + fb_id +
+                '}';
+    }
 }

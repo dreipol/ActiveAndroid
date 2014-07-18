@@ -10,10 +10,9 @@ import retrofit.http.POST;
 import rx.Observable;
 
 /**
- * Created by phil on 26.03.14.
+ * Created by melbic on 18/07/14.
  */
-public interface SwarmService {
-
-    @POST("/swarm/")
-    Observable<TaskStatus<JsonElement>> getSwarmTask(@Body Map swarmBody);
+public interface IMatchesNetworkService {
+    @POST("/matches/")
+    Observable<TaskStatus<JsonElement>> getMatchesTask(@Body Map swarmBody);
 }

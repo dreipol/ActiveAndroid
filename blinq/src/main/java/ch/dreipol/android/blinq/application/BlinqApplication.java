@@ -7,8 +7,10 @@ import android.os.Bundle;
 
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.IFacebookService;
+import ch.dreipol.android.blinq.services.IImageCacheService;
 import ch.dreipol.android.blinq.services.ILocationService;
-import ch.dreipol.android.blinq.services.INetworkService;
+import ch.dreipol.android.blinq.services.IMatchesService;
+import ch.dreipol.android.blinq.services.INetworkMethods;
 import ch.dreipol.android.blinq.services.IRuntimeService;
 import ch.dreipol.android.blinq.services.IServiceConfiguration;
 import ch.dreipol.android.blinq.services.IValueStoreService;
@@ -60,8 +62,18 @@ public class BlinqApplication extends Application implements Application.Activit
             }
 
             @Override
-            public Class<? extends INetworkService> networkService() {
+            public Class<? extends INetworkMethods> networkService() {
                 return NetworkService.class;
+            }
+
+            @Override
+            public Class<? extends IImageCacheService> imageCacheService() {
+                return ImageCache.class;
+            }
+
+            @Override
+            public Class<? extends IMatchesService> matchesService() {
+                return MatchesService.class;
             }
         });
         Bog.v(Bog.Category.SYSTEM, "BLINQ Flavour is: " + AppService.getInstance().getRuntimeService().getFlavour());
