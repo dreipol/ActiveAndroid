@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.ui.fragments.JoinBlinqFragment;
+import ch.dreipol.android.blinq.ui.fragments.PrivacyDisclaimer;
 
 public class LoginActivity extends BaseBlinqActivity implements JoinBlinqFragment.JoinBlinqFragmentListener{
 
@@ -56,6 +57,15 @@ public class LoginActivity extends BaseBlinqActivity implements JoinBlinqFragmen
 
     @Override
     public void showLoginScreen() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//        /transaction.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
+
+        PrivacyDisclaimer newCustomFragment = new PrivacyDisclaimer();
+        transaction.replace(R.id.login_container, newCustomFragment );
+        transaction.addToBackStack(null);
+        transaction.commit();
 
     }
 

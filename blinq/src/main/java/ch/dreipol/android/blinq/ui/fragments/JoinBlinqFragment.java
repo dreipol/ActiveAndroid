@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.ui.PageIndicatorView;
@@ -54,8 +55,16 @@ public class JoinBlinqFragment extends Fragment {
         mViewPager = (ViewPager) targetView.findViewById(R.id.pager);
         mViewPager.setAdapter(mPagerAdaper);
 
+        Button joinButton = (Button) targetView.findViewById(R.id.join_button);
+        joinButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.showLoginScreen();
+            }
+        });
+
         if (mShowMasquerade) {
-            targetView.findViewById(R.id.join_button).setVisibility(View.GONE);
+            joinButton.setVisibility(View.GONE);
         }
         mpageIndicator = (PageIndicatorView) targetView.findViewById(R.id.indicator);
         mpageIndicator.setNumberOfPages(mPagerAdaper.getCount());
