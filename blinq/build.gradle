@@ -70,9 +70,9 @@ android {
 dependencies {
     //    compile 'com.google.guava:guava:16.0.1'
     //    compile 'com.android.support:appcompat-v7:+'
-    compile 'com.google.android.gms:play-services:5.0.77'
+    compile 'com.google.android.gms:play-services:5.2.08'
     compile 'com.google.guava:guava:17.0'
-    compile 'com.android.support:support-v4:19.1.0'
+    compile 'com.android.support:support-v4:20.0.0'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.couchbase.cblite:CBLite:1.0.0-beta3'
 //    compile 'com.couchbase.lite:couchbase-lite-android:1.0.0' Gab irgendwie Fehler beim compilieren

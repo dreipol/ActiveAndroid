@@ -20,8 +20,8 @@ import rx.subjects.BehaviorSubject;
 
 /**
  * Created by phil on 24.03.14.
+ *
  */
-
 public class FacebookService extends BaseService implements IFacebookService {
 
     public static final String FB_ID = "fbId";

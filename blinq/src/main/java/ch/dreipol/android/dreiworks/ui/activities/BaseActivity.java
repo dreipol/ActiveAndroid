@@ -3,6 +3,7 @@ package ch.dreipol.android.dreiworks.ui.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,7 +12,7 @@ import android.widget.Button;
 /**
  * Created by phil on 19.03.14.
  */
-public abstract class BaseActivity extends Activity implements IActivityLauncher {
+public abstract class BaseActivity extends FragmentActivity implements IActivityLauncher {
 
     private static final String DATA_SOURCE_CLASS = "SOURCE_CLASS";
     private GestureDetector mGestureDetector;

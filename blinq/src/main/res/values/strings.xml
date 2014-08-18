@@ -16,5 +16,7 @@
     <string name="blinq_profile_title">Profil</string>
     <string name="blinq_matches_title">Matches</string>
     <string name="blinq_hi_or_bye_title">HI oder BYE</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="blinq_join_blinq_button_title">Join BLINQ!</string>
 
 </resources>
