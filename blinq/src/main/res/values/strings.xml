@@ -19,4 +19,14 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="blinq_join_blinq_button_title">Join BLINQ!</string>
 
+    <string name="tutorialImage1">tutorial_01</string>
+    <string name="tutorialImage2">tutorial_02_en</string>
+    <string name="tutorialImage3">tutorial_03_en</string>
+    <string name="tutorialImage4">tutorial_04_en</string>
+
+    <string name="tutorialText1">Say HI to people you like and BYE to people you don’t like.</string>
+    <string name="tutorialText2">If both of you say HI to each other you have a match and...</string>
+    <string name="tutorialText3">You can chat with your match inside the app!</string>
+    <string name="tutorialText4">First, your profile is being reviewed to check if you can join BLINQ.</string>
+
 </resources>

@@ -14,6 +14,10 @@ import ch.dreipol.android.blinq.ui.buttons.SettingsButton;
  */
 public class SettingsListFragment extends Fragment {
 
+    public SettingsListFragment() {
+
+    }
+
     public void setSettingsListListener(ISettingsListListener mSettingsListListener) {
         this.mSettingsListListener = mSettingsListListener;
     }

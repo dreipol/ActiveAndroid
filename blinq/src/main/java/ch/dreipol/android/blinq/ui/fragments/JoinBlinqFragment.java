@@ -11,12 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import ch.dreipol.android.blinq.R;
+import ch.dreipol.android.blinq.ui.PageIndicatorView;
 
 public class JoinBlinqFragment extends Fragment {
 
     private JoinBlinqFragmentListener mListener;
     private ViewPager mViewPager;
     private TutorialPagerAdapter mPagerAdaper;
+    private PageIndicatorView mpageIndicator;
 
     public static JoinBlinqFragment newInstance() {
         JoinBlinqFragment fragment = new JoinBlinqFragment();
@@ -48,6 +50,9 @@ public class JoinBlinqFragment extends Fragment {
         mPagerAdaper = new TutorialPagerAdapter(getFragmentManager());
         mViewPager = (ViewPager) targetView.findViewById(R.id.pager);
         mViewPager.setAdapter(mPagerAdaper);
+        mpageIndicator = (PageIndicatorView) targetView.findViewById(R.id.indicator);
+        mpageIndicator.setNumberOfPages(mPagerAdaper.getCount());
+//        mPageIndicatorView = (PageIndicatorView) targetView.findViewById(R.id.pager);
         return targetView;
     }
 
@@ -85,8 +90,16 @@ public class JoinBlinqFragment extends Fragment {
             Bundle args = new Bundle();
             // Our object is just an integer :-P
 //            args.putInt(DemoObjectFragment.ARG_OBJECT, i + 1);
-            args.putString(TutorialFragment.TEXT, "Hello World");
-            args.putString(TutorialFragment.IMAGE, "Hello World");
+            String name = "tutorialText" + (i + 1);
+            String imageName = "tutorialImage" + (i + 1);
+            String packageName = getActivity().getPackageName();
+            int textIdentifier = getResources().getIdentifier(name, "string", packageName);
+
+            args.putString(TutorialFragment.TEXT, getResources().getString(textIdentifier));
+            int translatedImageIdentifier = getResources().getIdentifier(imageName, "string", packageName);
+            String string = getResources().getString(translatedImageIdentifier);
+            int imageIdentifier = getResources().getIdentifier(string, "drawable", packageName);
+            args.putInt(TutorialFragment.IMAGE_ID, imageIdentifier);
             fragment.setArguments(args);
             return fragment;
         }
@@ -99,6 +112,14 @@ public class JoinBlinqFragment extends Fragment {
         @Override
         public CharSequence getPageTitle(int position) {
             return "TUTORIAL " + (position + 1);
+        }
+
+        @Override
+        public void finishUpdate(ViewGroup container) {
+            super.finishUpdate(container);
+            mpageIndicator.setActivePage(mViewPager.getCurrentItem());
+
+
         }
     }
 

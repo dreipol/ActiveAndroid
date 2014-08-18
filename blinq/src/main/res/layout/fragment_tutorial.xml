@@ -1,28 +1,33 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     tools:context="ch.dreipol.android.blinq.ui.fragments.TutorialFragment">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <com.makeramen.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/tutorial_image"
-        android:layout_centerVertical="true"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/foto_team_blinq" />
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:paddingBottom="80dp"
+        android:src="@drawable/tutorial_01"
+        app:oval="true" />
 
     <TextView
+        android:id="@+id/tutorial_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/textView"
-        android:layout_below="@+id/tutorial_image"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:textAlignment="center"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:gravity="center|top"
         android:singleLine="false"
-        android:gravity="center"
-        android:textColor="@color/blinq_background_grey_888888" />
+        android:text="Medium Text"
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/blinq_text_dark_grey_999999" />
 </RelativeLayout>

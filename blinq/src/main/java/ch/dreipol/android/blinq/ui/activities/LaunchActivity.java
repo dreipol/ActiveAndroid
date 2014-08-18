@@ -40,7 +40,7 @@ public class LaunchActivity extends BaseBlinqActivity {
 
                 startActivity(startIntent);
             }
-        }, (long) 300.0f);
+        }, (long) 1300.0f);
 
     }
 }
