@@ -1,18 +1,38 @@
 package ch.dreipol.android.blinq.ui.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.AppService;
+import ch.dreipol.android.blinq.ui.fragments.JoinBlinqFragment;
+import ch.dreipol.android.dreiworks.ui.activities.ActivityTransitionType;
 
-public class LaunchActivity extends BaseBlinqActivity {
+public class LaunchActivity extends BaseBlinqActivity implements JoinBlinqFragment.JoinBlinqFragmentListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
+
+
+
+
+        FragmentManager fragMan = getSupportFragmentManager();
+        FragmentTransaction fragTransaction = fragMan.beginTransaction();
+
+
+        JoinBlinqFragment myFrag = new JoinBlinqFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(JoinBlinqFragment.SHOW_MASQUERADE, true);
+        myFrag.setArguments(args);
+        fragTransaction.add(R.id.launch_container, myFrag);
+        fragTransaction.commit();
+
 
     }
 
@@ -30,17 +50,29 @@ public class LaunchActivity extends BaseBlinqActivity {
             @Override
             public void run() {
 
-                Intent startIntent;
+                Class<? extends Activity> startIntent;
+                ActivityTransitionType transitionType = ActivityTransitionType.DEFAULT;
 
                 if (AppService.getInstance().getFacebookService().hasFacebookSession()) {
-                    startIntent = new Intent(getApplicationContext(), HomeActivity.class);
+                    startIntent = HomeActivity.class;
                 } else {
-                    startIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startIntent = LoginActivity.class;
+                    transitionType = ActivityTransitionType.CROSSFADE;
                 }
 
-                startActivity(startIntent);
+                startActivity(startIntent, transitionType);
             }
-        }, (long) 1300.0f);
+        }, (long) 300.0f);
+
+    }
+
+    @Override
+    public void showLoginScreen() {
+
+    }
+
+    @Override
+    public void showNextScreen() {
 
     }
 }

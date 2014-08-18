@@ -58,4 +58,9 @@ public class LoginActivity extends BaseBlinqActivity implements JoinBlinqFragmen
     public void showLoginScreen() {
 
     }
+
+    @Override
+    public void showNextScreen() {
+
+    }
 }

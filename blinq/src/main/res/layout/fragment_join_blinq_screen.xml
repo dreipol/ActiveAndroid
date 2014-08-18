@@ -23,7 +23,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/blinq_join_blinq_button_title"
-            android:id="@+id/button"
+            android:id="@+id/join_button"
             android:layout_gravity="center"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp" />

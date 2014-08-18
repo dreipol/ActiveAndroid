@@ -15,10 +15,12 @@ import ch.dreipol.android.blinq.ui.PageIndicatorView;
 
 public class JoinBlinqFragment extends Fragment {
 
+    public static final String SHOW_MASQUERADE = "MASQUERADE";
     private JoinBlinqFragmentListener mListener;
     private ViewPager mViewPager;
     private TutorialPagerAdapter mPagerAdaper;
     private PageIndicatorView mpageIndicator;
+    private boolean mShowMasquerade;
 
     public static JoinBlinqFragment newInstance() {
         JoinBlinqFragment fragment = new JoinBlinqFragment();
@@ -28,14 +30,16 @@ public class JoinBlinqFragment extends Fragment {
     }
 
     public JoinBlinqFragment() {
+        mShowMasquerade = false;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//
-//        }
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            mShowMasquerade = arguments.getBoolean(SHOW_MASQUERADE, false);
+        }
 
 
     }
@@ -50,6 +54,10 @@ public class JoinBlinqFragment extends Fragment {
         mPagerAdaper = new TutorialPagerAdapter(getFragmentManager());
         mViewPager = (ViewPager) targetView.findViewById(R.id.pager);
         mViewPager.setAdapter(mPagerAdaper);
+
+        if(mShowMasquerade){
+            targetView.findViewById(R.id.join_button).setVisibility(View.GONE);
+        }
         mpageIndicator = (PageIndicatorView) targetView.findViewById(R.id.indicator);
         mpageIndicator.setNumberOfPages(mPagerAdaper.getCount());
 //        mPageIndicatorView = (PageIndicatorView) targetView.findViewById(R.id.pager);
@@ -77,6 +85,7 @@ public class JoinBlinqFragment extends Fragment {
 
     public interface JoinBlinqFragmentListener {
         public void showLoginScreen();
+        public void showNextScreen();
     }
 
     public class TutorialPagerAdapter extends FragmentPagerAdapter{
@@ -88,8 +97,8 @@ public class JoinBlinqFragment extends Fragment {
         public android.support.v4.app.Fragment getItem(int i) {
             TutorialFragment fragment = new TutorialFragment();
             Bundle args = new Bundle();
-            // Our object is just an integer :-P
-//            args.putInt(DemoObjectFragment.ARG_OBJECT, i + 1);
+
+
             String name = "tutorialText" + (i + 1);
             String imageName = "tutorialImage" + (i + 1);
             String packageName = getActivity().getPackageName();
@@ -100,6 +109,7 @@ public class JoinBlinqFragment extends Fragment {
             String string = getResources().getString(translatedImageIdentifier);
             int imageIdentifier = getResources().getIdentifier(string, "drawable", packageName);
             args.putInt(TutorialFragment.IMAGE_ID, imageIdentifier);
+            args.putBoolean(SHOW_MASQUERADE, mShowMasquerade);
             fragment.setArguments(args);
             return fragment;
         }

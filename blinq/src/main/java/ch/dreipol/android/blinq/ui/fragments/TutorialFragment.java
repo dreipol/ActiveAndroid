@@ -21,6 +21,7 @@ public class TutorialFragment extends Fragment {
     public static final String TEXT = "TXT";
     private String mText;
     private int mImageId;
+    private boolean mShowMasquerade;
 
     public TutorialFragment() {
         // Required empty public constructor
@@ -36,6 +37,7 @@ public class TutorialFragment extends Fragment {
 //            mImageString = savedInstanceState.getString(IMAGE_ID);
             mText = args.getString(TEXT);
             mImageId = args.getInt(IMAGE_ID);
+            mShowMasquerade = args.getBoolean(JoinBlinqFragment.SHOW_MASQUERADE);
 
         }
     }
@@ -44,15 +46,19 @@ public class TutorialFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tutorial, container, false);
-        if (mText != null) {
-            TextView txtView = (TextView) view.findViewById(R.id.tutorial_text);
+        TextView txtView = (TextView) view.findViewById(R.id.tutorial_text);
+        if (mText != null && !mShowMasquerade) {
             txtView.setText(mText);
+            txtView.setVisibility(View.VISIBLE);
+        }else{
+           txtView.setVisibility(View.INVISIBLE);
         }
 
         if(mImageId != -9999999){
             ImageView imgView = (ImageView) view.findViewById(R.id.tutorial_image);
             imgView.setImageResource(mImageId);
         }
+
         return view;
     }
 
