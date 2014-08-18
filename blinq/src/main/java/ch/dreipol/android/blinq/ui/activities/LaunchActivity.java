@@ -20,20 +20,6 @@ public class LaunchActivity extends BaseBlinqActivity implements JoinBlinqFragme
         setContentView(R.layout.activity_launch);
 
 
-
-
-        FragmentManager fragMan = getSupportFragmentManager();
-        FragmentTransaction fragTransaction = fragMan.beginTransaction();
-
-
-        JoinBlinqFragment myFrag = new JoinBlinqFragment();
-        Bundle args = new Bundle();
-        args.putBoolean(JoinBlinqFragment.SHOW_MASQUERADE, true);
-        myFrag.setArguments(args);
-        fragTransaction.add(R.id.launch_container, myFrag);
-        fragTransaction.commit();
-
-
     }
 
     @Override

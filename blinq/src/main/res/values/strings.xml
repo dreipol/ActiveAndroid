@@ -28,5 +28,9 @@
     <string name="tutorialText2">If both of you say HI to each other you have a match and...</string>
     <string name="tutorialText3">You can chat with your match inside the app!</string>
     <string name="tutorialText4">First, your profile is being reviewed to check if you can join BLINQ.</string>
+    <string name="tutorialInfoTitle">We take your privacy seriously</string>
+    <string name="tutorialInfoText1">We never post anything to Facebook!</string>
+    <string name="tutorialInfoText2">Your location is never shared with other users.</string>
+    <string name="tutorialInfoText3">Your Facebook login is only used to check the authenticity of your profile and to show common interests with other members.</string>
 
 </resources>

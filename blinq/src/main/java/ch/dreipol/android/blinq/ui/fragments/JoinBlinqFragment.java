@@ -45,7 +45,6 @@ public class JoinBlinqFragment extends Fragment {
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -55,7 +54,7 @@ public class JoinBlinqFragment extends Fragment {
         mViewPager = (ViewPager) targetView.findViewById(R.id.pager);
         mViewPager.setAdapter(mPagerAdaper);
 
-        if(mShowMasquerade){
+        if (mShowMasquerade) {
             targetView.findViewById(R.id.join_button).setVisibility(View.GONE);
         }
         mpageIndicator = (PageIndicatorView) targetView.findViewById(R.id.indicator);
@@ -85,10 +84,11 @@ public class JoinBlinqFragment extends Fragment {
 
     public interface JoinBlinqFragmentListener {
         public void showLoginScreen();
+
         public void showNextScreen();
     }
 
-    public class TutorialPagerAdapter extends FragmentPagerAdapter{
+    public class TutorialPagerAdapter extends FragmentPagerAdapter {
         public TutorialPagerAdapter(FragmentManager fm) {
             super(fm);
         }
