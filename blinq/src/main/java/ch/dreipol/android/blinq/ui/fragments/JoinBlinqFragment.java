@@ -78,6 +78,7 @@ public class JoinBlinqFragment extends Fragment {
         super.onAttach(activity);
         try {
             mListener = (JoinBlinqFragmentListener) activity;
+
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");

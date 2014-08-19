@@ -21,13 +21,12 @@ public class LoginActivity extends BaseBlinqActivity implements JoinBlinqFragmen
 
 
 
-        FragmentManager fragMan = getSupportFragmentManager();
-        FragmentTransaction fragTransaction = fragMan.beginTransaction();
-
-
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
         JoinBlinqFragment myFrag = new JoinBlinqFragment();
-        fragTransaction.add(R.id.login_container, myFrag);
-        fragTransaction.commit();
+        transaction.setCustomAnimations(0, 0, 0, 0);
+        transaction.add(R.id.login_container, myFrag);
+        transaction.commit();
 
 //        LoginButton loginButton = (LoginButton) findViewById(R.id.fb_login_button);
 //        IFacebookService facebookService = AppService.getInstance().getFacebookService();
@@ -58,15 +57,12 @@ public class LoginActivity extends BaseBlinqActivity implements JoinBlinqFragmen
     @Override
     public void showLoginScreen() {
         FragmentManager fragmentManager = getSupportFragmentManager();
-
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-//        /transaction.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
-
-        PrivacyDisclaimer newCustomFragment = new PrivacyDisclaimer();
-        transaction.replace(R.id.login_container, newCustomFragment );
+        transaction.setCustomAnimations(R.anim.bottom_to_top, R.anim.none, R.anim.none, R.anim.top_to_bottom);
+        PrivacyDisclaimer privacyDisclaimer = new PrivacyDisclaimer();
+        transaction.add(R.id.login_container, privacyDisclaimer);
         transaction.addToBackStack(null);
         transaction.commit();
-
     }
 
     @Override
