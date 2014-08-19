@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:name="ch.dreipol.android.blinq.BlinqBetaApplication">
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:replace="android:name"
+        android:name="ch.dreipol.android.blinq.BlinqBetaApplication"
+        >
         <meta-data
             android:name="BLINQ_FLAVOUR"
             android:value="BETA"/>
