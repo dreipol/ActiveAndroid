@@ -81,16 +81,21 @@ public class NetworkService extends BaseService implements INetworkMethods {
         Gson gson = getGson();
 
 
+
         String serverUrl = getServerUrl();
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(serverUrl)
-                .setConverter(new BlinqConverter(gson)).setLogLevel(RestAdapter.LogLevel.FULL)
+        RestAdapter restAdapter = getRestBuilder(gson, serverUrl)
                 .build();
 
         mSwarmNetworkService = restAdapter.create(SwarmNetworkService.class);
         mProfileService = restAdapter.create(ProfileService.class);
         mMatchesNetworkService = restAdapter.create(IMatchesNetworkService.class);
         mPollWorker = new Pollworker(restAdapter.create(PollService.class));
+    }
+
+    protected RestAdapter.Builder getRestBuilder(Gson gson, String serverUrl) {
+        return new RestAdapter.Builder()
+                .setEndpoint(serverUrl)
+                .setConverter(new BlinqConverter(gson)).setLogLevel(RestAdapter.LogLevel.FULL);
     }
 
     private static Gson getGson() {
