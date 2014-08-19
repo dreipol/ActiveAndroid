@@ -37,6 +37,13 @@ public class PrivacyDisclaimer extends Fragment {
         IFacebookService facebookService = AppService.getInstance().getFacebookService();
         loginButton.setReadPermissions(facebookService.getPermissions());
 
+        targetView.findViewById(R.id.close_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().popBackStack();
+            }
+        });
+
         return targetView;
     }
 
