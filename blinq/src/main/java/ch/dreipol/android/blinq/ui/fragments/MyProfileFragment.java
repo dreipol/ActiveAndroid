@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.AppService;
@@ -68,7 +69,6 @@ public class MyProfileFragment extends Fragment {
     }
 
     public MyProfileFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -79,19 +79,43 @@ public class MyProfileFragment extends Fragment {
         mProfileObservable = BehaviorSubject.create();
 
         mReadySubscription = Observable.zip(mUIState, mProfileObservable, new Func2<View, LoadingInfo, LoadingInfo>() {
+
             @Override
             public LoadingInfo call(View view, LoadingInfo loadingInfo) {
                 loadingInfo.setViewContainer(view);
                 return loadingInfo;
             }
+
         }).subscribe(new Action1<LoadingInfo>() {
             @Override
             public void call(LoadingInfo loadingInfo) {
+
                 Profile profile = loadingInfo.getProfile();
 
-                ProfileOverviewView profileOverviewView = (ProfileOverviewView) loadingInfo.getViewContainer().findViewById(R.id.profile_overview);
+                int bottomColor = Color.parseColor(profile.getColor_bottom());
 
-                profileOverviewView.setGradient(Color.parseColor(profile.getColor_top()), Color.parseColor(profile.getColor_bottom()));
+                View container = loadingInfo.getViewContainer();
+
+                TextView ageView = (TextView) container.findViewById(R.id.profile_age);
+                TextView nameView = (TextView) container.findViewById(R.id.profile_name);
+                ageView.setTextColor(bottomColor);
+                nameView.setTextColor(bottomColor);
+
+                Integer age = profile.getAge();
+
+                if (age == null) {
+//                    TODO: Phil use birthday
+                    age = 99;
+                }
+
+                ageView.setText(age.toString());
+                nameView.setText(profile.getFirst_name());
+
+
+                ProfileOverviewView profileOverviewView = (ProfileOverviewView) container.findViewById(R.id.profile_overview);
+
+
+                profileOverviewView.setGradient(Color.parseColor(profile.getColor_top()), bottomColor);
             }
         });
 
@@ -122,11 +146,13 @@ public class MyProfileFragment extends Fragment {
     }
 
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         mReadySubscription.unsubscribe();
+        mUIState = null;
+        mProfileObservable = null;
+
     }
 
     @Override

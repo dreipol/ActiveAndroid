@@ -8,13 +8,13 @@ import android.widget.TextView;
 import ch.dreipol.android.blinq.util.StaticResources;
 
 /**
- * Created by phil on 21.03.14.
+ * Created by phil on 20/08/14.
  */
-public class RegularTextView extends TextView {
+public class AMTextView extends TextView{
 
-    public RegularTextView(Context context, AttributeSet attrs) {
+    public AMTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        Typeface font = StaticResources.avenirMedium(this, context.getAssets());
+        Typeface font = StaticResources.archerMedium(this, context.getAssets());
         setTypeface(font, Typeface.NORMAL);
     }
 }

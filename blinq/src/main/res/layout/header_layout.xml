@@ -17,7 +17,7 @@
     <view
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        class="ch.dreipol.android.blinq.ui.textviews.RegularTextView"
+        class="ch.dreipol.android.blinq.ui.textviews.AVMTextView"
         android:id="@+id/blinq_header_title"
         android:layout_alignParentBottom="false"
         android:layout_centerInParent="true"

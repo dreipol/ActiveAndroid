@@ -8,13 +8,12 @@ import android.widget.TextView;
 import ch.dreipol.android.blinq.util.StaticResources;
 
 /**
- * Created by phil on 21.03.14.
+ * Created by phil on 20/08/14.
  */
-public class SemiBoldTextView extends TextView {
-
-    public SemiBoldTextView(Context context, AttributeSet attrs) {
+public class AVMTextView extends TextView {
+    public AVMTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        Typeface font = StaticResources.archerSemiBold(this, context.getAssets());
+        Typeface font = StaticResources.avenirMedium(this, context.getAssets());
         setTypeface(font, Typeface.NORMAL);
     }
 }
