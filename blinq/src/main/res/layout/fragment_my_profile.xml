@@ -1,8 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ch.dreipol.android.blinq.ui.fragments.MyProfileFragment">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+    <!-- TODO: Update blank fragment layout -->
 
-</LinearLayout>
+    <view
+        android:layout_width="fill_parent"
+        android:layout_height="300dp"
+        class="ch.dreipol.android.blinq.ui.ProfileOverviewView"
+        android:id="@+id/profile_overview"
+        android:layout_alignParentTop="true" />
+</RelativeLayout>
