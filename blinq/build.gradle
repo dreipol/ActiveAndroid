@@ -73,8 +73,6 @@ dependencies {
     compile 'com.google.guava:guava:17.0'
     compile 'com.android.support:support-v4:20.0.0'
     compile fileTree(dir: 'libs', include: ['*.jar'])
-//    compile 'com.couchbase.cblite:CBLite:1.0.0-beta3'
-    compile 'com.couchbase.lite:couchbase-lite-android:1.0.1'  //Gab irgendwie Fehler beim compilieren
     compile 'com.netflix.rxjava:rxjava-core:0.19.2'
     compile 'com.netflix.rxjava:rxjava-android:0.19.2'
     compile 'com.squareup.retrofit:retrofit:1.6.1'
