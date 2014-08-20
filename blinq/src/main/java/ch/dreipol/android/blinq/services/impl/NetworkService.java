@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.internal.bind.DateTypeAdapter;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.Collection;
@@ -28,6 +27,7 @@ import ch.dreipol.android.blinq.services.network.retrofit.SwarmNetworkService;
 import ch.dreipol.android.blinq.services.network.retrofit.PollService;
 import ch.dreipol.android.blinq.services.network.retrofit.ProfileService;
 import ch.dreipol.android.blinq.util.Bog;
+import ch.dreipol.android.blinq.util.gson.DateTypeAdapter;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 import retrofit.mime.TypedOutput;

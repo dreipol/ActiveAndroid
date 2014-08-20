@@ -17,12 +17,9 @@ public class Match {
     @SerializedName("match_id")
     @Expose
     private Integer matchId;
-    @SerializedName("created_at")
-    @Expose
-    private Date createdAt;
     @SerializedName("created_at_datetime")
     @Expose
-    private Date createdAtDatetime;
+    private Date createdAt;
     @SerializedName("fb_id")
     @Expose
     private String fbId;
@@ -57,16 +54,8 @@ public class Match {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getCreatedAtDatetime() {
-        return createdAtDatetime;
-    }
-
-    public void setCreatedAtDatetime(Date createdAtDatetime) {
-        this.createdAtDatetime = createdAtDatetime;
+    public void setCreatedAt(Date createdAtDatetime) {
+        this.createdAt = createdAtDatetime;
     }
 
     public String getFbId() {

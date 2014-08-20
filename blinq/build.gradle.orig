@@ -52,6 +52,7 @@ android {
         exclude 'META-INF/ASL2.0'
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/NOTICE'
+        exclude '/couchbase-lite-android-1.0.0/res'
     }
 
     sourceSets {
@@ -69,12 +70,18 @@ android {
 dependencies {
     //    compile 'com.google.guava:guava:16.0.1'
     //    compile 'com.android.support:appcompat-v7:+'
+<<<<<<< HEAD
+    compile 'com.google.guava:guava:17.0'
+    compile 'com.android.support:support-v4:19.1.0'
+    compile 'com.google.android.gms:play-services:5.0.89'
+=======
     compile 'com.google.android.gms:play-services:5.2.08'
     compile 'com.google.guava:guava:17.0'
     compile 'com.android.support:support-v4:20.0.0'
+>>>>>>> a5d6508278f4fc539cf25fdf2c28713a94e801e5
     compile fileTree(dir: 'libs', include: ['*.jar'])
-//    compile 'com.couchbase.cblite:CBLite:1.0.0-beta3'
-    compile 'com.couchbase.lite:couchbase-lite-android:1.0.1'  //Gab irgendwie Fehler beim compilieren
+    compile 'com.couchbase.cblite:CBLite:1.0.0-beta3'
+//    compile 'com.couchbase.lite:couchbase-lite-android:1.0.0' Gab irgendwie Fehler beim compilieren
     compile 'com.netflix.rxjava:rxjava-core:0.19.2'
     compile 'com.netflix.rxjava:rxjava-android:0.19.2'
     compile 'com.squareup.retrofit:retrofit:1.6.1'
