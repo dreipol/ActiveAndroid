@@ -1,9 +1,9 @@
 package ch.dreipol.android.blinq.ui.activities;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
@@ -14,6 +14,7 @@ import ch.dreipol.android.blinq.ui.fragments.IHeaderConfigurationProvider;
 import ch.dreipol.android.blinq.ui.fragments.ISettingsListListener;
 import ch.dreipol.android.blinq.ui.fragments.MainFragment;
 import ch.dreipol.android.blinq.ui.fragments.MatchesListFragment;
+import ch.dreipol.android.blinq.ui.fragments.MyProfileFragment;
 import ch.dreipol.android.blinq.ui.fragments.MySettingsFragment;
 import ch.dreipol.android.blinq.ui.fragments.SettingsListFragment;
 import ch.dreipol.android.blinq.ui.fragments.webview.HelpWebViewFragment;
@@ -63,16 +64,18 @@ public class HomeActivity extends BaseBlinqActivity implements ISettingsListList
             public void beginOrContinueMovement() {
                 if (mRightFragment == null) {
                     mRightFragment = new MatchesListFragment();
-                    getFragmentManager().beginTransaction()
+                    getSupportFragmentManager().beginTransaction()
                             .add(mLayout.getRightContainer(), mRightFragment)
                             .commit();
 
                 }
 
                 if (mLeftFragment == null) {
-                    mLeftFragment = new SettingsListFragment(HomeActivity.this);
+                    mLeftFragment = new SettingsListFragment();
 
-                    getFragmentManager().beginTransaction()
+                    mLeftFragment.setSettingsListListener(HomeActivity.this);
+
+                    getSupportFragmentManager().beginTransaction()
                             .add(mLayout.getLeftContainer(), mLeftFragment)
                             .commit();
 
@@ -84,7 +87,7 @@ public class HomeActivity extends BaseBlinqActivity implements ISettingsListList
     }
 
     private void setCenterFragment(Class<? extends Fragment> newCenterFragmentClass) {
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
 
         Fragment newFragment;
         if (newCenterFragmentClass.isInstance(MainFragment.class)) {
@@ -167,7 +170,9 @@ public class HomeActivity extends BaseBlinqActivity implements ISettingsListList
     @Override
     public void profileTapped() {
         mLayout.setDrawerPosition(DrawerPosition.CENTER);
+        setCenterFragment(MyProfileFragment.class);
     }
+
 
     @Override
     public void matchesTapped() {

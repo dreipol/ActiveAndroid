@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <application  >
+    <application
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:replace="android:name"
+        android:name="ch.dreipol.android.blinq.BlinqBetaApplication"
+        >
         <meta-data
             android:name="BLINQ_FLAVOUR"
             android:value="BETA"/>
         <meta-data
             android:name="BLINQ_SERVER"
-            android:value="http://10.0.1.86:8000"/>
+            android:value="https://beta.blinqapp.ch"/>
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/fb_app_id_beta"

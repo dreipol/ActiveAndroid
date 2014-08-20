@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="tutorialImage1">tutorial_01</string>
+    <string name="tutorialImage2">tutorial_02_es</string>
+    <string name="tutorialImage3">tutorial_03_es</string>
+    <string name="tutorialImage4">tutorial_04_es</string>
+
+</resources>

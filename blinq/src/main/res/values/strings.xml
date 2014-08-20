@@ -16,5 +16,21 @@
     <string name="blinq_profile_title">Profil</string>
     <string name="blinq_matches_title">Matches</string>
     <string name="blinq_hi_or_bye_title">HI oder BYE</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="blinq_join_blinq_button_title">Join BLINQ!</string>
+
+    <string name="tutorialImage1">tutorial_01</string>
+    <string name="tutorialImage2">tutorial_02_en</string>
+    <string name="tutorialImage3">tutorial_03_en</string>
+    <string name="tutorialImage4">tutorial_04_en</string>
+
+    <string name="tutorialText1">Say HI to people you like and BYE to people you don’t like.</string>
+    <string name="tutorialText2">If both of you say HI to each other you have a match and...</string>
+    <string name="tutorialText3">You can chat with your match inside the app!</string>
+    <string name="tutorialText4">First, your profile is being reviewed to check if you can join BLINQ.</string>
+    <string name="tutorialInfoTitle">We take your privacy seriously</string>
+    <string name="tutorialInfoText1">We never post anything to Facebook!</string>
+    <string name="tutorialInfoText2">Your location is never shared with other users.</string>
+    <string name="tutorialInfoText3">Your Facebook login is only used to check the authenticity of your profile and to show common interests with other members.</string>
 
 </resources>

@@ -1,7 +1,7 @@
 package ch.dreipol.android.blinq.ui.fragments;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +14,18 @@ import ch.dreipol.android.blinq.ui.buttons.SettingsButton;
  */
 public class SettingsListFragment extends Fragment {
 
-    private final ISettingsListListener mSettingsListListener;
+    public SettingsListFragment() {
 
-    public SettingsListFragment(ISettingsListListener listener) {
-        mSettingsListListener = listener;
     }
+
+    public void setSettingsListListener(ISettingsListListener mSettingsListListener) {
+        this.mSettingsListListener = mSettingsListListener;
+    }
+
+    private ISettingsListListener mSettingsListListener;
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -7,6 +7,7 @@ import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 
+import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.util.Bog;
 import ch.dreipol.android.dreiworks.ui.activities.ActivityTransitionType;
@@ -75,7 +76,13 @@ public abstract class BaseBlinqActivity extends BaseActivity {
 
     @Override
     public void overrideTransitionForAnimationDirection(ActivityTransitionType transitionType) {
-//            TODO: Phil, implement custom transitions
-    }
+        switch (transitionType) {
+            case CROSSFADE:
+                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+                break;
+            case DEFAULT:
+                break;
 
+        }
+    }
 }

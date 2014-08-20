@@ -35,7 +35,12 @@ public class BlinqApplication extends Application implements Application.Activit
         registerActivityLifecycleCallbacks(this);
 
 
-        AppService.initialize(new IServiceConfiguration() {
+        AppService.initialize(getConfiguration());
+        Bog.v(Bog.Category.SYSTEM, "BLINQ Flavour is: " + AppService.getInstance().getRuntimeService().getFlavour());
+    }
+
+    protected IServiceConfiguration getConfiguration() {
+        return new IServiceConfiguration() {
             @Override
             public Context getContext() {
                 return getApplicationContext();
@@ -75,8 +80,7 @@ public class BlinqApplication extends Application implements Application.Activit
             public Class<? extends IMatchesService> matchesService() {
                 return MatchesService.class;
             }
-        });
-        Bog.v(Bog.Category.SYSTEM, "BLINQ Flavour is: " + AppService.getInstance().getRuntimeService().getFlavour());
+        };
     }
 
 
