@@ -2,17 +2,20 @@ package ch.dreipol.android.blinq.ui.fragments;
 
 
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.model.Profile;
-import ch.dreipol.android.blinq.ui.ProfileOverviewView;
 import ch.dreipol.android.blinq.util.Bog;
 import rx.Observable;
 import rx.Subscription;
@@ -96,6 +99,9 @@ public class MyProfileFragment extends Fragment {
 
                 View container = loadingInfo.getViewContainer();
 
+                ImageView imageView = (ImageView) container.findViewById(R.id.main_image);
+                AppService.getInstance().getImageCacheService().displayPhoto(profile.getPhotos().get(0), imageView);
+
                 TextView ageView = (TextView) container.findViewById(R.id.profile_age);
                 TextView nameView = (TextView) container.findViewById(R.id.profile_name);
                 ageView.setTextColor(bottomColor);
@@ -112,10 +118,11 @@ public class MyProfileFragment extends Fragment {
                 nameView.setText(profile.getFirst_name());
 
 
-                ProfileOverviewView profileOverviewView = (ProfileOverviewView) container.findViewById(R.id.profile_overview);
+                LinearLayout profileOverviewView = (LinearLayout) container.findViewById(R.id.profile_overview);
+                GradientDrawable g = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.parseColor(profile.getColor_top()), bottomColor});
+                g.setGradientType(GradientDrawable.LINEAR_GRADIENT);
+                profileOverviewView.setBackgroundDrawable(g);
 
-
-                profileOverviewView.setGradient(Color.parseColor(profile.getColor_top()), bottomColor);
             }
         });
 
@@ -159,6 +166,26 @@ public class MyProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View result = inflater.inflate(R.layout.fragment_my_profile, container, false);
+
+        final ToggleButton toggleMale = (ToggleButton) result.findViewById(R.id.toggle_male);
+
+        final ToggleButton toggleFemale = (ToggleButton) result.findViewById(R.id.toggle_female);
+
+        toggleMale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleFemale.setChecked(false);
+            }
+        });
+
+        toggleFemale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleMale.setChecked(false);
+            }
+        });
+
+
         mUIState.onNext(result);
         return result;
     }

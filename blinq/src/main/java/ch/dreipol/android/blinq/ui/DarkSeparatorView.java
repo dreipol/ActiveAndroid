@@ -9,10 +9,10 @@ import ch.dreipol.android.blinq.R;
 /**
  * Created by phil on 18/08/14.
  */
-public class SeperatorView extends View {
-    public SeperatorView(Context context, AttributeSet attrs) {
+public class DarkSeparatorView extends View {
+    public DarkSeparatorView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setBackgroundDrawable(context.getResources().getDrawable(R.drawable.seperator));
+        setBackgroundDrawable(context.getResources().getDrawable(R.drawable.separator));
     }
 
 }

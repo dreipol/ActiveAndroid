@@ -49,7 +49,7 @@
         <view
             android:layout_width="wrap_content"
             android:layout_height="4dp"
-            class="ch.dreipol.android.blinq.ui.SeperatorView"
+            class="ch.dreipol.android.blinq.ui.DarkSeparatorView"
             android:id="@+id/view2" />
 
         <TextView
@@ -70,7 +70,7 @@
         <view
             android:layout_width="wrap_content"
             android:layout_height="4dp"
-            class="ch.dreipol.android.blinq.ui.SeperatorView"
+            class="ch.dreipol.android.blinq.ui.DarkSeparatorView"
             android:id="@+id/view3" />
 
         <TextView
@@ -91,7 +91,7 @@
         <view
             android:layout_width="wrap_content"
             android:layout_height="4dp"
-            class="ch.dreipol.android.blinq.ui.SeperatorView"
+            class="ch.dreipol.android.blinq.ui.DarkSeparatorView"
             android:id="@+id/view4" />
 
         <TextView
@@ -112,7 +112,7 @@
         <view
             android:layout_width="wrap_content"
             android:layout_height="4dp"
-            class="ch.dreipol.android.blinq.ui.SeperatorView"
+            class="ch.dreipol.android.blinq.ui.DarkSeparatorView"
             android:id="@+id/view5" />
 
     </LinearLayout>
