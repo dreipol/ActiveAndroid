@@ -13,15 +13,52 @@ import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.model.Profile;
 import ch.dreipol.android.blinq.ui.ProfileOverviewView;
 import ch.dreipol.android.blinq.util.Bog;
+import rx.Observable;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Action1;
+import rx.functions.Func2;
 import rx.schedulers.Schedulers;
+import rx.subjects.BehaviorSubject;
 
 public class MyProfileFragment extends Fragment {
 
 
-    private Profile mProfile;
+    private BehaviorSubject<View> mUIState;
+    private BehaviorSubject<LoadingInfo> mProfileObservable;
+    private Subscription mReadySubscription;
+
+    private class LoadingInfo {
+
+        private Profile mProfile;
+        private View mViewContainer;
+        private final LoadingState mState;
+
+        private LoadingInfo(LoadingState mState) {
+            this.mState = mState;
+        }
+
+        public Profile getProfile() {
+            return mProfile;
+        }
+
+        public void setProfile(Profile mProfile) {
+            this.mProfile = mProfile;
+        }
+
+        public LoadingState getState() {
+            return mState;
+        }
+
+        public View getViewContainer() {
+            return mViewContainer;
+        }
+
+        public void setViewContainer(View viewContainer) {
+            mViewContainer = viewContainer;
+        }
+    }
 
     public static MyProfileFragment newInstance() {
         MyProfileFragment fragment = new MyProfileFragment();
@@ -37,25 +74,46 @@ public class MyProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bog.v(Bog.Category.NETWORKING, "Start");
+
+        mUIState = BehaviorSubject.create();
+        mProfileObservable = BehaviorSubject.create();
+
+        mReadySubscription = Observable.zip(mUIState, mProfileObservable, new Func2<View, LoadingInfo, LoadingInfo>() {
+            @Override
+            public LoadingInfo call(View view, LoadingInfo loadingInfo) {
+                loadingInfo.setViewContainer(view);
+                return loadingInfo;
+            }
+        }).subscribe(new Action1<LoadingInfo>() {
+            @Override
+            public void call(LoadingInfo loadingInfo) {
+                Profile profile = loadingInfo.getProfile();
+
+                ProfileOverviewView profileOverviewView = (ProfileOverviewView) loadingInfo.getViewContainer().findViewById(R.id.profile_overview);
+
+                profileOverviewView.setGradient(Color.parseColor(profile.getColor_top()), Color.parseColor(profile.getColor_bottom()));
+            }
+        });
+
         AppService.getInstance().getNetworkService().getMe()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Profile>() {
                                @Override
                                public void call(Profile profile) {
-                                   setProfile(profile);
+                                   LoadingInfo loadingInfo = new LoadingInfo(LoadingState.LOADED);
+                                   loadingInfo.setProfile(profile);
+                                   mProfileObservable.onNext(loadingInfo);
                                }
                            }, new Action1<Throwable>() {
                                @Override
                                public void call(Throwable throwable) {
-                                   Bog.v(Bog.Category.NETWORKING, "Finished");
+                                   mProfileObservable.onNext(new LoadingInfo(LoadingState.ERROR));
                                }
                            },
                         new Action0() {
                             @Override
                             public void call() {
-
                                 Bog.v(Bog.Category.NETWORKING, "Finished");
                             }
                         }
@@ -63,32 +121,20 @@ public class MyProfileFragment extends Fragment {
 
     }
 
-    private void setProfile(Profile profile) {
 
-        this.mProfile = profile;
-        updateUI();
-    }
-
-    private void updateUI() {
-        if(this.mProfile !=null && getView() !=null){
-            ProfileOverviewView profileOverviewView = (ProfileOverviewView) getView().findViewById(R.id.profile_overview);
-
-            profileOverviewView.setGradient(Color.parseColor(mProfile.getColor_top()),Color.parseColor(mProfile.getColor_bottom()) );
-
-        }
-    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mReadySubscription.unsubscribe();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        updateUI();;
-        return inflater.inflate(R.layout.fragment_my_profile, container, false);
+        View result = inflater.inflate(R.layout.fragment_my_profile, container, false);
+        mUIState.onNext(result);
+        return result;
     }
 
 
