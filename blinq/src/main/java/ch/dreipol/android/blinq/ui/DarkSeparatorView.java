@@ -12,7 +12,6 @@ import ch.dreipol.android.blinq.R;
 public class DarkSeparatorView extends View {
     public DarkSeparatorView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setBackgroundDrawable(context.getResources().getDrawable(R.drawable.separator));
+        setBackgroundDrawable(context.getResources().getDrawable(R.drawable.dark_separator));
     }
-
 }
