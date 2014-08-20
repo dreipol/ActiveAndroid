@@ -2,14 +2,90 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ch.dreipol.android.blinq.ui.fragments.MyProfileFragment">
+    tools:context="ch.dreipol.android.blinq.ui.fragments.MyProfileFragment"
+    android:background="@color/blinq_white"
+    android:clickable="false">
 
     <!-- TODO: Update blank fragment layout -->
 
-    <view
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="300dp"
-        class="ch.dreipol.android.blinq.ui.ProfileOverviewView"
-        android:id="@+id/profile_overview"
-        android:layout_alignParentTop="true" />
+        android:layout_height="fill_parent">
+
+        <view
+            android:layout_width="fill_parent"
+            android:layout_height="300dp"
+            class="ch.dreipol.android.blinq.ui.ProfileOverviewView"
+            android:id="@+id/profile_overview"
+            android:layout_alignParentTop="true" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profile_overview"
+            android:baselineAligned="true"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:background="@color/blinq_white"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="25dp">
+
+            <view
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                class="ch.dreipol.android.blinq.ui.textviews.ABTextView"
+                android:id="@+id/profile_name"
+                android:text="Simon"
+                android:textSize="42dp" />
+
+            <view
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                class="ch.dreipol.android.blinq.ui.textviews.AMTextView"
+                android:id="@+id/profile_age"
+                android:text="36"
+                android:textSize="32dp"
+                android:layout_marginLeft="15dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:baselineAligned="false"
+            android:background="@color/blinq_background_light_grey_eeeeee">
+
+            <ToggleButton
+                android:layout_width="80dp"
+                android:background="@drawable/default_switch_left_button"
+                android:layout_height="60dp"
+                android:text="m"
+                android:id="@+id/toggle_female"
+                android:checked="true"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="20dp" />
+            <ToggleButton
+                android:layout_width="80dp"
+                android:background="@drawable/default_switch_right_button"
+                android:layout_height="60dp"
+                android:text="f"
+                android:id="@+id/toggle_male"
+                android:checked="false"
+                android:layout_marginTop="20dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:text="Colorpicker"
+                android:id="@+id/button_colorpicker"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp" />
+
+            </LinearLayout>
+
+    </LinearLayout>
+
 </RelativeLayout>
