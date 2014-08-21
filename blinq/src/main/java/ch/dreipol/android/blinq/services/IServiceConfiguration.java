@@ -24,4 +24,6 @@ public interface IServiceConfiguration {
     Class<? extends IMatchesService> matchesService();
 
     Class<? extends IAccountService> accountService();
+
+    Class<? extends IDatabaseService> databaseService();
 }

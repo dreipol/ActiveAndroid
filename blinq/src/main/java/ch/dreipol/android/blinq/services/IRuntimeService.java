@@ -10,6 +10,7 @@ import ch.dreipol.android.blinq.application.BlinqApplicationFlavour;
  */
 public interface IRuntimeService  extends IService{
     public LayoutInflater getLayoutInflator(Context context);
-    public String getMetadata(String key);
+    public String getMetadataString(String key);
     public BlinqApplicationFlavour getFlavour();
+    public <T> T getMetadata(String key);
 }

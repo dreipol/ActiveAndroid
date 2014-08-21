@@ -33,7 +33,7 @@ public class SwarmManager {
         mProfilesMap = new FunctionMap<Long, Profile>(new Func1<Profile, Long>() {
             @Override
             public Long call(Profile profile) {
-                return profile.getFb_id();
+                return profile.getFbId();
             }
         });
         mProfilesMap.setIterator(new CompoundIterator<Profile>(ITERATOR_COUNT, mProfilesMap.values()));

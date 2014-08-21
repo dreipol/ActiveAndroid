@@ -11,67 +11,67 @@ import java.util.Date;
 public class Match {
 
     @Expose
-    private Profile profile;
+    private Profile mProfile;
     @Expose
-    private Boolean received;
-    @SerializedName("match_id")
+    private Boolean mReceived;
     @Expose
-    private Integer matchId;
+    private Integer mMatchId;
     @SerializedName("created_at_datetime")
     @Expose
-    private Date createdAt;
-    @SerializedName("fb_id")
+    private Date mCreatedAt;
     @Expose
-    private String fbId;
+    private String mFbId;
     @Expose
-    private Boolean blocked;
+    private Boolean mBlocked;
+
+    private Boolean mHasUnread;
+
+    private String mPendingMessage;
+
+    public Match() {
+        super();
+        mHasUnread = false;
+    }
 
     public Profile getProfile() {
-        return profile;
+        return mProfile;
     }
 
     public void setProfile(Profile profile) {
-        this.profile = profile;
+        this.mProfile = profile;
     }
 
     public Boolean getReceived() {
-        return received;
-    }
-
-    public void setReceived(Boolean received) {
-        this.received = received;
+        return mReceived;
     }
 
     public Integer getMatchId() {
-        return matchId;
-    }
-
-    public void setMatchId(Integer matchId) {
-        this.matchId = matchId;
+        return mMatchId;
     }
 
     public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAtDatetime) {
-        this.createdAt = createdAtDatetime;
+        return mCreatedAt;
     }
 
     public String getFbId() {
-        return fbId;
+        return mFbId;
     }
 
-    public void setFbId(String fbId) {
-        this.fbId = fbId;
+    public Boolean isBlocked() {
+        return mBlocked;
     }
 
-    public Boolean getBlocked() {
-        return blocked;
+
+    public Boolean getHasUnread() {
+        return mHasUnread;
     }
 
-    public void setBlocked(Boolean blocked) {
-        this.blocked = blocked;
+    public String getPendingMessage() {
+        return mPendingMessage;
+    }
+
+    public void setPendingMessage(String pendingMessage) {
+        mPendingMessage = pendingMessage;
     }
 
 }

@@ -71,7 +71,7 @@ public class MyProfileFragment extends Fragment {
 
                 Profile profile = loadingInfo.getData();
 
-                int bottomColor = Color.parseColor(profile.getColor_bottom());
+                int bottomColor = Color.parseColor(profile.getColorBottom());
 
                 View container = loadingInfo.getViewContainer();
 
@@ -91,11 +91,11 @@ public class MyProfileFragment extends Fragment {
                 }
 
                 ageView.setText(age.toString());
-                nameView.setText(profile.getFirst_name());
+                nameView.setText(profile.getFirstName());
 
 
                 LinearLayout profileOverviewView = (LinearLayout) container.findViewById(R.id.profile_overview);
-                GradientDrawable g = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.parseColor(profile.getColor_top()), bottomColor});
+                GradientDrawable g = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.parseColor(profile.getColorTop()), bottomColor});
                 g.setGradientType(GradientDrawable.LINEAR_GRADIENT);
                 profileOverviewView.setBackgroundDrawable(g);
 

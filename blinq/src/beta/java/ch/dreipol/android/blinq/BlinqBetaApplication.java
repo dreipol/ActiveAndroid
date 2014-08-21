@@ -8,6 +8,7 @@ import ch.dreipol.android.blinq.application.MatchesService;
 import ch.dreipol.android.blinq.application.PreferencesValueStore;
 import ch.dreipol.android.blinq.services.BetaNetworkService;
 import ch.dreipol.android.blinq.services.IAccountService;
+import ch.dreipol.android.blinq.services.IDatabaseService;
 import ch.dreipol.android.blinq.services.IFacebookService;
 import ch.dreipol.android.blinq.services.IImageCacheService;
 import ch.dreipol.android.blinq.services.ILocationService;
@@ -17,6 +18,7 @@ import ch.dreipol.android.blinq.services.IRuntimeService;
 import ch.dreipol.android.blinq.services.IServiceConfiguration;
 import ch.dreipol.android.blinq.services.IValueStoreService;
 import ch.dreipol.android.blinq.services.impl.AccountService;
+import ch.dreipol.android.blinq.services.impl.DatabaseDebugService;
 import ch.dreipol.android.blinq.services.impl.FacebookService;
 import ch.dreipol.android.blinq.services.impl.LocationService;
 import ch.dreipol.android.blinq.services.impl.NetworkService;
@@ -72,6 +74,11 @@ public class BlinqBetaApplication extends BlinqApplication {
             @Override
             public Class<? extends IAccountService> accountService() {
                 return AccountService.class;
+            }
+
+            @Override
+            public Class<? extends IDatabaseService> databaseService() {
+                return DatabaseDebugService.class;
             }
         };
     }
