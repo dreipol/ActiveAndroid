@@ -87,4 +87,5 @@ dependencies {
     compile project(':libraries:facebook')
     //    compile project(':services')
     compile project(':Dreiworks')
+    compile project(':ActiveAndroid')
 }

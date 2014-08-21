@@ -14,11 +14,7 @@ import ch.dreipol.android.blinq.services.model.MutualData;
 /**
  * Created by melbic on 21/08/14.
  */
-final public class SerializableTypeSerializer<T extends Serializable> extends TypeSerializer {
-    @Override
-    public Class<?> getDeserializedType() {
-        return Serializable.class;
-    }
+public abstract class SerializableTypeSerializer<T extends Serializable> extends TypeSerializer {
 
     @Override
     public Class<?> getSerializedType() {

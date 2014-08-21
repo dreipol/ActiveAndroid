@@ -30,6 +30,7 @@ public class Profile extends Model implements ILoadable{
     private Integer mAge;
     @Column
     private String mSex;
+
     @Column
     private List<Photo> mPhotos = new ArrayList<Photo>();
     @Column
