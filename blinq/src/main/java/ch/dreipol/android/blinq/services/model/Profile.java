@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Profile {
+public class Profile implements ILoadable{
 
     private String mDistance;
     private String mFirstName;

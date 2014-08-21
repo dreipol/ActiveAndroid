@@ -32,5 +32,8 @@
     <string name="tutorialInfoText1">We never post anything to Facebook!</string>
     <string name="tutorialInfoText2">Your location is never shared with other users.</string>
     <string name="tutorialInfoText3">Your Facebook login is only used to check the authenticity of your profile and to show common interests with other members.</string>
+    <string name="max_distance">∞ km</string>
+    <string name="distance_label">%d km</string>
+    <string name="infinite">∞</string>
 
 </resources>

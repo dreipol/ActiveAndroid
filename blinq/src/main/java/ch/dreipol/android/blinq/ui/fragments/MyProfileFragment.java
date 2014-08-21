@@ -15,6 +15,7 @@ import android.widget.ToggleButton;
 
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.AppService;
+import ch.dreipol.android.blinq.services.model.LoadingInfo;
 import ch.dreipol.android.blinq.services.model.Profile;
 import ch.dreipol.android.blinq.util.Bog;
 import rx.Observable;
@@ -33,36 +34,6 @@ public class MyProfileFragment extends Fragment {
     private BehaviorSubject<LoadingInfo> mProfileObservable;
     private Subscription mReadySubscription;
 
-    private class LoadingInfo {
-
-        private Profile mProfile;
-        private View mViewContainer;
-        private final LoadingState mState;
-
-        private LoadingInfo(LoadingState mState) {
-            this.mState = mState;
-        }
-
-        public Profile getProfile() {
-            return mProfile;
-        }
-
-        public void setProfile(Profile mProfile) {
-            this.mProfile = mProfile;
-        }
-
-        public LoadingState getState() {
-            return mState;
-        }
-
-        public View getViewContainer() {
-            return mViewContainer;
-        }
-
-        public void setViewContainer(View viewContainer) {
-            mViewContainer = viewContainer;
-        }
-    }
 
     public static MyProfileFragment newInstance() {
         MyProfileFragment fragment = new MyProfileFragment();
@@ -81,19 +52,19 @@ public class MyProfileFragment extends Fragment {
         mUIState = BehaviorSubject.create();
         mProfileObservable = BehaviorSubject.create();
 
-        mReadySubscription = Observable.zip(mUIState, mProfileObservable, new Func2<View, LoadingInfo, LoadingInfo>() {
+        mReadySubscription = Observable.zip(mUIState, mProfileObservable, new Func2<View, LoadingInfo<Profile>, LoadingInfo<Profile>>() {
 
             @Override
-            public LoadingInfo call(View view, LoadingInfo loadingInfo) {
+            public LoadingInfo<Profile> call(View view, LoadingInfo<Profile> loadingInfo) {
                 loadingInfo.setViewContainer(view);
                 return loadingInfo;
             }
 
-        }).subscribe(new Action1<LoadingInfo>() {
+        }).subscribe(new Action1<LoadingInfo<Profile>>() {
             @Override
-            public void call(LoadingInfo loadingInfo) {
+            public void call(LoadingInfo<Profile> loadingInfo) {
 
-                Profile profile = loadingInfo.getProfile();
+                Profile profile = loadingInfo.getData();
 
                 int bottomColor = Color.parseColor(profile.getColorBottom());
 
@@ -132,14 +103,14 @@ public class MyProfileFragment extends Fragment {
                 .subscribe(new Action1<Profile>() {
                                @Override
                                public void call(Profile profile) {
-                                   LoadingInfo loadingInfo = new LoadingInfo(LoadingState.LOADED);
-                                   loadingInfo.setProfile(profile);
+                                   LoadingInfo<Profile> loadingInfo = new LoadingInfo<Profile>(LoadingState.LOADED);
+                                   loadingInfo.setData(profile);
                                    mProfileObservable.onNext(loadingInfo);
                                }
                            }, new Action1<Throwable>() {
                                @Override
                                public void call(Throwable throwable) {
-                                   mProfileObservable.onNext(new LoadingInfo(LoadingState.ERROR));
+                                   mProfileObservable.onNext(new LoadingInfo<Profile>(LoadingState.ERROR));
                                }
                            },
                         new Action0() {

@@ -38,13 +38,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
-                android:indeterminate="false" />
+                android:indeterminate="false"
+                android:max="200" />
 
             <view
                 android:id="@+id/distance_text"
                 class="ch.dreipol.android.blinq.ui.textviews.AMTextView"
                 android:textSize="20sp"
-                android:layout_width="70dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:text="199 km"
                 android:gravity="right" />
@@ -91,11 +92,11 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
                 android:progress="0"
-                android:max="60"
+                android:max="42"
                 android:indeterminate="false" />
 
             <view
-                android:id="@+id/view2"
+                android:id="@+id/from_label"
                 class="ch.dreipol.android.blinq.ui.textviews.AMTextView"
                 android:textSize="20sp"
 
@@ -130,10 +131,10 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
                 android:indeterminate="false"
-                android:max="60" />
+                android:max="42" />
 
             <view
-                android:id="@+id/view4"
+                android:id="@+id/to_label"
                 class="ch.dreipol.android.blinq.ui.textviews.AMTextView"
                 android:textSize="20sp"
 
@@ -174,11 +175,11 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:layout_weight="1"
-                android:checked="true"
+                android:checked="false"
                 android:text="Males" />
 
             <ToggleButton
-                android:id="@+id/interrest_femalesle"
+                android:id="@+id/interest_females"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -225,16 +226,16 @@
             android:orientation="horizontal">
 
             <ToggleButton
-                android:id="@+id/toggleButton212"
+                android:id="@+id/vibration_on"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/default_switch_left_button"
-                android:checked="true"
+                android:checked="false"
                 android:textSize="20sp"
                 android:text="On" />
 
             <ToggleButton
-                android:id="@+id/toggleButton33"
+                android:id="@+id/vibration_off"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/default_switch_right_button"
@@ -252,7 +253,7 @@
 
 
         <Button
-            android:id="@+id/help"
+            android:id="@+id/help_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -263,7 +264,7 @@
 
 
         <Button
-            android:id="@+id/contact_us"
+            android:id="@+id/contact_us_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -275,7 +276,7 @@
 
 
         <Button
-            android:id="@+id/logout"
+            android:id="@+id/logout_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -295,7 +296,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Delete Account"
-                android:id="@+id/button"
+                android:id="@+id/delete_account_button"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/blinq_delete_account_button"

@@ -22,4 +22,6 @@ public interface IServiceConfiguration {
     Class<? extends IImageCacheService> imageCacheService();
 
     Class<? extends IMatchesService> matchesService();
+
+    Class<? extends IAccountService> accountService();
 }
