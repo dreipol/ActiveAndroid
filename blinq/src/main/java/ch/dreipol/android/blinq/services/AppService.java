@@ -13,7 +13,7 @@ import ch.dreipol.android.blinq.services.network.retrofit.IMatchesNetworkService
 public class AppService {
 
     public enum ServiceType {
-        RUNTIME, LOCATION, FACEBOOK, NETWORK, VALUE_STORE, IMAGE_CACHE, MATCHES
+        RUNTIME, LOCATION, FACEBOOK, NETWORK, VALUE_STORE, IMAGE_CACHE, ACCOUNT, MATCHES
     }
 
     private static volatile AppService instance = null;
@@ -70,6 +70,10 @@ public class AppService {
         return (IMatchesService) getService(ServiceType.MATCHES);
     }
 
+    public IAccountService getAccountService() {
+        return (IAccountService) getService(ServiceType.ACCOUNT);
+    }
+
     public Context getContext() {
         return mContext;
     }
@@ -101,6 +105,7 @@ public class AppService {
             registerService(ServiceType.VALUE_STORE, configuration.valueStoreService().newInstance());
             registerService(ServiceType.IMAGE_CACHE, configuration.imageCacheService().newInstance());
             registerService(ServiceType.MATCHES, configuration.matchesService().newInstance());
+            registerService(ServiceType.ACCOUNT, configuration.accountService().newInstance());
 
         } catch (InstantiationException e) {
             throw new RuntimeException(e);

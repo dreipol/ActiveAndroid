@@ -5,30 +5,85 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import ch.dreipol.android.blinq.R;
+import ch.dreipol.android.blinq.services.AppService;
+import ch.dreipol.android.blinq.services.IAccountService;
+import ch.dreipol.android.blinq.services.model.LoadingInfo;
+import ch.dreipol.android.blinq.services.model.SearchSettings;
 import ch.dreipol.android.blinq.util.Bog;
+import rx.Observable;
+import rx.Subscription;
+import rx.functions.Action1;
+import rx.functions.Func2;
+import rx.subjects.BehaviorSubject;
 
 /**
  * Created by phil on 24.04.14.
  */
 public class MySettingsFragment extends Fragment {
 
+
+    private Subscription mSearchSettingsSubscription;
+    private BehaviorSubject<View> mUIState;
+    private BehaviorSubject<LoadingInfo<SearchSettings>> mSearchSettingsOservable;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        IAccountService accountService = AppService.getInstance().getAccountService();
+
+        mUIState = BehaviorSubject.create();
+        mSearchSettingsOservable = BehaviorSubject.create();
+
+        mSearchSettingsSubscription = accountService.getSearchSettings().subscribe(new Action1<SearchSettings>() {
+            @Override
+            public void call(SearchSettings searchSettings) {
+                LoadingInfo<SearchSettings> result = new LoadingInfo<SearchSettings>(LoadingState.LOADED);
+                result.setData(searchSettings);
+                mSearchSettingsOservable.onNext(result);
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                mSearchSettingsOservable.onNext(new LoadingInfo(LoadingState.ERROR));
+            }
+        });
+
+
+        Observable.zip(mUIState, mSearchSettingsOservable, new Func2<View, LoadingInfo<SearchSettings>, LoadingInfo<SearchSettings>>() {
+            @Override
+            public LoadingInfo<SearchSettings> call(View view, LoadingInfo<SearchSettings> loadingInfo) {
+                loadingInfo.setViewContainer(view);
+                return loadingInfo;
+            }
+        }).subscribe(new Action1<LoadingInfo<SearchSettings>>() {
+            @Override
+            public void call(LoadingInfo<SearchSettings> loadingInfo) {
+                View v =  loadingInfo.getViewContainer();
+                configureDistanceControls(v);
+                configureAgeControls(v);
+                configureInterestedControls(v);
+                configureVibrationControls(v);
+
+
+            }
+        });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mSearchSettingsSubscription.unsubscribe();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_my_settings, container, false);
-
-        configureDistanceControls(v);
-        configureAgeControls(v);
-        configureInterestedControls(v);
-        configureVibrationControls(v);
-
-
-
+        mUIState.onNext(v);
         return v;
     }
 
