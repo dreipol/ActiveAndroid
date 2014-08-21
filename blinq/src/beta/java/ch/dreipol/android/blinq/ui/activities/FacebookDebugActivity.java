@@ -33,7 +33,7 @@ public class FacebookDebugActivity extends BaseBlinqActivity {
         final TextView valid = (TextView) findViewById(R.id.facebook_token_valid_until);
         final TextView state = (TextView) findViewById(R.id.facebook_status);
 
-        final Button requestButton = (Button) findViewById(R.id.send_request);
+        final Button requestButton = (Button) findViewById(R.id.get_albums);
 
 
         mSubscribe = AppService.getInstance().getFacebookService().subscribeToSessionState().subscribe(new Action1<FacebookService.FacebookServiceInfo>() {
