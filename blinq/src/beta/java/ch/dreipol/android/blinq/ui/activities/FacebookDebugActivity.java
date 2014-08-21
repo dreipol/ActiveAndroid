@@ -1,6 +1,8 @@
 package ch.dreipol.android.blinq.ui.activities;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +33,9 @@ public class FacebookDebugActivity extends BaseBlinqActivity {
         final TextView valid = (TextView) findViewById(R.id.facebook_token_valid_until);
         final TextView state = (TextView) findViewById(R.id.facebook_status);
 
+        final Button requestButton = (Button) findViewById(R.id.send_request);
+
+
         mSubscribe = AppService.getInstance().getFacebookService().subscribeToSessionState().subscribe(new Action1<FacebookService.FacebookServiceInfo>() {
             @Override
             public void call(FacebookService.FacebookServiceInfo serviceInfo) {
@@ -43,11 +48,11 @@ public class FacebookDebugActivity extends BaseBlinqActivity {
 
                     valid.setText(activeSession.getExpirationDate().toString());
                     token.setText(facebookService.getAccessToken());
-
+                    requestButton.setVisibility(View.VISIBLE);
                 } else {
                     valid.setText("");
                     token.setText("");
-
+                    requestButton.setVisibility(View.GONE);
                 }
 
                 name.setText(serviceInfo.user.name);
@@ -62,12 +67,19 @@ public class FacebookDebugActivity extends BaseBlinqActivity {
             }
         });
 
+        requestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppService.getInstance().getFacebookService().getAlbums();
+            }
+        });
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mSubscribe.unsubscribe();
+
     }
 
     @Override

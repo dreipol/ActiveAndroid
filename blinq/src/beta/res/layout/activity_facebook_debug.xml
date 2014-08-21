@@ -121,6 +121,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         class="com.facebook.widget.LoginButton"
-        android:id="@+id/view"
+        android:id="@+id/flow_layout"
         android:layout_gravity="center_horizontal"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send Request"
+        android:id="@+id/send_request"
+        android:layout_gravity="center_horizontal"
+        android:enabled="true"
+        android:visibility="gone"/>
 </LinearLayout>
