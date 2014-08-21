@@ -30,6 +30,7 @@ public class MySettingsFragment extends Fragment {
     private Subscription mSearchSettingsSubscription;
     private BehaviorSubject<View> mUIState;
     private BehaviorSubject<LoadingInfo<SearchSettings>> mSearchSettingsOservable;
+    private SearchSettings mSearchSettings;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,6 +65,7 @@ public class MySettingsFragment extends Fragment {
             @Override
             public void call(LoadingInfo<SearchSettings> loadingInfo) {
                 View v =  loadingInfo.getViewContainer();
+                mSearchSettings = loadingInfo.getData();
                 configureDistanceControls(v);
                 configureAgeControls(v);
                 configureInterestedControls(v);
@@ -91,10 +93,15 @@ public class MySettingsFragment extends Fragment {
         final ToggleButton offButton = (ToggleButton) v.findViewById(R.id.vibration_off);
         final ToggleButton onButton = (ToggleButton) v.findViewById(R.id.vibration_on);
 
+        offButton.setChecked(!mSearchSettings.getVibrate());
+        onButton.setChecked(mSearchSettings.getVibrate());
+
         offButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onButton.setChecked(false);
+                mSearchSettings.setVibrate(false);
+                updateSettings();
             }
         });
 
@@ -102,6 +109,8 @@ public class MySettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 offButton.setChecked(false);
+                mSearchSettings.setVibrate(true);
+                updateSettings();
             }
         });
     }
@@ -111,12 +120,29 @@ public class MySettingsFragment extends Fragment {
         final ToggleButton femaleButton = (ToggleButton) v.findViewById(R.id.interest_females);
         final ToggleButton bothButton = (ToggleButton) v.findViewById(R.id.interest_both);
 
+        ToggleButton toBeEnabled = null;
+
+        switch (mSearchSettings.getInterestedIn()){
+            case MALE:
+                toBeEnabled = maleButton;
+                break;
+            case FEMALE:
+                toBeEnabled = femaleButton;
+                break;
+            case BOTH:
+                toBeEnabled = bothButton;
+                break;
+        }
+
+        toBeEnabled.setChecked(true);
 
         maleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 femaleButton.setChecked(false);
                 bothButton.setChecked(false);
+                mSearchSettings.setInterestedIn(SearchSettings.SearchInterest.MALE);
+                updateSettings();
             }
         });
         femaleButton.setOnClickListener(new View.OnClickListener() {
@@ -124,13 +150,18 @@ public class MySettingsFragment extends Fragment {
             public void onClick(View v) {
                 maleButton.setChecked(false);
                 bothButton.setChecked(false);
-            }
+                mSearchSettings.setInterestedIn(SearchSettings.SearchInterest.FEMALE);
+                updateSettings();
+        }
+
         });
         bothButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 femaleButton.setChecked(false);
                 maleButton.setChecked(false);
+                mSearchSettings.setInterestedIn(SearchSettings.SearchInterest.BOTH);
+                updateSettings();
             }
         });
     }
@@ -149,6 +180,8 @@ public class MySettingsFragment extends Fragment {
                 Integer val = progress + 18;
                 fromLabel.setText(val.toString());
                 toBar.setProgress(Math.max(toBar.getProgress(), progress));
+                mSearchSettings.setTo(val);
+                updateSettings();
             }
         });
 
@@ -163,8 +196,15 @@ public class MySettingsFragment extends Fragment {
                 }
                 toLabel.setText(textVal);
                 fromBar.setProgress(Math.min(fromBar.getProgress(), progress));
+                mSearchSettings.setTo(val);
+                updateSettings();
+
             }
         });
+
+        fromBar.setProgress(mSearchSettings.getFrom()-18);
+        toBar.setProgress(mSearchSettings.getTo()-18);
+
     }
 
     private void configureDistanceControls(View v) {
@@ -183,8 +223,16 @@ public class MySettingsFragment extends Fragment {
                 }
 
                 distanceText.setText(distanceString);
+                mSearchSettings.setDistance(progress);
+                updateSettings();
             }
         });
+
+        distanceBar.setProgress(mSearchSettings.getDistance());
+    }
+
+    private void updateSettings() {
+        AppService.getInstance().getAccountService().saveSearchSettings(mSearchSettings);
     }
 
     public abstract class SeekBarAdapter implements SeekBar.OnSeekBarChangeListener {

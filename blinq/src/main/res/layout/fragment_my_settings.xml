@@ -175,7 +175,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:layout_weight="1"
-                android:checked="true"
+                android:checked="false"
                 android:text="Males" />
 
             <ToggleButton
@@ -230,7 +230,7 @@
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/default_switch_left_button"
-                android:checked="true"
+                android:checked="false"
                 android:textSize="20sp"
                 android:text="On" />
 
