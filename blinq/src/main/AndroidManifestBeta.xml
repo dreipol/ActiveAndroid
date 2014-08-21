@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
     <application
-        xmlns:tools="http://schemas.android.com/tools"
-        tools:replace="android:name,android:icon"
         android:name="ch.dreipol.android.blinq.BlinqBetaApplication"
+        xmlns:tools="http://schemas.android.com/tools"
         android:icon="@drawable/icon"
+        tools:replace="android:name,android:icon"
         >
         <meta-data
             android:name="BLINQ_FLAVOUR"
@@ -14,10 +15,10 @@
             android:value="https://beta.blinqapp.ch"/>
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/fb_app_id_beta"
-
-            />
-
+            android:value="@string/fb_app_id_beta"/>
+        <meta-data
+            android:name="RESET_DATABASE"
+            android:value="true"/>
 
         <activity
             android:name="ch.dreipol.android.blinq.ui.activities.DebugActivity"

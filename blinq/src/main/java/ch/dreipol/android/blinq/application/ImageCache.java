@@ -36,7 +36,7 @@ public class ImageCache extends BaseService implements IImageCacheService {
 
     @Override
     public void displayPhoto(Photo photo, ImageView view) {
-        String URI = photo.getProfile_id();
+        String URI = photo.getProfileId();
         displayImage(URI, view);
     }
 }

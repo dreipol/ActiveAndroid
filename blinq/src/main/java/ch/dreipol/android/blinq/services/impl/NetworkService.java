@@ -192,7 +192,7 @@ public class NetworkService extends BaseService implements INetworkMethods {
 
     private String getServerUrl() {
 //        TODO: make lazy, move key to a central place
-        return getService().getRuntimeService().getMetadata("BLINQ_SERVER");
+        return getService().getRuntimeService().getMetadataString("BLINQ_SERVER");
     }
 
 

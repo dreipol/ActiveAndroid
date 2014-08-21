@@ -1,25 +1,44 @@
 
 package ch.dreipol.android.blinq.services.model;
 
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Profile implements ILoadable{
+@Table(name = "Profiles")
+public class Profile extends Model implements ILoadable{
 
-    private String mDistance;
-    private String mFirstName;
-    private String mColorBottom;
-    private String mLastActive;
-    private String mColorTop;
-    private Integer mAge;
+    @Column(unique = true, index = true)
     private long mFbId;
+
+    @Column
+    private String mDistance;
+    @Column
+    private String mFirstName;
+    @Column
+    private String mColorBottom;
+    @Column
+    private String mLastActive;
+    @Column
+    private String mColorTop;
+    @Column
+    private Integer mAge;
+    @Column
     private String mSex;
+    @Column
     private List<Photo> mPhotos = new ArrayList<Photo>();
+    @Column
     private Boolean mLikedMe;
+    @Column
     private MutualData mMutualData;
+    @Column
     private Boolean mApproved;
+
     private Map<String, Object> mAdditionalProperties = new HashMap<String, Object>();
 
     public String getDistance() {
@@ -86,4 +105,6 @@ public class Profile implements ILoadable{
                 ", mFbId=" + mFbId +
                 '}';
     }
+
+
 }

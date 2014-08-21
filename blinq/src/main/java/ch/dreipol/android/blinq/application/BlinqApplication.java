@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.IAccountService;
+import ch.dreipol.android.blinq.services.IDatabaseService;
 import ch.dreipol.android.blinq.services.IFacebookService;
 import ch.dreipol.android.blinq.services.IImageCacheService;
 import ch.dreipol.android.blinq.services.ILocationService;
@@ -21,6 +22,7 @@ import ch.dreipol.android.blinq.services.impl.LocationService;
 import ch.dreipol.android.blinq.services.impl.NetworkService;
 import ch.dreipol.android.blinq.services.impl.RuntimeService;
 import ch.dreipol.android.blinq.util.Bog;
+import ch.dreipol.android.blinq.services.impl.DatabaseService;
 
 /**
  * Created by phil on 19.03.14.
@@ -86,6 +88,11 @@ public class BlinqApplication extends Application implements Application.Activit
             @Override
             public Class<? extends IAccountService> accountService() {
                 return AccountService.class;
+            }
+
+            @Override
+            public Class<? extends IDatabaseService> databaseService() {
+                return DatabaseService.class;
             }
         };
     }
