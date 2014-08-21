@@ -226,7 +226,7 @@
             android:orientation="horizontal">
 
             <ToggleButton
-                android:id="@+id/toggleButton212"
+                android:id="@+id/vibration_on"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/default_switch_left_button"
@@ -235,7 +235,7 @@
                 android:text="On" />
 
             <ToggleButton
-                android:id="@+id/toggleButton33"
+                android:id="@+id/vibration_off"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/default_switch_right_button"
@@ -253,7 +253,7 @@
 
 
         <Button
-            android:id="@+id/help"
+            android:id="@+id/help_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -264,7 +264,7 @@
 
 
         <Button
-            android:id="@+id/contact_us"
+            android:id="@+id/contact_us_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -276,7 +276,7 @@
 
 
         <Button
-            android:id="@+id/logout"
+            android:id="@+id/logout_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -296,7 +296,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Delete Account"
-                android:id="@+id/button"
+                android:id="@+id/delete_account_button"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/blinq_delete_account_button"

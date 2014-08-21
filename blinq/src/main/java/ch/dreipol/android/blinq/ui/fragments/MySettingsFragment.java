@@ -25,10 +25,30 @@ public class MySettingsFragment extends Fragment {
         configureDistanceControls(v);
         configureAgeControls(v);
         configureInterestedControls(v);
+        configureVibrationControls(v);
 
 
 
         return v;
+    }
+
+    private void configureVibrationControls(View v) {
+        final ToggleButton offButton = (ToggleButton) v.findViewById(R.id.vibration_off);
+        final ToggleButton onButton = (ToggleButton) v.findViewById(R.id.vibration_on);
+
+        offButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onButton.setChecked(false);
+            }
+        });
+
+        onButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                offButton.setChecked(false);
+            }
+        });
     }
 
     private void configureInterestedControls(View v) {
