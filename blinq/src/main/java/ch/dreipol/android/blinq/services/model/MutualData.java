@@ -7,42 +7,24 @@ import java.util.List;
 import java.util.Map;
 
 public class MutualData {
+    private List<Long> mSchools = new ArrayList<Long>();
+    private List<Long> mLikes = new ArrayList<Long>();
+    private List<Long> mPlaces = new ArrayList<Long>();
+    private Map<String, Object> mAdditionalProperties = new HashMap<String, Object>();
 
-    private List<Object> schools = new ArrayList<Object>();
-    private List<Object> likes = new ArrayList<Object>();
-    private List<Object> places = new ArrayList<Object>();
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
-    public List<Object> getSchools() {
-        return schools;
+    public List<Long> getSchools() {
+        return mSchools;
     }
 
-    public void setSchools(List<Object> schools) {
-        this.schools = schools;
+    public List<Long> getLikes() {
+        return mLikes;
     }
 
-    public List<Object> getLikes() {
-        return likes;
+    public List<Long> getPlaces() {
+        return mPlaces;
     }
 
-    public void setLikes(List<Object> likes) {
-        this.likes = likes;
+    public int count() {
+        return mSchools.size() + mLikes.size() + mPlaces.size();
     }
-
-    public List<Object> getPlaces() {
-        return places;
-    }
-
-    public void setPlaces(List<Object> places) {
-        this.places = places;
-    }
-
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
 }

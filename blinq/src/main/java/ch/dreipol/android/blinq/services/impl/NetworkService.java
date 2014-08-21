@@ -1,8 +1,6 @@
 package ch.dreipol.android.blinq.services.impl;
 
-import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -28,6 +26,7 @@ import ch.dreipol.android.blinq.services.network.retrofit.PollService;
 import ch.dreipol.android.blinq.services.network.retrofit.ProfileService;
 import ch.dreipol.android.blinq.util.Bog;
 import ch.dreipol.android.blinq.util.gson.DateTypeAdapter;
+import ch.dreipol.android.dreiworks.serialization.gson.GsonHelper;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 import retrofit.mime.TypedOutput;
@@ -81,7 +80,6 @@ public class NetworkService extends BaseService implements INetworkMethods {
         Gson gson = getGson();
 
 
-
         String serverUrl = getServerUrl();
         RestAdapter restAdapter = getRestBuilder(gson, serverUrl)
                 .build();
@@ -99,8 +97,7 @@ public class NetworkService extends BaseService implements INetworkMethods {
     }
 
     private static Gson getGson() {
-        return new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+        return GsonHelper.getGSONDeserializationBuilder()
                 .registerTypeAdapter(Date.class, new DateTypeAdapter())
                 .registerTypeAdapter(ServerStatus.class, new ServerStatusAdapter())
                 .create();
@@ -117,7 +114,7 @@ public class NetworkService extends BaseService implements INetworkMethods {
         }).toMap(new Func1<Profile, Long>() {
             @Override
             public Long call(Profile p) {
-                return p.getFb_id();
+                return p.getFbId();
             }
         });
     }
@@ -125,7 +122,7 @@ public class NetworkService extends BaseService implements INetworkMethods {
     @Override
     public Observable<Profile> hi(Profile other) {
         Map m = new HashMap();
-        m.put("otherId", other.getFb_id());
+        m.put("otherId", other.getFbId());
 
         return getRequestObservable(mSwarmNetworkService.getHiTask(m), TypeToken.get(Profile.class));
     }
@@ -133,7 +130,7 @@ public class NetworkService extends BaseService implements INetworkMethods {
     @Override
     public void bye(Profile other) {
         Map m = new HashMap();
-        final Long fb_id = other.getFb_id();
+        final Long fb_id = other.getFbId();
         m.put("otherId", fb_id);
 
         mSwarmNetworkService.getByeTask(m).subscribe(new Action1<TaskStatus<JsonElement>>() {
@@ -197,8 +194,6 @@ public class NetworkService extends BaseService implements INetworkMethods {
 //        TODO: make lazy, move key to a central place
         return getService().getRuntimeService().getMetadata("BLINQ_SERVER");
     }
-
-
 
 
     private class BlinqConverter extends GsonConverter {
