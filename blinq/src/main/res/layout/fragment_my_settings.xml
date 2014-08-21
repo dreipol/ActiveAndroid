@@ -38,13 +38,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
-                android:indeterminate="false" />
+                android:indeterminate="false"
+                android:max="200" />
 
             <view
                 android:id="@+id/distance_text"
                 class="ch.dreipol.android.blinq.ui.textviews.AMTextView"
                 android:textSize="20sp"
-                android:layout_width="70dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:text="199 km"
                 android:gravity="right" />
@@ -91,11 +92,11 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
                 android:progress="0"
-                android:max="60"
+                android:max="42"
                 android:indeterminate="false" />
 
             <view
-                android:id="@+id/view2"
+                android:id="@+id/from_label"
                 class="ch.dreipol.android.blinq.ui.textviews.AMTextView"
                 android:textSize="20sp"
 
@@ -130,10 +131,10 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
                 android:indeterminate="false"
-                android:max="60" />
+                android:max="42" />
 
             <view
-                android:id="@+id/view4"
+                android:id="@+id/to_label"
                 class="ch.dreipol.android.blinq.ui.textviews.AMTextView"
                 android:textSize="20sp"
 
@@ -178,7 +179,7 @@
                 android:text="Males" />
 
             <ToggleButton
-                android:id="@+id/interrest_femalesle"
+                android:id="@+id/interest_females"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
