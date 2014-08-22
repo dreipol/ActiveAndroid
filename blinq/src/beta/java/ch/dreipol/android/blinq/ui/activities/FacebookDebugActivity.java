@@ -12,6 +12,7 @@ import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.IFacebookService;
 import ch.dreipol.android.blinq.services.impl.FacebookService;
+import ch.dreipol.android.dreiworks.ui.activities.ActivityTransitionType;
 import rx.Subscription;
 import rx.functions.Action1;
 
@@ -70,7 +71,7 @@ public class FacebookDebugActivity extends BaseBlinqActivity {
         requestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppService.getInstance().getFacebookService().getAlbums();
+                startActivity(FacebookAlbumsActivity.class, ActivityTransitionType.DEFAULT);
             }
         });
     }
