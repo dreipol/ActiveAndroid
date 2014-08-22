@@ -23,5 +23,5 @@ public interface IFacebookService extends IService{
 
     String getFacebookId();
 
-    public rx.subjects.BehaviorSubject<FacebookService.FacebookAlbumResponse> getAlbums();
+    public rx.subjects.BehaviorSubject<FacebookService.FacebookAlbumListResponse> getAlbums();
 }

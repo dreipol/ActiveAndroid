@@ -9,10 +9,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.facebook.android.Facebook;
-
-import org.w3c.dom.Text;
-
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.impl.FacebookService;
@@ -29,10 +25,10 @@ public class FacebookAlbumsActivity extends Activity {
         setContentView(R.layout.activity_facebook_albums);
         mAlbumsList = (ListView) findViewById(R.id.facebook_albums_list);
 
-        AppService.getInstance().getFacebookService().getAlbums().subscribe(new Action1<FacebookService.FacebookAlbumResponse>() {
+        AppService.getInstance().getFacebookService().getAlbums().subscribe(new Action1<FacebookService.FacebookAlbumListResponse>() {
             @Override
-            public void call(final FacebookService.FacebookAlbumResponse facebookAlbumResponse) {
-                final FacebookAlbum[] albums = facebookAlbumResponse.mData.toArray(new FacebookAlbum[facebookAlbumResponse.mData.size()]);
+            public void call(final FacebookService.FacebookAlbumListResponse facebookAlbumListResponse) {
+                final FacebookAlbum[] albums = facebookAlbumListResponse.mData.toArray(new FacebookAlbum[facebookAlbumListResponse.mData.size()]);
 
 
                 mAlbumsList.setAdapter(new ListAdapter() {
@@ -84,6 +80,7 @@ public class FacebookAlbumsActivity extends Activity {
                         }else{
                             txtView = new TextView(parent.getContext());
                         }
+
                         txtView.setText(albums[position].getName());
                         return txtView;
                     }

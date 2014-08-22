@@ -17,6 +17,8 @@ import java.util.List;
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.IFacebookService;
 import ch.dreipol.android.blinq.services.model.facebook.FacebookAlbum;
+import ch.dreipol.android.blinq.services.model.facebook.FacebookPhoto;
+import ch.dreipol.android.blinq.services.model.facebook.FacebookPhotoSource;
 import ch.dreipol.android.blinq.util.Bog;
 import ch.dreipol.android.dreiworks.serialization.gson.GsonHelper;
 import rx.Observable;
@@ -177,27 +179,71 @@ public class FacebookService extends BaseService implements IFacebookService {
         }
     }
 
-    public BehaviorSubject<FacebookAlbumResponse> getAlbums() {
-        final BehaviorSubject<FacebookAlbumResponse> subject = BehaviorSubject.create();
+    public BehaviorSubject<FacebookAlbumListResponse> getAlbums() {
+
+        final BehaviorSubject<FacebookAlbumListResponse> subject = BehaviorSubject.create();
+
+        executeRequest(subject, new ExecutorAdapter(subject) {
+            @Override
+            public void success(Response response) {
+                subject.onNext(FacebookAlbumListResponse.createFromGraph(response.getGraphObject()));
+            }
+
+            @Override
+            public String getEndPoint() {
+                return "/me/albums";
+            }
+        });
+
+        return subject;
+
+    }
+
+    private void executeRequest(BehaviorSubject subject, Executor executor) {
         if (hasFacebookSession()) {
-            new Request(
-                    Session.getActiveSession(),
-                    "/me/albums",
-                    null,
-                    HttpMethod.GET,
-                    new Request.Callback() {
-                        public void onCompleted(Response response) {
-                            FacebookRequestError responseError = response.getError();
-                            if (responseError != null) {
-                                Bog.e(Bog.Category.FACEBOOK, responseError.getErrorMessage());
-                                subject.onError(new Throwable(responseError.getErrorMessage()));
-                            } else {
-                                subject.onNext(FacebookAlbumResponse.createFromGraph(response.getGraphObject()));
-                            }
-                        }
-                    }
-            ).executeAsync();
+            executor.execute();
+        } else {
+            subject.onError(new Throwable("No Facebook Session. Please Log In."));
         }
+    }
+
+
+    public BehaviorSubject<FacebookAlbumResponse> getPhotosFromAlbum(final String albumId) {
+
+        final BehaviorSubject<FacebookAlbumResponse> subject = BehaviorSubject.create();
+
+        executeRequest(subject, new ExecutorAdapter(subject) {
+            @Override
+            public void success(Response response) {
+                subject.onNext(FacebookAlbumResponse.createFromGraph(response.getGraphObject()));
+            }
+
+            @Override
+            public String getEndPoint() {
+                return String.format("/%s/photos", albumId);
+            }
+        });
+
+        return subject;
+    }
+
+    public BehaviorSubject<FacebookPhotoSource> photoSourceForPhotoId(final String photoId) {
+
+        final BehaviorSubject<FacebookPhotoSource> subject = BehaviorSubject.create();
+        executeRequest(subject, new ExecutorAdapter(subject) {
+
+            @Override
+            public void success(Response response) {
+                subject.onNext(FacebookPhotoSource.createFromGraph(response.getGraphObject()));
+            }
+
+            @Override
+            public String getEndPoint() {
+                return String.format("/%s", photoId);
+            }
+        });
+
+
         return subject;
     }
 
@@ -207,8 +253,17 @@ public class FacebookService extends BaseService implements IFacebookService {
         return Session.getActiveSession().getAccessToken();
     }
 
-    public static class FacebookAlbumResponse {
+    public static class FacebookAlbumListResponse {
         public Collection<FacebookAlbum> mData;
+
+        public static FacebookAlbumListResponse createFromGraph(GraphObject response) {
+            Gson gson = GsonHelper.getFacebookGSONDeserializationBuilder().create();
+            return gson.fromJson(response.getInnerJSONObject().toString(), FacebookAlbumListResponse.class);
+        }
+    }
+
+    public static class FacebookAlbumResponse {
+        public Collection<FacebookPhoto> mData;
 
         public static FacebookAlbumResponse createFromGraph(GraphObject response) {
             Gson gson = GsonHelper.getFacebookGSONDeserializationBuilder().create();
@@ -216,4 +271,58 @@ public class FacebookService extends BaseService implements IFacebookService {
         }
     }
 
+    private interface Executor {
+        public void execute();
+
+        void success(Response response);
+
+        String getEndPoint();
+    }
+
+
+    private abstract class ExecutorAdapter implements Executor {
+
+
+        private BehaviorSubject mSubject;
+
+        public BehaviorSubject getSubject() {
+            return mSubject;
+        }
+
+        protected ExecutorAdapter(BehaviorSubject subject) {
+
+            mSubject = subject;
+        }
+
+        public void checkResponse(Response response) {
+            FacebookRequestError responseError = response.getError();
+            if (responseError != null) {
+                Bog.e(Bog.Category.FACEBOOK, responseError.getErrorMessage());
+                getSubject().onError(new Throwable(responseError.getErrorMessage()));
+            } else {
+                success(response);
+            }
+        }
+
+        @Override
+        public void execute() {
+            buildRequest().executeAsync();
+        }
+
+        private Request buildRequest() {
+            return new Request(
+                    Session.getActiveSession(),
+                    getEndPoint(),
+                    null,
+                    HttpMethod.GET,
+                    new Request.Callback() {
+                        public void onCompleted(Response response) {
+                            checkResponse(response);
+                        }
+                    }
+            );
+        }
+
+
+    }
 }
