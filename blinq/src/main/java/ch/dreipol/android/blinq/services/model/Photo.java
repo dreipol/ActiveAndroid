@@ -1,17 +1,15 @@
 
 package ch.dreipol.android.blinq.services.model;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.Serializable;
 
-public class Photo {
+public class Photo implements Serializable {
     private Long mPk;
     private String mFullId;
     private String mProfileId;
     private Long mObjectId;
     private String mThumbId;
     private Integer mEviction;
-
 
     public Long getPk() {
         return mPk;
@@ -36,7 +34,6 @@ public class Photo {
     public Integer getEviction() {
         return mEviction;
     }
-
 
 
 }

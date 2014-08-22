@@ -21,7 +21,6 @@ import ch.dreipol.android.blinq.services.impl.AccountService;
 import ch.dreipol.android.blinq.services.impl.DatabaseDebugService;
 import ch.dreipol.android.blinq.services.impl.FacebookService;
 import ch.dreipol.android.blinq.services.impl.LocationService;
-import ch.dreipol.android.blinq.services.impl.NetworkService;
 import ch.dreipol.android.blinq.services.impl.RuntimeService;
 
 /**

@@ -1,5 +1,6 @@
 package ch.dreipol.android.blinq.services.impl;
 
+import com.activeandroid.query.Select;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -114,6 +115,7 @@ public class NetworkService extends BaseService implements INetworkMethods {
         }).toMap(new Func1<Profile, Long>() {
             @Override
             public Long call(Profile p) {
+
                 return p.getFbId();
             }
         });

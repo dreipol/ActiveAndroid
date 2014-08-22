@@ -6,7 +6,10 @@ import com.activeandroid.Configuration;
 
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.IDatabaseService;
+import ch.dreipol.android.blinq.services.model.MutualData;
 import ch.dreipol.android.blinq.services.model.Profile;
+import ch.dreipol.android.blinq.util.activeandroid.ListSerializer;
+import ch.dreipol.android.blinq.util.activeandroid.MutualDataSerializer;
 import ch.dreipol.android.blinq.util.activeandroid.SerializableTypeSerializer;
 
 /**
@@ -28,7 +31,7 @@ public class DatabaseService extends BaseService implements IDatabaseService {
     protected void initializeDatabase() {
         Configuration.Builder builder = new Configuration.Builder(getService().getContext());
         builder.addModelClasses(Profile.class);
-        builder.addTypeSerializer(SerializableTypeSerializer.class);
+        builder.addTypeSerializer(MutualDataSerializer.class);
         ActiveAndroid.initialize(builder.create());
     }
 
