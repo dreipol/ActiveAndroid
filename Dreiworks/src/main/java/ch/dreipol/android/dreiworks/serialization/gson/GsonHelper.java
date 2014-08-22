@@ -9,26 +9,34 @@ import com.google.gson.GsonBuilder;
  */
 public abstract class GsonHelper {
 
-    public static GsonBuilder getGsonBuilder(FieldNamingPolicy namingPolicy ) {
+    public static GsonBuilder getDefaultBuilder(FieldNamingPolicy namingPolicy) {
         return new GsonBuilder()
-                .setExclusionStrategies(new ActiveAndroidIDExclusionStrategy())
                 .setFieldNamingStrategy(new AndroidFieldNamingStrategy(namingPolicy))
                 .setExclusionStrategies(new GsonExclusionStrategy());
+    }
+
+    public static GsonBuilder getActiveAndroidBuilder(FieldNamingPolicy namingPolicy) {
+        return getDefaultBuilder(namingPolicy).setExclusionStrategies(new ActiveAndroidIDExclusionStrategy());
     }
 
     /**
      * GSON Builder for receiving JSON from a server
      */
-    public static GsonBuilder getGSONDeserializationBuilder()
-    {
-        return getGsonBuilder(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
+    public static GsonBuilder getGSONDeserializationBuilder() {
+        return getActiveAndroidBuilder(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
+    }
+
+    /**
+     * GSON Builder for receiving JSON from facebook
+     */
+    public static GsonBuilder getFacebookGSONDeserializationBuilder() {
+        return getDefaultBuilder(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
     }
 
     /**
      * GSON Builder for sending JSON to a server
      */
-    public static GsonBuilder getGSONSerializationBuilder()
-    {
-        return getGsonBuilder(FieldNamingPolicy.UPPER_CAMEL_CASE);
+    public static GsonBuilder getGSONSerializationBuilder() {
+        return getActiveAndroidBuilder(FieldNamingPolicy.UPPER_CAMEL_CASE);
     }
 }

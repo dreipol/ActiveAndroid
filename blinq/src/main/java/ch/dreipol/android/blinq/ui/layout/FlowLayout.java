@@ -27,7 +27,7 @@ public class FlowLayout extends ViewGroup {
         mHorizontalSpacing = StaticResources.convertDisplayPointsToPixel(context, 10);
         mVerticalSpacing = StaticResources.convertDisplayPointsToPixel(context, 10);
 
-        mItemSize = StaticResources.convertDisplayPointsToPixel(context, 40);
+        mItemSize = StaticResources.convertDisplayPointsToPixel(context, 10);
     }
 
     public FlowLayout(Context context, AttributeSet attrs) {
@@ -140,7 +140,6 @@ public class FlowLayout extends ViewGroup {
             View child = getChildAt(i);
             LayoutParams lp = (LayoutParams) child.getLayoutParams();
             child.layout(lp.x + lp.xOffset, lp.y, lp.x + mItemSize + lp.xOffset, lp.y + mItemSize);
-
         }
     }
 

@@ -15,17 +15,24 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_height="250dp"
             android:id="@+id/profile_overview"
             android:layout_alignParentTop="true" >
 
             <ImageView
-                android:layout_width="200dp"
+                android:layout_width="150dp"
                 android:layout_height="200dp"
                 android:id="@+id/main_image"
-                android:layout_weight="2"
                 android:layout_marginLeft="20dp" />
+
+            <view
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                class="ch.dreipol.android.blinq.ui.layout.FlowLayout"
+                android:id="@+id/flow_layout"
+                android:focusableInTouchMode="false"/>
+
         </LinearLayout>
 
         <LinearLayout

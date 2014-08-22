@@ -13,10 +13,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import java.util.List;
+
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.AppService;
+import ch.dreipol.android.blinq.services.IImageCacheService;
 import ch.dreipol.android.blinq.services.model.LoadingInfo;
+import ch.dreipol.android.blinq.services.model.Photo;
 import ch.dreipol.android.blinq.services.model.Profile;
+import ch.dreipol.android.blinq.ui.layout.FlowLayout;
 import ch.dreipol.android.blinq.util.Bog;
 import rx.Observable;
 import rx.Subscription;
@@ -71,7 +76,7 @@ public class MyProfileFragment extends Fragment {
                 View container = loadingInfo.getViewContainer();
 
                 ImageView imageView = (ImageView) container.findViewById(R.id.main_image);
-                AppService.getInstance().getImageCacheService().displayPhoto(profile.getPhotos().get(0), imageView);
+
 
                 TextView ageView = (TextView) container.findViewById(R.id.profile_age);
                 TextView nameView = (TextView) container.findViewById(R.id.profile_name);
@@ -93,6 +98,31 @@ public class MyProfileFragment extends Fragment {
                 GradientDrawable g = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.parseColor(profile.getColorTop()), bottomColor});
                 g.setGradientType(GradientDrawable.LINEAR_GRADIENT);
                 profileOverviewView.setBackgroundDrawable(g);
+
+                FlowLayout flowLayout = (FlowLayout) container.findViewById(R.id.flow_layout);
+                flowLayout.removeAllViews();
+
+                IImageCacheService imageCacheService = AppService.getInstance().getImageCacheService();
+
+                List<Photo> profilePhotos = profile.getPhotos();
+                for (Photo photo : profilePhotos){
+                    Bog.d(Bog.Category.UI, "loading photo...");
+
+                    if(profilePhotos.indexOf(photo) == 0){
+                        imageCacheService.displayPhoto(photo, imageView);
+                        Bog.d(Bog.Category.UI, "...main");
+                    }else{
+                        ImageView imgView = new ImageView(container.getContext());
+                        flowLayout.addView(imgView);
+                        imageCacheService.displayPhoto(photo, imageView);
+                        Bog.d(Bog.Category.UI, "...small");
+                    }
+                }
+
+
+
+
+
 
             }
         });

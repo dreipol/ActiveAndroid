@@ -1,17 +1,24 @@
 package ch.dreipol.android.blinq.services.impl;
 
+import com.facebook.FacebookRequestError;
+import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
+import com.facebook.model.GraphObject;
 import com.facebook.model.GraphUser;
+import com.google.gson.Gson;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.IFacebookService;
+import ch.dreipol.android.blinq.services.model.facebook.FacebookAlbum;
 import ch.dreipol.android.blinq.util.Bog;
+import ch.dreipol.android.dreiworks.serialization.gson.GsonHelper;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -20,7 +27,6 @@ import rx.subjects.BehaviorSubject;
 
 /**
  * Created by phil on 24.03.14.
- *
  */
 public class FacebookService extends BaseService implements IFacebookService {
 
@@ -169,13 +175,45 @@ public class FacebookService extends BaseService implements IFacebookService {
                 }
             }).executeAsync();
         }
-
     }
+
+    public BehaviorSubject<FacebookAlbumResponse> getAlbums() {
+        final BehaviorSubject<FacebookAlbumResponse> subject = BehaviorSubject.create();
+        if (hasFacebookSession()) {
+            new Request(
+                    Session.getActiveSession(),
+                    "/me/albums",
+                    null,
+                    HttpMethod.GET,
+                    new Request.Callback() {
+                        public void onCompleted(Response response) {
+                            FacebookRequestError responseError = response.getError();
+                            if (responseError != null) {
+                                Bog.e(Bog.Category.FACEBOOK, responseError.getErrorMessage());
+                                subject.onError(new Throwable(responseError.getErrorMessage()));
+                            } else {
+                                subject.onNext(FacebookAlbumResponse.createFromGraph(response.getGraphObject()));
+                            }
+                        }
+                    }
+            ).executeAsync();
+        }
+        return subject;
+    }
+
 
     @Override
     public String getAccessToken() {
         return Session.getActiveSession().getAccessToken();
     }
 
+    public static class FacebookAlbumResponse {
+        public Collection<FacebookAlbum> mData;
+
+        public static FacebookAlbumResponse createFromGraph(GraphObject response) {
+            Gson gson = GsonHelper.getFacebookGSONDeserializationBuilder().create();
+            return gson.fromJson(response.getInnerJSONObject().toString(), FacebookAlbumResponse.class);
+        }
+    }
 
 }

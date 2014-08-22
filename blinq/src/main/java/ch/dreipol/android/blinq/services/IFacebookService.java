@@ -22,4 +22,6 @@ public interface IFacebookService extends IService{
     List<String> getPermissions();
 
     String getFacebookId();
+
+    public rx.subjects.BehaviorSubject<FacebookService.FacebookAlbumResponse> getAlbums();
 }
