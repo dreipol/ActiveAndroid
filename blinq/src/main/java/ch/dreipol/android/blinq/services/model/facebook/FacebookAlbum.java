@@ -15,4 +15,8 @@ public class FacebookAlbum {
     public String getName() {
         return mName;
     }
+
+    public String getCoverId() {
+        return mCoverPhoto;
+    }
 }

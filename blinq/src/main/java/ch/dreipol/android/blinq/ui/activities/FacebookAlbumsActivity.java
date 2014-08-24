@@ -13,6 +13,7 @@ import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.impl.FacebookService;
 import ch.dreipol.android.blinq.services.model.facebook.FacebookAlbum;
+import ch.dreipol.android.blinq.ui.lists.FacebookAlbumListItemView;
 import rx.functions.Action1;
 
 public class FacebookAlbumsActivity extends Activity {
@@ -74,14 +75,20 @@ public class FacebookAlbumsActivity extends Activity {
 
                     @Override
                     public View getView(int position, View convertView, ViewGroup parent) {
-                        TextView txtView;
-                        if(convertView!=null){
-                            txtView = (TextView) convertView;
-                        }else{
-                            txtView = new TextView(parent.getContext());
+                        FacebookAlbumListItemView txtView;
+                        if (convertView != null) {
+                            txtView = (FacebookAlbumListItemView) convertView;
+                        } else {
+                            txtView = new FacebookAlbumListItemView(parent.getContext());
                         }
 
-                        txtView.setText(albums[position].getName());
+                        FacebookAlbum album = albums[position];
+
+                        txtView.setText(album.getName());
+                        txtView.setImage(album.getCoverId());
+
+                        
+
                         return txtView;
                     }
 

@@ -18,4 +18,8 @@ public class FacebookPhotoSource {
         return gson.fromJson(graphObject.getInnerJSONObject().toString(), FacebookPhotoSource.class);
 
     }
+
+    public String getSource() {
+        return mSource;
+    }
 }

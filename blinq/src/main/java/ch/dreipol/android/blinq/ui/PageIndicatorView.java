@@ -2,6 +2,8 @@ package ch.dreipol.android.blinq.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -29,8 +31,12 @@ public class PageIndicatorView extends LinearLayout {
         for (int i = 0; i < numberOfPages; i++) {
             View view = new View(getContext());
             view.setSelected(false);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(20, 20);
-            params.setMargins(10,0,10,0);
+            int size = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size, size);
+
+            int margin = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics());
+
+            params.setMargins(margin,0,margin,0);
             view.setLayoutParams(params);
             view.setBackgroundDrawable(getResources().getDrawable(R.drawable.blinq_page_indicator));
             addView(view);

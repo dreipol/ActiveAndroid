@@ -227,7 +227,7 @@ public class FacebookService extends BaseService implements IFacebookService {
         return subject;
     }
 
-    public BehaviorSubject<FacebookPhotoSource> photoSourceForPhotoId(final String photoId) {
+    public BehaviorSubject<FacebookPhotoSource> getPhotoSourceForPhotoId(final String photoId) {
 
         final BehaviorSubject<FacebookPhotoSource> subject = BehaviorSubject.create();
         executeRequest(subject, new ExecutorAdapter(subject) {
@@ -236,6 +236,7 @@ public class FacebookService extends BaseService implements IFacebookService {
             public void success(Response response) {
                 subject.onNext(FacebookPhotoSource.createFromGraph(response.getGraphObject()));
             }
+
 
             @Override
             public String getEndPoint() {
@@ -298,7 +299,11 @@ public class FacebookService extends BaseService implements IFacebookService {
             FacebookRequestError responseError = response.getError();
             if (responseError != null) {
                 Bog.e(Bog.Category.FACEBOOK, responseError.getErrorMessage());
-                getSubject().onError(new Throwable(responseError.getErrorMessage()));
+                BehaviorSubject subject = getSubject();
+                if(subject!=null){
+                    subject.onError(new Throwable(responseError.getErrorMessage()));
+                }
+
             } else {
                 success(response);
             }

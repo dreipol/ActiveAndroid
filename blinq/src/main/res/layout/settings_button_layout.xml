@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-
-    >
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ImageView
+        android:id="@+id/icon_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/icon_view"
-        android:src="@drawable/icon_menu_main_standard"
-        android:adjustViewBounds="false"
+        android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"/>
+        android:adjustViewBounds="false"
+        android:src="@drawable/icon_menu_main_standard"/>
 
     <view
+        android:id="@+id/text_view"
+        class="ch.dreipol.android.blinq.ui.textviews.AVMTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        class="ch.dreipol.android.blinq.ui.textviews.AVMTextView"
-        android:id="@+id/text_view"
-        android:text="Hello World"
-        android:textSize="20dp"
-        android:textColor="@color/blinq_text_light_grey_AAAAAA"
-        android:layout_toRightOf="@+id/icon_view"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/icon_view"
+        android:text="Hello World"
+        android:textColor="@color/blinq_text_light_grey_AAAAAA"
+        android:textSize="20dp"/>
 
 </merge>
