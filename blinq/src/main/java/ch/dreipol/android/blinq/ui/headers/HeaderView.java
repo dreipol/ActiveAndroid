@@ -18,7 +18,7 @@ public class HeaderView extends RelativeLayout {
     public HeaderView(Context context, AttributeSet attrs) {
         super(context, attrs);
         LayoutInflater inflater = AppService.getInstance().getRuntimeService().getLayoutInflator(context);
-        inflater.inflate(R.layout.header_layout, this, true);
+        inflater.inflate(R.layout.ui_header, this, true);
 
     }
 

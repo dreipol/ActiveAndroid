@@ -4,7 +4,6 @@ package ch.dreipol.android.blinq.ui.fragments;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,21 +22,12 @@ import ch.dreipol.android.blinq.services.model.Photo;
 import ch.dreipol.android.blinq.services.model.Profile;
 import ch.dreipol.android.blinq.ui.layout.FlowLayout;
 import ch.dreipol.android.blinq.util.Bog;
-import rx.Observable;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Action1;
-import rx.functions.Func2;
 import rx.schedulers.Schedulers;
-import rx.subjects.BehaviorSubject;
 
-public class MyProfileFragment extends Fragment {
-
-
-    private BehaviorSubject<View> mUIState;
-    private BehaviorSubject<LoadingInfo> mProfileObservable;
-    private Subscription mReadySubscription;
+public class MyProfileFragment extends BlinqFragment {
 
 
     public static MyProfileFragment newInstance() {
@@ -54,22 +44,12 @@ public class MyProfileFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mUIState = BehaviorSubject.create();
-        mProfileObservable = BehaviorSubject.create();
 
-        mReadySubscription = Observable.zip(mUIState, mProfileObservable, new Func2<View, LoadingInfo<Profile>, LoadingInfo<Profile>>() {
-
+        mLoadingSubscription.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<LoadingInfo>() {
             @Override
-            public LoadingInfo<Profile> call(View view, LoadingInfo<Profile> loadingInfo) {
-                loadingInfo.setViewContainer(view);
-                return loadingInfo;
-            }
+            public void call(LoadingInfo loadingInfo) {
 
-        }).subscribe(new Action1<LoadingInfo<Profile>>() {
-            @Override
-            public void call(LoadingInfo<Profile> loadingInfo) {
-
-                Profile profile = loadingInfo.getData();
+                Profile profile = (Profile) loadingInfo.getData();
 
                 int bottomColor = Color.parseColor(profile.getColorBottom());
 
@@ -105,23 +85,19 @@ public class MyProfileFragment extends Fragment {
                 IImageCacheService imageCacheService = AppService.getInstance().getImageCacheService();
 
                 List<Photo> profilePhotos = profile.getPhotos();
-                for (Photo photo : profilePhotos){
+                for (Photo photo : profilePhotos) {
                     Bog.d(Bog.Category.UI, "loading photo...");
 
-                    if(profilePhotos.indexOf(photo) == 0){
+                    if (profilePhotos.indexOf(photo) == 0) {
                         imageCacheService.displayPhoto(photo, imageView);
                         Bog.d(Bog.Category.UI, "...main");
-                    }else{
+                    } else {
                         ImageView imgView = new ImageView(container.getContext());
                         flowLayout.addView(imgView);
                         imageCacheService.displayPhoto(photo, imageView);
                         Bog.d(Bog.Category.UI, "...small");
                     }
                 }
-
-
-
-
 
 
             }
@@ -135,12 +111,12 @@ public class MyProfileFragment extends Fragment {
                                public void call(Profile profile) {
                                    LoadingInfo<Profile> loadingInfo = new LoadingInfo<Profile>(LoadingState.LOADED);
                                    loadingInfo.setData(profile);
-                                   mProfileObservable.onNext(loadingInfo);
+                                   mDataSubject.onNext(loadingInfo);
                                }
                            }, new Action1<Throwable>() {
                                @Override
                                public void call(Throwable throwable) {
-                                   mProfileObservable.onNext(new LoadingInfo<Profile>(LoadingState.ERROR));
+                                   mDataSubject.onNext(new LoadingInfo<Profile>(LoadingState.ERROR));
                                }
                            },
                         new Action0() {
@@ -157,16 +133,20 @@ public class MyProfileFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mReadySubscription.unsubscribe();
-        mUIState = null;
-        mProfileObservable = null;
+        mLoadingSubscription.unsubscribeOn(Schedulers.io());
 
+    }
+
+    @Override
+    protected int getLayoutResourceId() {
+        return R.layout.fragment_my_profile;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View result = inflater.inflate(R.layout.fragment_my_profile, container, false);
+
+        View result = super.onCreateView(inflater, container, savedInstanceState);
 
         final ToggleButton toggleMale = (ToggleButton) result.findViewById(R.id.toggle_male);
 
@@ -187,7 +167,6 @@ public class MyProfileFragment extends Fragment {
         });
 
 
-        mUIState.onNext(result);
         return result;
     }
 

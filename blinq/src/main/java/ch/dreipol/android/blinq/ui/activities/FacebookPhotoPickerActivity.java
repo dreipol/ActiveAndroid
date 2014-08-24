@@ -5,7 +5,8 @@ import android.support.v4.app.FragmentManager;import android.support.v4.app.Frag
 
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.model.facebook.FacebookAlbum;
-import ch.dreipol.android.blinq.ui.fragments.FacebookAlbumFragment;
+import ch.dreipol.android.blinq.ui.fragments.facebook.FacebookAlbumFragment;
+import ch.dreipol.android.blinq.ui.fragments.facebook.FacebookPhotosFragment;
 
 public class FacebookPhotoPickerActivity extends BaseBlinqActivity implements FacebookAlbumFragment.OnAlbumInteractionListener {
 
@@ -13,7 +14,14 @@ public class FacebookPhotoPickerActivity extends BaseBlinqActivity implements Fa
 
     @Override
     public void didSelectAlbum(FacebookAlbum album) {
-
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        FacebookPhotosFragment facebookPhotosFragment = new FacebookPhotosFragment();
+        Bundle args = new Bundle();
+        args.putString(FacebookPhotosFragment.ALBUM_ID, album.getId());
+        facebookPhotosFragment.setArguments(args);
+        transaction.replace(R.id.picker_container, facebookPhotosFragment);
+        transaction.commit();
     }
 
     @Override

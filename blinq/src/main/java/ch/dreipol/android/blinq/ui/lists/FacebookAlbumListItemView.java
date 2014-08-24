@@ -25,7 +25,7 @@ public class FacebookAlbumListItemView extends RelativeLayout {
     public FacebookAlbumListItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
         LayoutInflater inflater = AppService.getInstance().getRuntimeService().getLayoutInflator(context);
-        inflater.inflate(R.layout.ui_album_list_item_layout, this, true);
+        inflater.inflate(R.layout.ui_album_list_item, this, true);
 
         mImageView = (ImageView) findViewById(R.id.photo);
     }

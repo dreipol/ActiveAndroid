@@ -31,4 +31,8 @@ public class FacebookPhoto implements ILoadable {
     public String getPicture() {
         return mPicture;
     }
+
+    public String getId() {
+        return mId;
+    }
 }

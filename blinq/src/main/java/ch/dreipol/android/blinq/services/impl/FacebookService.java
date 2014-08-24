@@ -16,6 +16,7 @@ import java.util.List;
 
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.IFacebookService;
+import ch.dreipol.android.blinq.services.model.ILoadable;
 import ch.dreipol.android.blinq.services.model.facebook.FacebookAlbum;
 import ch.dreipol.android.blinq.services.model.facebook.FacebookPhoto;
 import ch.dreipol.android.blinq.services.model.facebook.FacebookPhotoSource;
@@ -263,7 +264,7 @@ public class FacebookService extends BaseService implements IFacebookService {
         }
     }
 
-    public static class FacebookAlbumResponse {
+    public static class FacebookAlbumResponse implements ILoadable{
         public Collection<FacebookPhoto> mData;
 
         public static FacebookAlbumResponse createFromGraph(GraphObject response) {

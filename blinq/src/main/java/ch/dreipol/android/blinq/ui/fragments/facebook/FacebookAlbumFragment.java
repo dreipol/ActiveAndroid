@@ -1,4 +1,4 @@
-package ch.dreipol.android.blinq.ui.fragments;
+package ch.dreipol.android.blinq.ui.fragments.facebook;
 
 import android.app.Activity;
 import android.database.DataSetObserver;

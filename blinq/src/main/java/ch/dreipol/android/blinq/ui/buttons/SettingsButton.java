@@ -24,7 +24,7 @@ public class SettingsButton extends RelativeLayout {
     public SettingsButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         LayoutInflater inflater = AppService.getInstance().getRuntimeService().getLayoutInflator(context);
-        inflater.inflate(R.layout.settings_button_layout, this, true);
+        inflater.inflate(R.layout.ui_settings_button, this, true);
         init(attrs);
     }
 
