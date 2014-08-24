@@ -37,5 +37,7 @@
     <string name="title_facebookalbum_detail">FacebookAlbum Detail</string>
     <string name="title_activity_facebook_albums">FacebookAlbumsActivity</string>
     <string name="action_settings">Settings</string>
+    <string name="photos_of_you">Photos of you</string>
+    <string name="blinq_cancel">Cancel</string>
 
 </resources>

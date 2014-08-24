@@ -3,14 +3,13 @@ package ch.dreipol.android.blinq.ui.lists;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.AppService;
-import ch.dreipol.android.blinq.services.model.facebook.FacebookPhotoSource;
+import ch.dreipol.android.blinq.services.model.facebook.FacebookPhoto;
 import ch.dreipol.android.blinq.util.Bog;
 import rx.Subscription;
 import rx.functions.Action1;
@@ -57,10 +56,10 @@ public class FacebookAlbumListItemView extends RelativeLayout {
 
         }
         if (coverId != null) {
-            mImageSubscription = AppService.getInstance().getFacebookService().getPhotoSourceForPhotoId(coverId).subscribe(new Action1<FacebookPhotoSource>() {
+            mImageSubscription = AppService.getInstance().getFacebookService().getPhotoForId(coverId).subscribe(new Action1<FacebookPhoto>() {
                 @Override
-                public void call(FacebookPhotoSource facebookPhotoSource) {
-                    AppService.getInstance().getImageCacheService().displayImage(facebookPhotoSource.getSource(), mImageView);
+                public void call(FacebookPhoto facebookPhotoSource) {
+                    AppService.getInstance().getImageCacheService().displayImage(facebookPhotoSource.getPicture(), getImageView());
                     Bog.d(Bog.Category.FACEBOOK, "Facebook: " + facebookPhotoSource.toString());
                     setLoading(false);
 

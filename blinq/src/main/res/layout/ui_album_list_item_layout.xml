@@ -11,7 +11,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/blinq_schriftzug"/>
+        android:scaleType="centerCrop"/>
 
     <view
         android:id="@+id/text"

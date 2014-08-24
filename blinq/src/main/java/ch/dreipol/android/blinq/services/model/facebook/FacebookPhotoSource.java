@@ -13,6 +13,8 @@ public class FacebookPhotoSource {
     Integer mHeight;
     String mSource;
 
+
+
     public static FacebookPhotoSource createFromGraph(GraphObject graphObject) {
         Gson gson = GsonHelper.getFacebookGSONDeserializationBuilder().create();
         return gson.fromJson(graphObject.getInnerJSONObject().toString(), FacebookPhotoSource.class);

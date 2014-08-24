@@ -1,38 +1,56 @@
-package ch.dreipol.android.blinq.ui.activities;
+package ch.dreipol.android.blinq.ui.fragments;
 
 import android.app.Activity;
 import android.database.DataSetObserver;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import ch.dreipol.android.blinq.R;
+
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.impl.FacebookService;
 import ch.dreipol.android.blinq.services.model.facebook.FacebookAlbum;
 import ch.dreipol.android.blinq.ui.lists.FacebookAlbumListItemView;
 import rx.functions.Action1;
 
-public class FacebookAlbumsActivity extends Activity {
+public class FacebookAlbumFragment extends ListFragment {
 
-    private ListView mAlbumsList;
+    private OnAlbumInteractionListener mListener;
+
+    public FacebookAlbumFragment() {
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_facebook_albums);
-        mAlbumsList = (ListView) findViewById(R.id.facebook_albums_list);
-
         AppService.getInstance().getFacebookService().getAlbums().subscribe(new Action1<FacebookService.FacebookAlbumListResponse>() {
             @Override
             public void call(final FacebookService.FacebookAlbumListResponse facebookAlbumListResponse) {
                 final FacebookAlbum[] albums = facebookAlbumListResponse.mData.toArray(new FacebookAlbum[facebookAlbumListResponse.mData.size()]);
 
+                getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                mAlbumsList.setAdapter(new ListAdapter() {
+                        if (null != mListener) {
+
+                            if (position > 0) {
+                                FacebookAlbum album = albums[position - 1];
+                                mListener.didSelectAlbum(album);
+                            } else {
+                                mListener.didSelectPhotosOfMe();
+                            }
+                        }
+
+
+                    }
+                });
+
+                setListAdapter(new ListAdapter() {
                     @Override
                     public boolean areAllItemsEnabled() {
                         return true;
@@ -55,17 +73,20 @@ public class FacebookAlbumsActivity extends Activity {
 
                     @Override
                     public int getCount() {
-                        return albums.length;
+                        return albums.length + 1;
                     }
 
                     @Override
                     public Object getItem(int position) {
-                        return albums[position];
+                        return albums[position - 1];
                     }
 
                     @Override
                     public long getItemId(int position) {
-                        return albums[position].getId().hashCode();
+                        if (position == 0) {
+                            return 0;
+                        }
+                        return albums[position - 1].getId().hashCode();
                     }
 
                     @Override
@@ -75,19 +96,24 @@ public class FacebookAlbumsActivity extends Activity {
 
                     @Override
                     public View getView(int position, View convertView, ViewGroup parent) {
+
                         FacebookAlbumListItemView txtView;
                         if (convertView != null) {
                             txtView = (FacebookAlbumListItemView) convertView;
                         } else {
                             txtView = new FacebookAlbumListItemView(parent.getContext());
                         }
+                        if (position > 0) {
+                            FacebookAlbum album = albums[position - 1];
 
-                        FacebookAlbum album = albums[position];
+                            txtView.setText(album.getName());
+                            txtView.setImage(album.getCoverId());
 
-                        txtView.setText(album.getName());
-                        txtView.setImage(album.getCoverId());
+                        } else {
+                            txtView.setText(getResources().getString(R.string.photos_of_you));
+                            txtView.setImage(null);
+                        }
 
-                        
 
                         return txtView;
                     }
@@ -109,7 +135,33 @@ public class FacebookAlbumsActivity extends Activity {
                 });
             }
         });
+
+
     }
 
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (OnAlbumInteractionListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+
+    public interface OnAlbumInteractionListener {
+        void didSelectAlbum(FacebookAlbum album);
+
+        void didSelectPhotosOfMe();
+    }
 
 }

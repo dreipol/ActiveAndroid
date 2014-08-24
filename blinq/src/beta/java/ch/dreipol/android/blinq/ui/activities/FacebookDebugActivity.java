@@ -71,7 +71,7 @@ public class FacebookDebugActivity extends BaseBlinqActivity {
         requestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(FacebookAlbumsActivity.class, ActivityTransitionType.DEFAULT);
+                startActivity(FacebookPhotoPickerActivity.class, ActivityTransitionType.DEFAULT);
             }
         });
     }

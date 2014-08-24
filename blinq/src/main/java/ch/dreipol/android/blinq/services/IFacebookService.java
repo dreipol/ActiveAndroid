@@ -5,6 +5,7 @@ import com.facebook.SessionState;
 import java.util.List;
 
 import ch.dreipol.android.blinq.services.impl.FacebookService;
+import ch.dreipol.android.blinq.services.model.facebook.FacebookPhoto;
 import ch.dreipol.android.blinq.services.model.facebook.FacebookPhotoSource;
 import rx.Observable;
 import rx.subjects.BehaviorSubject;
@@ -27,5 +28,5 @@ public interface IFacebookService extends IService{
 
     public BehaviorSubject<FacebookService.FacebookAlbumListResponse> getAlbums();
     public BehaviorSubject<FacebookService.FacebookAlbumResponse> getPhotosFromAlbum(final String albumId);
-    public BehaviorSubject<FacebookPhotoSource> getPhotoSourceForPhotoId(final String photoId);
+    public BehaviorSubject<FacebookPhoto> getPhotoForId(final String photoId);
 }

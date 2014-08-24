@@ -227,14 +227,14 @@ public class FacebookService extends BaseService implements IFacebookService {
         return subject;
     }
 
-    public BehaviorSubject<FacebookPhotoSource> getPhotoSourceForPhotoId(final String photoId) {
+    public BehaviorSubject<FacebookPhoto> getPhotoForId(final String photoId) {
 
-        final BehaviorSubject<FacebookPhotoSource> subject = BehaviorSubject.create();
+        final BehaviorSubject<FacebookPhoto> subject = BehaviorSubject.create();
         executeRequest(subject, new ExecutorAdapter(subject) {
 
             @Override
             public void success(Response response) {
-                subject.onNext(FacebookPhotoSource.createFromGraph(response.getGraphObject()));
+                subject.onNext(FacebookPhoto.createFromGraph(response.getGraphObject()));
             }
 
 
