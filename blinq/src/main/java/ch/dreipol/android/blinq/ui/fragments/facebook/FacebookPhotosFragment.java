@@ -2,7 +2,6 @@ package ch.dreipol.android.blinq.ui.fragments.facebook;
 
 
 import android.database.DataSetObserver;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
@@ -25,38 +24,32 @@ public class FacebookPhotosFragment extends BlinqFragment {
 
 
     public static final String ALBUM_ID = "ALBUM_ID";
-    public static final String ALBUM_ME = "PHOTOS_OF_ME";
-    private Subscription mSubscription;
+    protected Subscription mSubscription;
 
     public FacebookPhotosFragment() {
     }
 
 
+    protected void loadData() {
+        mSubscription = AppService.getInstance().getFacebookService().getPhotosFromAlbum(getAlbumId()).subscribe(new Action1<FacebookService.FacebookAlbumResponse>() {
+            @Override
+            public void call(FacebookService.FacebookAlbumResponse facebookAlbumResponse) {
+                LoadingInfo<FacebookService.FacebookAlbumResponse> loadingInfo = new LoadingInfo<FacebookService.FacebookAlbumResponse>(LoadingState.LOADED);
+                loadingInfo.setData(facebookAlbumResponse);
+                mDataSubject.onNext(loadingInfo);
+            }
+        });
+    }
+
+    private String getAlbumId() {
+        return getArguments().getString(ALBUM_ID);
+    }
+
     @Override
     public void onStart() {
         super.onStart();
-        final String albumId = getArguments().getString(ALBUM_ID);
-        if (albumId.equals(ALBUM_ME)) {
-            mSubscription = AppService.getInstance().getFacebookService().getPhotosOfMe().subscribe(new Action1<FacebookService.FacebookAlbumResponse>() {
-                @Override
-                public void call(FacebookService.FacebookAlbumResponse facebookAlbumResponse) {
-                    LoadingInfo<FacebookService.FacebookAlbumResponse> loadingInfo = new LoadingInfo<FacebookService.FacebookAlbumResponse>(LoadingState.LOADED);
-                    loadingInfo.setData(facebookAlbumResponse);
-                    mDataSubject.onNext(loadingInfo);
-                }
-            });
 
-        } else {
-            mSubscription = AppService.getInstance().getFacebookService().getPhotosFromAlbum(albumId).subscribe(new Action1<FacebookService.FacebookAlbumResponse>() {
-                @Override
-                public void call(FacebookService.FacebookAlbumResponse facebookAlbumResponse) {
-                    LoadingInfo<FacebookService.FacebookAlbumResponse> loadingInfo = new LoadingInfo<FacebookService.FacebookAlbumResponse>(LoadingState.LOADED);
-                    loadingInfo.setData(facebookAlbumResponse);
-                    mDataSubject.onNext(loadingInfo);
-                }
-            });
-        }
-
+        loadData();
 
         mLoadingSubscription.subscribe(new Action1<LoadingInfo>() {
             @Override

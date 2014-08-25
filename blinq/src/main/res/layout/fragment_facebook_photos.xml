@@ -12,5 +12,11 @@
         android:layout_centerHorizontal="true"
         android:choiceMode="singleChoice"
         android:columnWidth="100dp"
-        android:numColumns="auto_fit"/>
+        android:numColumns="auto_fit"
+        android:fastScrollAlwaysVisible="false"
+        android:fastScrollEnabled="false"
+        android:horizontalSpacing="2dp"
+        android:verticalSpacing="2dp"
+        android:layout_margin="4dp"
+        android:gravity="center"/>
 </RelativeLayout>

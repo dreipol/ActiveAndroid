@@ -1,40 +1,40 @@
 package ch.dreipol.android.blinq.ui.activities;
 
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.model.facebook.FacebookAlbum;
 import ch.dreipol.android.blinq.ui.fragments.facebook.FacebookAlbumFragment;
 import ch.dreipol.android.blinq.ui.fragments.facebook.FacebookPhotosFragment;
+import ch.dreipol.android.blinq.ui.fragments.facebook.FacebookPhotosOfMeFragment;
 
 public class FacebookPhotoPickerActivity extends BaseBlinqActivity implements FacebookAlbumFragment.OnAlbumInteractionListener {
-
 
 
     @Override
     public void didSelectAlbum(FacebookAlbum album) {
         String albumId = album.getId();
-        showPhotos(albumId);
+        showPhotos(new FacebookPhotosFragment(), albumId);
     }
 
-    private void showPhotos(String albumId) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        FacebookPhotosFragment facebookPhotosFragment = new FacebookPhotosFragment();
+    private void showPhotos(FacebookPhotosFragment fragment, String albumId) {
+        FragmentTransaction transaction = createFragmentTransaction();
 
         Bundle args = new Bundle();
         args.putString(FacebookPhotosFragment.ALBUM_ID, albumId);
-        facebookPhotosFragment.setArguments(args);
-
-        transaction.replace(R.id.picker_container, facebookPhotosFragment);
+        fragment.setArguments(args);
+        transaction.setCustomAnimations(R.anim.left_to_right, R.anim.left_to_left_out, R.anim.left_out_to_left, R.anim.right_to_left);
+        transaction.replace(R.id.picker_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
 
     @Override
     public void didSelectPhotosOfMe() {
-        showPhotos(FacebookPhotosFragment.ALBUM_ME);
+        showPhotos(new FacebookPhotosOfMeFragment(), null);
     }
 
     @Override
@@ -42,15 +42,18 @@ public class FacebookPhotoPickerActivity extends BaseBlinqActivity implements Fa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_facebook_photo_picker);
 
-
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        FragmentTransaction transaction = createFragmentTransaction();
         transaction.add(R.id.picker_container, new FacebookAlbumFragment());
         transaction.commit();
 
+    }
 
-    }@Override
+    private FragmentTransaction createFragmentTransaction() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        return fragmentManager.beginTransaction();
+    }
+
+    @Override
     protected boolean shouldStartDebugActivity() {
         return false;
     }
