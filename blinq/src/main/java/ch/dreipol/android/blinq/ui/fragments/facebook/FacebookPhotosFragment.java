@@ -1,7 +1,6 @@
 package ch.dreipol.android.blinq.ui.fragments.facebook;
 
 
-
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.view.View;
@@ -26,30 +25,38 @@ public class FacebookPhotosFragment extends BlinqFragment {
 
 
     public static final String ALBUM_ID = "ALBUM_ID";
+    public static final String ALBUM_ME = "PHOTOS_OF_ME";
     private Subscription mSubscription;
 
     public FacebookPhotosFragment() {
     }
 
 
-
-
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if(savedInstanceState ==null){
-            savedInstanceState = getArguments();
+    public void onStart() {
+        super.onStart();
+        final String albumId = getArguments().getString(ALBUM_ID);
+        if (albumId.equals(ALBUM_ME)) {
+            mSubscription = AppService.getInstance().getFacebookService().getPhotosOfMe().subscribe(new Action1<FacebookService.FacebookAlbumResponse>() {
+                @Override
+                public void call(FacebookService.FacebookAlbumResponse facebookAlbumResponse) {
+                    LoadingInfo<FacebookService.FacebookAlbumResponse> loadingInfo = new LoadingInfo<FacebookService.FacebookAlbumResponse>(LoadingState.LOADED);
+                    loadingInfo.setData(facebookAlbumResponse);
+                    mDataSubject.onNext(loadingInfo);
+                }
+            });
+
+        } else {
+            mSubscription = AppService.getInstance().getFacebookService().getPhotosFromAlbum(albumId).subscribe(new Action1<FacebookService.FacebookAlbumResponse>() {
+                @Override
+                public void call(FacebookService.FacebookAlbumResponse facebookAlbumResponse) {
+                    LoadingInfo<FacebookService.FacebookAlbumResponse> loadingInfo = new LoadingInfo<FacebookService.FacebookAlbumResponse>(LoadingState.LOADED);
+                    loadingInfo.setData(facebookAlbumResponse);
+                    mDataSubject.onNext(loadingInfo);
+                }
+            });
         }
-        final String albumId = savedInstanceState.getString(ALBUM_ID);
-        mSubscription = AppService.getInstance().getFacebookService().getPhotosFromAlbum(albumId).subscribe(new Action1<FacebookService.FacebookAlbumResponse>() {
-            @Override
-            public void call(FacebookService.FacebookAlbumResponse facebookAlbumResponse) {
-                LoadingInfo<FacebookService.FacebookAlbumResponse> loadingInfo = new LoadingInfo<FacebookService.FacebookAlbumResponse>(LoadingState.LOADED);
-                loadingInfo.setData(facebookAlbumResponse);
-                mDataSubject.onNext(loadingInfo);
-            }
-        });
+
 
         mLoadingSubscription.subscribe(new Action1<LoadingInfo>() {
             @Override
@@ -57,7 +64,6 @@ public class FacebookPhotosFragment extends BlinqFragment {
                 final FacebookService.FacebookAlbumResponse albumResponse = (FacebookService.FacebookAlbumResponse) loadingInfo.getData();
                 Collection<FacebookPhoto> data = albumResponse.mData;
                 final FacebookPhoto[] facebookPhotos = data.toArray(new FacebookPhoto[data.size()]);
-
 
 
                 View container = loadingInfo.getViewContainer();
@@ -105,11 +111,11 @@ public class FacebookPhotosFragment extends BlinqFragment {
 
                     @Override
                     public View getView(int position, View convertView, ViewGroup parent) {
-                        FacebookPhotoListItemView result=null;
-                        if(convertView == null){
+                        FacebookPhotoListItemView result = null;
+                        if (convertView == null) {
                             result = new FacebookPhotoListItemView(parent.getContext());
 
-                        }else{
+                        } else {
                             result = (FacebookPhotoListItemView) convertView;
                         }
                         result.setImage(facebookPhotos[position].getPicture());
@@ -134,22 +140,19 @@ public class FacebookPhotosFragment extends BlinqFragment {
 
             }
         });
-
-
-
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        super.onStop();
         mSubscription.unsubscribe();
     }
+
 
     @Override
     protected int getLayoutResourceId() {
         return R.layout.fragment_facebook_photos;
     }
-
 
 
 }

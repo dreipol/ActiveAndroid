@@ -14,19 +14,27 @@ public class FacebookPhotoPickerActivity extends BaseBlinqActivity implements Fa
 
     @Override
     public void didSelectAlbum(FacebookAlbum album) {
+        String albumId = album.getId();
+        showPhotos(albumId);
+    }
+
+    private void showPhotos(String albumId) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         FacebookPhotosFragment facebookPhotosFragment = new FacebookPhotosFragment();
+
         Bundle args = new Bundle();
-        args.putString(FacebookPhotosFragment.ALBUM_ID, album.getId());
+        args.putString(FacebookPhotosFragment.ALBUM_ID, albumId);
         facebookPhotosFragment.setArguments(args);
+
         transaction.replace(R.id.picker_container, facebookPhotosFragment);
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 
     @Override
     public void didSelectPhotosOfMe() {
-
+        showPhotos(FacebookPhotosFragment.ALBUM_ME);
     }
 
     @Override
