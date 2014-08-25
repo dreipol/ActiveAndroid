@@ -31,6 +31,7 @@ public class FacebookPhotoListItemView extends RelativeLayout {
         mImageView = (ImageView) findViewById(R.id.image);
 
         mLoader = (LoaderView) findViewById(R.id.loader);
+        mLoader.setLoaderType(LoaderView.LoaderType.DARK, LoaderView.LoaderSize.BIG);
         setLoading(true);
     }
 
