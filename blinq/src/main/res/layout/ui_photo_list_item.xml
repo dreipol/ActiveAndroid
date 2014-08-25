@@ -5,6 +5,12 @@
               android:layout_width="100dp"
               android:layout_height="100dp">
 
+    <view
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        class="ch.dreipol.android.blinq.ui.LoaderView"
+        android:id="@+id/loader"/>
+
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

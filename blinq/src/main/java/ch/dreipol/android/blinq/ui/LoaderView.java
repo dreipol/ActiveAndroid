@@ -24,8 +24,10 @@ public class LoaderView extends RelativeLayout {
     public LoaderView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
+
         LayoutInflater layoutInflator = AppService.getInstance().getRuntimeService().getLayoutInflator(context);
         layoutInflator.inflate(R.layout.ui_loader, this);
+
 
         mLoader = (ImageView) findViewById(R.id.loader_image);
         mOverlay = (ImageView) findViewById(R.id.overlay);

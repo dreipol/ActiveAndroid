@@ -319,6 +319,7 @@ public class FacebookService extends BaseService implements IFacebookService {
 
         public void checkResponse(Response response) {
             FacebookRequestError responseError = response.getError();
+
             if (responseError != null) {
                 Bog.e(Bog.Category.FACEBOOK, responseError.getErrorMessage());
                 BehaviorSubject subject = getSubject();
@@ -326,8 +327,11 @@ public class FacebookService extends BaseService implements IFacebookService {
                     subject.onError(new Throwable(responseError.getErrorMessage()));
                 }
 
+
             } else {
+
                 success(response);
+
             }
         }
 

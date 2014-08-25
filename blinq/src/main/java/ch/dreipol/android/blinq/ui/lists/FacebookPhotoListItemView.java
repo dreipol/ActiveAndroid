@@ -9,7 +9,9 @@ import android.widget.RelativeLayout;
 
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.AppService;
+import ch.dreipol.android.blinq.services.model.LoadingInfo;
 import ch.dreipol.android.blinq.services.model.facebook.FacebookPhoto;
+import ch.dreipol.android.blinq.ui.LoaderView;
 import ch.dreipol.android.blinq.util.Bog;
 import rx.Subscription;
 import rx.functions.Action1;
@@ -18,6 +20,7 @@ import rx.functions.Action1;
  * Created by phil on 24/08/14.
  */
 public class FacebookPhotoListItemView extends RelativeLayout {
+    private final LoaderView mLoader;
     private ImageView mImageView;
 
     public FacebookPhotoListItemView(Context context, AttributeSet attrs) {
@@ -26,12 +29,14 @@ public class FacebookPhotoListItemView extends RelativeLayout {
         inflater.inflate(R.layout.ui_photo_list_item, this, true);
 
         mImageView = (ImageView) findViewById(R.id.image);
+
+        mLoader = (LoaderView) findViewById(R.id.loader);
+        setLoading(true);
     }
 
     public FacebookPhotoListItemView(Context context) {
         this(context, null);
     }
-
 
 
     public ImageView getImageView() {
@@ -42,14 +47,38 @@ public class FacebookPhotoListItemView extends RelativeLayout {
         setLoading(true);
         ImageView imageView = getImageView();
         imageView.setImageDrawable(null);
-        AppService.getInstance().getImageCacheService().displayImage(photoId, imageView);
-        setLoading(false);
+        AppService.getInstance().getImageCacheService().displayImage(photoId, imageView).subscribe(new Action1<LoadingInfo>() {
+            @Override
+            public void call(LoadingInfo loadingInfo) {
+                switch (loadingInfo.getState())
+                {
+
+                    case LOADING:
+                        setLoading(true);
+                        break;
+                    case LOADED:
+                        setLoading(false);
+                        break;
+                    case CANCELED:
+                        setLoading(false);
+                        break;
+                    case ERROR:
+                        setLoading(false);
+                        break;
+                }
+            }
+        });
+
 
     }
 
     private void setLoading(boolean isLoading) {
-
+        if (isLoading) {
+            mImageView.setVisibility(GONE);
+            mLoader.setVisibility(VISIBLE);
+        } else {
+            mImageView.setVisibility(VISIBLE);
+            mLoader.setVisibility(GONE);
+        }
     }
-
-
 }
