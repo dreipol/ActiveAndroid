@@ -1,11 +1,11 @@
 package ch.dreipol.android.blinq.services.impl;
 
-import com.activeandroid.query.Select;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -150,7 +150,8 @@ public class NetworkService extends BaseService implements INetworkMethods {
 
     @Override
     public void loadMatches() {
-        getService().getMatchesService().loadMatches(getRequestObservable(mMatchesNetworkService.getMatchesTask(new HashMap()), new TypeToken<Collection<Match>>() {
+        getService().getMatchesService().loadMatches(
+                getRequestObservable(mMatchesNetworkService.getMatchesTask(new HashMap()), new TypeToken<ArrayList<Match>>() {
         }));
     }
 

@@ -7,41 +7,35 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-@Table(name = "Profiles", columnNaming=AndroidNamingStrategy.class)
-public class Profile extends Model implements ILoadable{
+@Table(name = "profiles", columnNaming = AndroidNamingStrategy.class, uniqueIdentifier = "mFbId")
+public class Profile extends Model implements ILoadable {
 
-    @Column(unique = true, index = true)
+    @Column(unique = true, index = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private long mFbId;
 
-    @Column
+    @Column(onModelUpdate = Column.ModelUpdateAction.REPLACE)
     private String mDistance;
-    @Column
+    @Column(onModelUpdate = Column.ModelUpdateAction.REPLACE)
     private String mFirstName;
-    @Column
+    @Column(onModelUpdate = Column.ModelUpdateAction.REPLACE)
     private String mColorBottom;
-    @Column
+    @Column(onModelUpdate = Column.ModelUpdateAction.REPLACE)
     private String mLastActive;
-    @Column
+    @Column(onModelUpdate = Column.ModelUpdateAction.REPLACE)
     private String mColorTop;
-    @Column
+    @Column(onModelUpdate = Column.ModelUpdateAction.REPLACE)
     private Integer mAge;
-    @Column
+    @Column(onModelUpdate = Column.ModelUpdateAction.REPLACE)
     private String mSex;
 
-    @Column
+    @Column(onModelUpdate = Column.ModelUpdateAction.REPLACE)
     private List<Photo> mPhotos = new ArrayList<Photo>();
-    @Column
     private Boolean mLikedMe;
-    @Column
+    @Column(onModelUpdate = Column.ModelUpdateAction.REPLACE)
     private MutualData mMutualData;
-    @Column
     private Boolean mApproved;
-
-    private Map<String, Object> mAdditionalProperties = new HashMap<String, Object>();
 
     public String getDistance() {
         return mDistance;
@@ -94,10 +88,6 @@ public class Profile extends Model implements ILoadable{
 
     public Boolean getApproved() {
         return mApproved;
-    }
-
-    public Map<String, Object> getAdditionalProperties() {
-        return this.mAdditionalProperties;
     }
 
     @Override

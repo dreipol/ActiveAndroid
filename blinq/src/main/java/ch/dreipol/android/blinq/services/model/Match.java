@@ -2,38 +2,44 @@ package ch.dreipol.android.blinq.services.model;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
-import com.google.gson.annotations.Expose;
+import com.activeandroid.annotation.Table;
+import com.activeandroid.naming.AndroidNamingStrategy;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
+import java.util.List;
+
+import ch.dreipol.android.dreiworks.activeandroid.Utils;
 
 
-
+@Table(name = "matches", columnNaming = AndroidNamingStrategy.class, uniqueIdentifier = "mMatchId")
 public class Match extends Model {
 
-    @Expose
-    @Column
+    @Column(autoCreate = true, onModelUpdate = Column.ModelUpdateAction.UPDATE )
     private Profile mProfile;
-    @Expose
-    private Boolean mReceived;
-    @Expose
-    private Integer mMatchId;
+
+    private boolean mReceived;
+
+    @Column(unique = true, index = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+    private long mMatchId;
+
+    @Column
     @SerializedName("created_at_datetime")
-    @Expose
     private Date mCreatedAt;
-    @Expose
-    private String mFbId;
-    @Expose
-    private Boolean mBlocked;
 
-    private Boolean mHasUnread;
+    @Column(index = true)
+    private long mFbId;
 
+    private boolean mBlocked;
+
+    @Column
+    private boolean mHasUnread;
+
+    @Column
     private String mPendingMessage;
 
-    public Match() {
-        super();
-        mHasUnread = false;
-    }
+    @Column
+    private Date mLastActive;
 
     public Profile getProfile() {
         return mProfile;
@@ -47,7 +53,7 @@ public class Match extends Model {
         return mReceived;
     }
 
-    public Integer getMatchId() {
+    public long getMatchId() {
         return mMatchId;
     }
 
@@ -55,7 +61,7 @@ public class Match extends Model {
         return mCreatedAt;
     }
 
-    public String getFbId() {
+    public long getFbId() {
         return mFbId;
     }
 
@@ -76,4 +82,34 @@ public class Match extends Model {
         mPendingMessage = pendingMessage;
     }
 
+    public List<ChatMessage> getMessages() {
+        try {
+            return Utils.getManyAsFrom(ChatMessage.class, this).orderBy("sent").orderBy("sent").execute();
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public void setLastActive() {
+//        messages
+//        NSDate *date = [self.messages valueForKeyPath:@"@max.sent"];
+//
+//        if (!date)
+//            date = self.created_at;
+
+    }
+
+    public int lastSequence() {
+        return 0;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Match{" +
+                "mMatchId=" + mMatchId +
+                ", name=" + mProfile.getFirstName() +
+                '}';
+    }
 }
