@@ -11,10 +11,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Table(name = "Profiles", columnNaming=AndroidNamingStrategy.class)
+@Table(name = "profiles", columnNaming=AndroidNamingStrategy.class)
 public class Profile extends Model implements ILoadable{
 
-    @Column(unique = true, index = true)
+    @Column(unique = true, index = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private long mFbId;
 
     @Column
