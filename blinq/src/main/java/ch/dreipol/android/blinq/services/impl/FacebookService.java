@@ -249,6 +249,27 @@ public class FacebookService extends BaseService implements IFacebookService {
         return subject;
     }
 
+    @Override
+    public BehaviorSubject<FacebookAlbumResponse> getPhotosOfMe() {
+
+        final BehaviorSubject<FacebookAlbumResponse> subject = BehaviorSubject.create();
+
+        executeRequest(subject, new ExecutorAdapter(subject) {
+
+            @Override
+            public void success(Response response) {
+                subject.onNext(FacebookAlbumResponse.createFromGraph(response.getGraphObject()));
+            }
+
+            @Override
+            public String getEndPoint() {
+                return "me/photos";
+            }
+        });
+
+        return subject;
+    }
+
 
     @Override
     public String getAccessToken() {
@@ -264,7 +285,7 @@ public class FacebookService extends BaseService implements IFacebookService {
         }
     }
 
-    public static class FacebookAlbumResponse implements ILoadable{
+    public static class FacebookAlbumResponse implements ILoadable {
         public Collection<FacebookPhoto> mData;
 
         public static FacebookAlbumResponse createFromGraph(GraphObject response) {
@@ -301,7 +322,7 @@ public class FacebookService extends BaseService implements IFacebookService {
             if (responseError != null) {
                 Bog.e(Bog.Category.FACEBOOK, responseError.getErrorMessage());
                 BehaviorSubject subject = getSubject();
-                if(subject!=null){
+                if (subject != null) {
                     subject.onError(new Throwable(responseError.getErrorMessage()));
                 }
 

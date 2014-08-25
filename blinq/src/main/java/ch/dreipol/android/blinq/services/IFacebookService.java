@@ -13,7 +13,7 @@ import rx.subjects.BehaviorSubject;
 /**
  * Created by phil on 24.03.14.
  */
-public interface IFacebookService extends IService{
+public interface IFacebookService extends IService {
     boolean hasFacebookSession();
 
     String getAccessToken();
@@ -27,6 +27,10 @@ public interface IFacebookService extends IService{
     String getFacebookId();
 
     public BehaviorSubject<FacebookService.FacebookAlbumListResponse> getAlbums();
+
     public BehaviorSubject<FacebookService.FacebookAlbumResponse> getPhotosFromAlbum(final String albumId);
+
     public BehaviorSubject<FacebookPhoto> getPhotoForId(final String photoId);
+
+    public BehaviorSubject<FacebookService.FacebookAlbumResponse> getPhotosOfMe();
 }
