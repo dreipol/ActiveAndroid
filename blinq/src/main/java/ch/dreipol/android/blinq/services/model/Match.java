@@ -15,7 +15,7 @@ import ch.dreipol.android.dreiworks.activeandroid.Utils;
 @Table(name = "matches", columnNaming = AndroidNamingStrategy.class, uniqueIdentifier = "mMatchId")
 public class Match extends Model {
 
-    @Column(autoCreate = true)
+    @Column(autoCreate = true, onModelUpdate = Column.ModelUpdateAction.UPDATE )
     private Profile mProfile;
 
     private boolean mReceived;

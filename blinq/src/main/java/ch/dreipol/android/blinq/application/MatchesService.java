@@ -1,6 +1,8 @@
 package ch.dreipol.android.blinq.application;
 
 
+import com.activeandroid.exceptions.IllegalUniqueIdentifierException;
+import com.activeandroid.exceptions.ModelUpdateException;
 import com.activeandroid.query.Select;
 
 import java.util.ArrayList;
@@ -30,9 +32,14 @@ public class MatchesService extends BaseService implements IMatchesService {
         }).subscribe(new Action1<Match>() {
             @Override
             public void call(Match match) {
-                Match m1 = Match.load(Match.class, match.getId());
-                Long save = match.save();
-                Match m = new Select().from(Match.class).where("id=?", save).executeSingle();
+                Match m2;
+                try {
+                    m2 = Match.createOrUpdate(match);
+                } catch (IllegalUniqueIdentifierException e) {
+                    e.printStackTrace();
+                } catch (ModelUpdateException e) {
+                    e.printStackTrace();
+                }
                 Bog.v(Bog.Category.NETWORKING, match.toString());
             }
         });
