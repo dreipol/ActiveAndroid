@@ -16,10 +16,12 @@ import ch.dreipol.android.blinq.services.ConnectionSignatureCreator;
 import ch.dreipol.android.blinq.services.ICredentials;
 import ch.dreipol.android.blinq.services.IFacebookService;
 import ch.dreipol.android.blinq.services.INetworkMethods;
+import ch.dreipol.android.blinq.services.model.GenderInterests;
 import ch.dreipol.android.blinq.services.model.Match;
 import ch.dreipol.android.blinq.services.model.Profile;
 import ch.dreipol.android.blinq.services.ServerStatus;
 import ch.dreipol.android.blinq.services.TaskStatus;
+import ch.dreipol.android.blinq.services.model.SettingsProfile;
 import ch.dreipol.android.blinq.services.network.Pollworker;
 import ch.dreipol.android.blinq.services.network.retrofit.IMatchesNetworkService;
 import ch.dreipol.android.blinq.services.network.retrofit.SwarmNetworkService;
@@ -27,6 +29,7 @@ import ch.dreipol.android.blinq.services.network.retrofit.PollService;
 import ch.dreipol.android.blinq.services.network.retrofit.ProfileService;
 import ch.dreipol.android.blinq.util.Bog;
 import ch.dreipol.android.blinq.util.gson.DateTypeAdapter;
+import ch.dreipol.android.blinq.util.gson.GenderInterestsAdapter;
 import ch.dreipol.android.dreiworks.serialization.gson.GsonHelper;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
@@ -101,6 +104,7 @@ public class NetworkService extends BaseService implements INetworkMethods {
         return GsonHelper.getGSONDeserializationBuilder()
                 .registerTypeAdapter(Date.class, new DateTypeAdapter())
                 .registerTypeAdapter(ServerStatus.class, new ServerStatusAdapter())
+                .registerTypeAdapter(GenderInterests.class, new GenderInterestsAdapter())
                 .create();
     }
 
@@ -144,8 +148,8 @@ public class NetworkService extends BaseService implements INetworkMethods {
     }
 
     @Override
-    public Observable<Profile> getMe() {
-        return getRequestObservable(mProfileService.getMe(new HashMap()), TypeToken.get(Profile.class));
+    public Observable<SettingsProfile> getMe() {
+        return getRequestObservable(mProfileService.getMe(new HashMap()), TypeToken.get(SettingsProfile.class));
     }
 
     @Override

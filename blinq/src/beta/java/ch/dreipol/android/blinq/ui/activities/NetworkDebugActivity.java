@@ -93,6 +93,7 @@ public class NetworkDebugActivity extends BaseBlinqActivity {
                         .subscribe(printProfileAction(), new Action1<Throwable>() {
                                     @Override
                                     public void call(Throwable throwable) {
+                                        Bog.e(Bog.Category.NETWORKING, "Error: " + throwable.toString());
 
                                     }
                                 },
