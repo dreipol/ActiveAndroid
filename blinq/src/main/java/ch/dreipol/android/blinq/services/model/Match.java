@@ -112,4 +112,8 @@ public class Match extends Model {
                 ", name=" + mProfile.getFirstName() +
                 '}';
     }
+
+    public void setReceived(boolean received) {
+        mReceived = received;
+    }
 }
