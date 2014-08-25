@@ -50,4 +50,6 @@ public class FacebookPhotoListItemView extends RelativeLayout {
     private void setLoading(boolean isLoading) {
 
     }
+
+
 }

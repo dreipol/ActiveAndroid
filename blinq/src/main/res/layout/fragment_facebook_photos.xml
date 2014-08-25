@@ -15,8 +15,10 @@
         android:numColumns="auto_fit"
         android:fastScrollAlwaysVisible="false"
         android:fastScrollEnabled="false"
-        android:horizontalSpacing="2dp"
         android:verticalSpacing="2dp"
-        android:layout_margin="4dp"
-        android:gravity="center"/>
+        android:horizontalSpacing="2dp"
+        android:layout_margin="2dp"
+        android:gravity="center"
+        android:stretchMode="spacingWidth"
+        />
 </RelativeLayout>

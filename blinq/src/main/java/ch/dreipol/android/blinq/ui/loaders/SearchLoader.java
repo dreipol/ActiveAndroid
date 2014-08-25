@@ -26,9 +26,9 @@ public class SearchLoader extends RelativeLayout {
         rotationMask.setImageDrawable(getResources().getDrawable(R.drawable.searchding_drehend));
         rotationMask.setAdjustViewBounds(true);
         addView(rotationMask, new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
         RotateAnimation rotator = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         rotator.setRepeatCount(10000);
-
         rotator.setDuration(5000);
         rotator.setRepeatMode(Animation.INFINITE);
         rotationMask.startAnimation(rotator);

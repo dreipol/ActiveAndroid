@@ -33,4 +33,40 @@
         android:id="@+id/debug_network_services"
         android:layout_gravity="center_horizontal"/>
 
+    <view
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        class="ch.dreipol.android.blinq.ui.LoaderView"
+        android:id="@+id/loader_view_default"
+        android:layout_gravity="center_horizontal"/>
+
+    <view
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        class="ch.dreipol.android.blinq.ui.LoaderView"
+        android:id="@+id/loader_view_dark_big"
+        android:layout_gravity="center_horizontal"/>
+
+    <view
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        class="ch.dreipol.android.blinq.ui.LoaderView"
+        android:id="@+id/loader_view_dark_small"
+        android:layout_gravity="center_horizontal"/>
+
+
+    <view
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        class="ch.dreipol.android.blinq.ui.LoaderView"
+        android:id="@+id/loader_view_light_big"
+        android:layout_gravity="center_horizontal"/>
+
+    <view
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        class="ch.dreipol.android.blinq.ui.LoaderView"
+        android:id="@+id/loader_view_light_small"
+        android:layout_gravity="center_horizontal"/>
+
 </LinearLayout>

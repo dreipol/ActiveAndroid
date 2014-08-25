@@ -1,9 +1,11 @@
 package ch.dreipol.android.blinq.ui.fragments.facebook;
 
 
+import android.app.Activity;
 import android.database.DataSetObserver;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListAdapter;
 
@@ -14,6 +16,7 @@ import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.impl.FacebookService;
 import ch.dreipol.android.blinq.services.model.LoadingInfo;
 import ch.dreipol.android.blinq.services.model.facebook.FacebookPhoto;
+import ch.dreipol.android.blinq.services.model.facebook.FacebookPhotoSource;
 import ch.dreipol.android.blinq.ui.fragments.BlinqFragment;
 import ch.dreipol.android.blinq.ui.fragments.LoadingState;
 import ch.dreipol.android.blinq.ui.lists.FacebookPhotoListItemView;
@@ -25,6 +28,7 @@ public class FacebookPhotosFragment extends BlinqFragment {
 
     public static final String ALBUM_ID = "ALBUM_ID";
     protected Subscription mSubscription;
+    private OnPhotoInteractionListener mListener;
 
     public FacebookPhotosFragment() {
     }
@@ -59,8 +63,21 @@ public class FacebookPhotosFragment extends BlinqFragment {
                 final FacebookPhoto[] facebookPhotos = data.toArray(new FacebookPhoto[data.size()]);
 
 
+
+
                 View container = loadingInfo.getViewContainer();
                 GridView gridView = (GridView) container.findViewById(R.id.facebook_photos_grid);
+
+
+                gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        if(mListener!=null){
+
+                            mListener.didSelectPhoto(facebookPhotos[position]);
+                        }
+                    }
+                });
                 gridView.setAdapter(new ListAdapter() {
                     @Override
                     public boolean areAllItemsEnabled() {
@@ -111,7 +128,8 @@ public class FacebookPhotosFragment extends BlinqFragment {
                         } else {
                             result = (FacebookPhotoListItemView) convertView;
                         }
-                        result.setImage(facebookPhotos[position].getPicture());
+                        FacebookPhoto facebookPhoto = facebookPhotos[position];
+                        result.setImage(facebookPhoto.getPicture());
                         return result;
                     }
 
@@ -141,11 +159,23 @@ public class FacebookPhotosFragment extends BlinqFragment {
         mSubscription.unsubscribe();
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (OnPhotoInteractionListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnPhotoInteractionListener");
+        }
+    }
 
     @Override
     protected int getLayoutResourceId() {
         return R.layout.fragment_facebook_photos;
     }
 
-
+    public interface OnPhotoInteractionListener {
+        void didSelectPhoto(FacebookPhoto photo);
+    }
 }

@@ -7,17 +7,23 @@ import android.support.v4.app.FragmentTransaction;
 
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.model.facebook.FacebookAlbum;
+import ch.dreipol.android.blinq.services.model.facebook.FacebookPhoto;
 import ch.dreipol.android.blinq.ui.fragments.facebook.FacebookAlbumFragment;
 import ch.dreipol.android.blinq.ui.fragments.facebook.FacebookPhotosFragment;
 import ch.dreipol.android.blinq.ui.fragments.facebook.FacebookPhotosOfMeFragment;
 
-public class FacebookPhotoPickerActivity extends BaseBlinqActivity implements FacebookAlbumFragment.OnAlbumInteractionListener {
+public class FacebookPhotoPickerActivity extends BaseBlinqActivity implements FacebookAlbumFragment.OnAlbumInteractionListener, FacebookPhotosFragment.OnPhotoInteractionListener {
 
 
     @Override
     public void didSelectAlbum(FacebookAlbum album) {
         String albumId = album.getId();
         showPhotos(new FacebookPhotosFragment(), albumId);
+    }
+
+    @Override
+    public void didSelectPhoto(FacebookPhoto photo) {
+        finish();
     }
 
     private void showPhotos(FacebookPhotosFragment fragment, String albumId) {
