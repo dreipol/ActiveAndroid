@@ -3,15 +3,12 @@ package ch.dreipol.android.blinq.services.model;
 /**
  * Created by phil on 21/08/14.
  */
-public class SearchSettings implements ILoadable{
+public class SearchSettings implements ILoadable {
 
-    public enum SearchInterest {
-        MALE, FEMALE, BOTH
-    }
     private Integer mDistance;
     private Integer mFrom;
     private Integer mTo;
-    private SearchInterest mInterestedIn;
+    private GenderInterests mInterestedIn;
     private Boolean mVibrate;
 
     public Integer getDistance() {
@@ -38,11 +35,11 @@ public class SearchSettings implements ILoadable{
         mTo = to;
     }
 
-    public SearchInterest getInterestedIn() {
+    public GenderInterests getInterestedIn() {
         return mInterestedIn;
     }
 
-    public void setInterestedIn(SearchInterest interestedIn) {
+    public void setInterestedIn(GenderInterests interestedIn) {
         mInterestedIn = interestedIn;
     }
 
@@ -60,7 +57,7 @@ public class SearchSettings implements ILoadable{
         result.setFrom(18);
         result.setTo(20);
         result.setDistance(10);
-        result.setInterestedIn(SearchInterest.FEMALE);
+        result.setInterestedIn(GenderInterests.FEMALE);
         result.setVibrate(true);
         return result;
     }

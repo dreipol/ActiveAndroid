@@ -1,10 +1,7 @@
 package ch.dreipol.android.blinq.services.impl;
 
-import com.google.gson.JsonElement;
-
 import ch.dreipol.android.blinq.services.IAccountService;
 import ch.dreipol.android.blinq.services.SaveResult;
-import ch.dreipol.android.blinq.services.TaskStatus;
 import ch.dreipol.android.blinq.services.model.SearchSettings;
 import rx.Observable;
 import rx.subjects.BehaviorSubject;

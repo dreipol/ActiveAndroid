@@ -10,11 +10,13 @@ public class SettingsProfile extends Profile {
     public SettingsProfile() {
         super();
     }
+
     private int mFriendCount;
     private boolean mLoginCompleted;
-    private EnumSet<GenderInterests> mInterestedIn;
+    private GenderInterests mInterestedIn;
     private float mHotness;
     private Date mApprovalDate;
+    private Date mBirthday;
 
     public int getFriendCount() {
         return mFriendCount;
@@ -23,8 +25,17 @@ public class SettingsProfile extends Profile {
     public boolean isLoginCompleted() {
         return mLoginCompleted;
     }
+
     public float getHotness() {
         return mHotness;
+    }
+
+    public GenderInterests getInterestedIn() {
+        return mInterestedIn;
+    }
+
+    public Date getBirthday() {
+        return mBirthday;
     }
 
     public Date getApprovalDate() {

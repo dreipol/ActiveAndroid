@@ -12,6 +12,7 @@ import android.widget.ToggleButton;
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.IAccountService;
+import ch.dreipol.android.blinq.services.model.GenderInterests;
 import ch.dreipol.android.blinq.services.model.LoadingInfo;
 import ch.dreipol.android.blinq.services.model.SearchSettings;
 import ch.dreipol.android.blinq.util.Bog;
@@ -124,7 +125,7 @@ public class MySettingsFragment extends BlinqFragment {
             public void onClick(View v) {
                 femaleButton.setChecked(false);
                 bothButton.setChecked(false);
-                mSearchSettings.setInterestedIn(SearchSettings.SearchInterest.MALE);
+                mSearchSettings.setInterestedIn(GenderInterests.MALE);
                 updateSettings();
             }
         });
@@ -133,7 +134,7 @@ public class MySettingsFragment extends BlinqFragment {
             public void onClick(View v) {
                 maleButton.setChecked(false);
                 bothButton.setChecked(false);
-                mSearchSettings.setInterestedIn(SearchSettings.SearchInterest.FEMALE);
+                mSearchSettings.setInterestedIn(GenderInterests.FEMALE);
                 updateSettings();
         }
 
@@ -143,7 +144,7 @@ public class MySettingsFragment extends BlinqFragment {
             public void onClick(View v) {
                 femaleButton.setChecked(false);
                 maleButton.setChecked(false);
-                mSearchSettings.setInterestedIn(SearchSettings.SearchInterest.BOTH);
+                mSearchSettings.setInterestedIn(GenderInterests.BOTH);
                 updateSettings();
             }
         });

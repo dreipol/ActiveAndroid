@@ -23,16 +23,7 @@ public class GenderInterestsAdapter implements JsonSerializer<GenderInterests>, 
     @Override
     public GenderInterests deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         String[] deserialized = context.deserialize(json, String[].class);
-        JsonArray jsonArray = json.getAsJsonArray();
-        GenderInterests interests = null;
-        if (jsonArray.size() > 1) {
-            interests = GenderInterests.BOTH;
-        } else if (jsonArray.get(0).toString().equalsIgnoreCase("f")) {
-            interests = GenderInterests.FEMALE;
-        } else {
-            interests = GenderInterests.MALE;
-        }
-        return interests;
+        return GenderInterests.createFromArray(deserialized);
     }
 
     @Override
