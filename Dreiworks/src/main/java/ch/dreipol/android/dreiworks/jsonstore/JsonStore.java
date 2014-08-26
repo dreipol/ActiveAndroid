@@ -17,7 +17,7 @@ import ch.dreipol.android.dreiworks.jsonstore.streamprovider.InputOutputStreamPr
 /**
  * Created by melbic on 26/08/14.
  */
-public class JsonStore {
+public class JsonStore implements IJsonStore {
 
     private Gson mGson;
     private InputOutputStreamProvider mProvider;
@@ -34,7 +34,12 @@ public class JsonStore {
         mEncryption = encryption;
     }
 
-    public void put(String key, Object value) throws IOException {
+    private static String getFileName(String key) {
+        return key + ".json";
+    }
+
+    @Override
+    public <T> void put(String key, T value) throws IOException {
         final String jsonString = mGson.toJson(value);
         final String fileName = getFileName(key);
         readWrite(mProvider.getOutputStream(fileName), new StreamFunction<OutputStream, Void>() {
@@ -48,15 +53,18 @@ public class JsonStore {
         });
     }
 
+    @Override
     public <T> T get(String key, final Class<T> clazz) throws IOException {
         return getByType(key, clazz);
     }
 
+    @Override
     public <T> T get(String key, final TypeToken<T> type) throws IOException {
         return getByType(key, type.getType());
     }
 
-    private <T> T getByType(String key, final Type type) throws IOException {
+    @Override
+    public <T> T getByType(String key, final Type type) throws IOException {
         final String fileName = getFileName(key);
         return readWrite(mProvider.getInputStream(fileName), new StreamFunction<InputStream, T>() {
             @Override
@@ -78,10 +86,6 @@ public class JsonStore {
         } finally {
             closer.close();
         }
-    }
-
-    private static String getFileName(String key) {
-        return key + ".json";
     }
 
     interface StreamFunction<I, O> {
