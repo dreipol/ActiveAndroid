@@ -5,7 +5,7 @@ import android.content.Context;
 import java.util.HashMap;
 import java.util.Map;
 
-import ch.dreipol.android.blinq.services.network.retrofit.IMatchesNetworkService;
+import ch.dreipol.android.dreiworks.ICacheService;
 
 /**
  * Created by phil on 22.03.14.
@@ -13,7 +13,7 @@ import ch.dreipol.android.blinq.services.network.retrofit.IMatchesNetworkService
 public class AppService {
 
     public enum ServiceType {
-        RUNTIME, LOCATION, FACEBOOK, NETWORK, VALUE_STORE, IMAGE_CACHE, ACCOUNT, DATABASE, MATCHES
+        RUNTIME, LOCATION, FACEBOOK, NETWORK, VALUE_STORE, IMAGE_CACHE, ACCOUNT, DATABASE, JSON_CACHE, MATCHES
     }
 
     private static volatile AppService instance = null;
@@ -76,7 +76,9 @@ public class AppService {
     public IDatabaseService getDatabaseService() {
         return (IDatabaseService) getService(ServiceType.DATABASE);
     }
-
+    public ICacheService getJsonCacheService() {
+        return (ICacheService) getService(ServiceType.JSON_CACHE);
+    }
     public Context getContext() {
         return mContext;
     }
@@ -107,6 +109,7 @@ public class AppService {
             registerService(ServiceType.FACEBOOK, configuration.facebookService().newInstance());
             registerService(ServiceType.NETWORK, configuration.networkService().newInstance());
             registerService(ServiceType.VALUE_STORE, configuration.valueStoreService().newInstance());
+            registerService(ServiceType.JSON_CACHE, configuration.jsonCache().newInstance());
             registerService(ServiceType.IMAGE_CACHE, configuration.imageCacheService().newInstance());
             registerService(ServiceType.MATCHES, configuration.matchesService().newInstance());
             registerService(ServiceType.ACCOUNT, configuration.accountService().newInstance());

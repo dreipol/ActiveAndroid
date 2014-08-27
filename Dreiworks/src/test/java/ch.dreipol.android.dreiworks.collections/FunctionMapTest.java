@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-//import ch.dreipol.android.blinq.services.Profile;
 import rx.functions.Func1;
 
 /**

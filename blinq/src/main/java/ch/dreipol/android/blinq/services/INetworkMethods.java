@@ -7,5 +7,5 @@ import ch.dreipol.android.blinq.services.model.Profile;
  */
 public interface INetworkMethods extends IService, ISwarmNetworkMethods, IMatchesNetworkMethods {
 
-    rx.Observable<Profile> getMe();
+    void getMe();
 }

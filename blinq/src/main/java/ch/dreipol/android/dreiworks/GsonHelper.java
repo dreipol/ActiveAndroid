@@ -1,7 +1,11 @@
-package ch.dreipol.android.dreiworks.serialization.gson;
+package ch.dreipol.android.dreiworks;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.GsonBuilder;
+
+import ch.dreipol.android.dreiworks.activeandroid.gson.ActiveAndroidIDExclusionStrategy;
+import ch.dreipol.android.dreiworks.serialization.gson.AndroidFieldNamingStrategy;
+import ch.dreipol.android.dreiworks.serialization.gson.GsonExclusionStrategy;
 
 
 /**

@@ -1,7 +1,5 @@
 package ch.dreipol.android.blinq.util.activeandroid;
 
-import com.activeandroid.serializer.TypeSerializer;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

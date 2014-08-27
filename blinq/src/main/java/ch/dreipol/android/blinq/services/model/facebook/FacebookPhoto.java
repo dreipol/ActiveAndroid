@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 import java.util.Collection;
 
 import ch.dreipol.android.blinq.services.model.ILoadable;
-import ch.dreipol.android.dreiworks.serialization.gson.GsonHelper;
+import ch.dreipol.android.dreiworks.GsonHelper;
 
 /**
  * Created by phil on 22/08/14.

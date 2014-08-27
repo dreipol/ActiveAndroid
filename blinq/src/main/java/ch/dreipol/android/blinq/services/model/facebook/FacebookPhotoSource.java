@@ -3,7 +3,7 @@ package ch.dreipol.android.blinq.services.model.facebook;
 import com.facebook.model.GraphObject;
 import com.google.gson.Gson;
 
-import ch.dreipol.android.dreiworks.serialization.gson.GsonHelper;
+import ch.dreipol.android.dreiworks.GsonHelper;
 
 /**
  * Created by phil on 22/08/14.

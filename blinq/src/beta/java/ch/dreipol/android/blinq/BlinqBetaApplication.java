@@ -22,6 +22,8 @@ import ch.dreipol.android.blinq.services.impl.DatabaseDebugService;
 import ch.dreipol.android.blinq.services.impl.FacebookService;
 import ch.dreipol.android.blinq.services.impl.LocationService;
 import ch.dreipol.android.blinq.services.impl.RuntimeService;
+import ch.dreipol.android.dreiworks.ICacheService;
+import ch.dreipol.android.dreiworks.JsonStoreCacheService;
 
 /**
  * Created by phil on 19/08/14.
@@ -78,6 +80,11 @@ public class BlinqBetaApplication extends BlinqApplication {
             @Override
             public Class<? extends IDatabaseService> databaseService() {
                 return DatabaseDebugService.class;
+            }
+
+            @Override
+            public Class<? extends ICacheService> jsonCache() {
+                return JsonStoreCacheService.class;
             }
         };
     }

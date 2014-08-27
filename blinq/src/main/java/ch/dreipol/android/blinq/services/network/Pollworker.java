@@ -8,7 +8,6 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import ch.dreipol.android.blinq.services.ServerStatus;
-import ch.dreipol.android.blinq.services.TaskStatus;
 import ch.dreipol.android.blinq.services.network.retrofit.PollService;
 import ch.dreipol.android.blinq.util.Bog;
 import ch.dreipol.android.blinq.util.NullSubscription;

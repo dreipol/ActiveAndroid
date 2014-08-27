@@ -1,7 +1,10 @@
 
-package ch.dreipol.android.blinq.services;
+package ch.dreipol.android.blinq.services.network;
 
 import com.google.gson.annotations.Expose;
+
+import ch.dreipol.android.blinq.services.ServerStatus;
+
 enum Status {}
 public class TaskStatus<T> {
 
