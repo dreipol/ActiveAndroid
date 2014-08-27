@@ -51,19 +51,17 @@ public class MySettingsFragment extends BlinqFragment {
         });
 
 
-       mLoadingSubscription.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<LoadingInfo>() {
-           @Override
-           public void call(LoadingInfo loadingInfo) {
-               View v = loadingInfo.getViewContainer();
-               mSearchSettings = (SearchSettings) loadingInfo.getData();
-               configureDistanceControls(v);
-               configureAgeControls(v);
-               configureInterestedControls(v);
-               configureVibrationControls(v);
-
-
-           }
-       });
+        mLoadingSubscription.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<LoadingInfo>() {
+            @Override
+            public void call(LoadingInfo loadingInfo) {
+                View v = loadingInfo.getViewContainer();
+                mSearchSettings = (SearchSettings) loadingInfo.getData();
+                configureDistanceControls(v);
+                configureAgeControls(v);
+                configureInterestedControls(v);
+                configureVibrationControls(v);
+            }
+        });
     }
 
 
@@ -85,7 +83,6 @@ public class MySettingsFragment extends BlinqFragment {
             public void onClick(View v) {
                 onButton.setChecked(false);
                 mSearchSettings.setVibrate(false);
-                updateSettings();
             }
         });
 
@@ -94,7 +91,6 @@ public class MySettingsFragment extends BlinqFragment {
             public void onClick(View v) {
                 offButton.setChecked(false);
                 mSearchSettings.setVibrate(true);
-                updateSettings();
             }
         });
     }
@@ -106,7 +102,7 @@ public class MySettingsFragment extends BlinqFragment {
 
         ToggleButton toBeEnabled = null;
 
-        switch (mSearchSettings.getInterestedIn()){
+        switch (mSearchSettings.getInterestedIn()) {
             case MALE:
                 toBeEnabled = maleButton;
                 break;
@@ -126,7 +122,6 @@ public class MySettingsFragment extends BlinqFragment {
                 femaleButton.setChecked(false);
                 bothButton.setChecked(false);
                 mSearchSettings.setInterestedIn(GenderInterests.MALE);
-                updateSettings();
             }
         });
         femaleButton.setOnClickListener(new View.OnClickListener() {
@@ -135,8 +130,7 @@ public class MySettingsFragment extends BlinqFragment {
                 maleButton.setChecked(false);
                 bothButton.setChecked(false);
                 mSearchSettings.setInterestedIn(GenderInterests.FEMALE);
-                updateSettings();
-        }
+            }
 
         });
         bothButton.setOnClickListener(new View.OnClickListener() {
@@ -145,7 +139,6 @@ public class MySettingsFragment extends BlinqFragment {
                 femaleButton.setChecked(false);
                 maleButton.setChecked(false);
                 mSearchSettings.setInterestedIn(GenderInterests.BOTH);
-                updateSettings();
             }
         });
     }
@@ -165,7 +158,6 @@ public class MySettingsFragment extends BlinqFragment {
                 fromLabel.setText(val.toString());
                 toBar.setProgress(Math.max(toBar.getProgress(), progress));
                 mSearchSettings.setTo(val);
-                updateSettings();
             }
         });
 
@@ -181,7 +173,6 @@ public class MySettingsFragment extends BlinqFragment {
                 toLabel.setText(textVal);
                 fromBar.setProgress(Math.min(fromBar.getProgress(), progress));
                 mSearchSettings.setTo(val);
-                updateSettings();
 
             }
         });
@@ -208,16 +199,12 @@ public class MySettingsFragment extends BlinqFragment {
 
                 distanceText.setText(distanceString);
                 mSearchSettings.setDistance(progress);
-                updateSettings();
             }
         });
 
         distanceBar.setProgress(mSearchSettings.getDistance());
     }
 
-    private void updateSettings() {
-        AppService.getInstance().getAccountService().saveSearchSettings(mSearchSettings);
-    }
 
     public abstract class SeekBarAdapter implements SeekBar.OnSeekBarChangeListener {
         @Override
