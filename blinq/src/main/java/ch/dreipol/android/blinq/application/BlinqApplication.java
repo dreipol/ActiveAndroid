@@ -23,6 +23,8 @@ import ch.dreipol.android.blinq.services.impl.NetworkService;
 import ch.dreipol.android.blinq.services.impl.RuntimeService;
 import ch.dreipol.android.blinq.util.Bog;
 import ch.dreipol.android.blinq.services.impl.DatabaseService;
+import ch.dreipol.android.dreiworks.ICacheService;
+import ch.dreipol.android.dreiworks.JsonStoreCacheService;
 
 /**
  * Created by phil on 19.03.14.
@@ -93,6 +95,11 @@ public class BlinqApplication extends Application implements Application.Activit
             @Override
             public Class<? extends IDatabaseService> databaseService() {
                 return DatabaseService.class;
+            }
+
+            @Override
+            public Class<? extends ICacheService> jsonCache() {
+                return JsonStoreCacheService.class;
             }
         };
     }

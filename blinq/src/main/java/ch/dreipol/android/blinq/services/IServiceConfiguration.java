@@ -2,6 +2,8 @@ package ch.dreipol.android.blinq.services;
 
 import android.content.Context;
 
+import ch.dreipol.android.dreiworks.ICacheService;
+
 /**
  * Created by phil on 22.03.14.
  */
@@ -26,4 +28,6 @@ public interface IServiceConfiguration {
     Class<? extends IAccountService> accountService();
 
     Class<? extends IDatabaseService> databaseService();
+
+    Class<? extends ICacheService> jsonCache();
 }

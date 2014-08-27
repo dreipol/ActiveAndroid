@@ -1,4 +1,4 @@
-package ch.dreipol.android.dreiworks;
+package ch.dreipol.android.dreiworks.jsonstore;
 
 import java.util.Observable;
 

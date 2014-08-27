@@ -9,16 +9,18 @@ import java.util.HashMap;
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.impl.BaseService;
 import ch.dreipol.android.dreiworks.jsonstore.AESEncryption;
+import ch.dreipol.android.dreiworks.jsonstore.CachedModel;
 import ch.dreipol.android.dreiworks.jsonstore.JsonStore;
 import ch.dreipol.android.dreiworks.plattform.AndroidStreamProvider;
 
 /**
  * Created by melbic on 26/08/14.
  */
-public class JsonStoreCacheService extends BaseService implements IStoreService {
+public class JsonStoreCacheService extends BaseService implements ICacheService {
     private HashMap<String, CachedModel> mCacheMap;
     private JsonStore mStore;
 
+    @Override
     public <T> CachedModel<T> put(String key, T value) throws IOException, IllegalArgumentException {
         synchronized (mCacheMap) {
             CachedModel<T> storedObject = mCacheMap.get(key);
@@ -34,6 +36,7 @@ public class JsonStoreCacheService extends BaseService implements IStoreService 
         }
     }
 
+    @Override
     public <T> CachedModel<T> get(String key, final Class<T> clazz) throws IOException {
         return getByType(key, clazz);
     }
@@ -50,10 +53,12 @@ public class JsonStoreCacheService extends BaseService implements IStoreService 
         }
     }
 
+    @Override
     public <T> CachedModel<T> get(String key, TypeToken<T> type) throws IOException {
         return getByType(key, type.getType());
     }
 
+    @Override
     public void remove(String key) throws IOException {
         synchronized (mCacheMap) {
             CachedModel cachedModel = mCacheMap.remove(key);
