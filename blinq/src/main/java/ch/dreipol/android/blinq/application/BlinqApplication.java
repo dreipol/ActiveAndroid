@@ -25,6 +25,7 @@ import ch.dreipol.android.blinq.util.Bog;
 import ch.dreipol.android.blinq.services.impl.DatabaseService;
 import ch.dreipol.android.dreiworks.ICacheService;
 import ch.dreipol.android.dreiworks.JsonStoreCacheService;
+import ch.dreipol.android.dreiworks.ServiceBuilder;
 
 /**
  * Created by phil on 19.03.14.
@@ -58,8 +59,8 @@ public class BlinqApplication extends Application implements Application.Activit
             }
 
             @Override
-            public Class<? extends IRuntimeService> runtimeService() {
-                return RuntimeService.class;
+            public ServiceBuilder<? extends IRuntimeService> runtimeServiceBuilder() {
+                return new ServiceBuilder<RuntimeService>(RuntimeService.class);
             }
 
             @Override

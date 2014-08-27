@@ -3,6 +3,7 @@ package ch.dreipol.android.blinq.services;
 import android.content.Context;
 
 import ch.dreipol.android.dreiworks.ICacheService;
+import ch.dreipol.android.dreiworks.ServiceBuilder;
 
 /**
  * Created by phil on 22.03.14.
@@ -13,7 +14,7 @@ public interface IServiceConfiguration {
 
     Class<? extends ILocationService> locationService();
 
-    Class<? extends IRuntimeService> runtimeService();
+    ServiceBuilder<? extends IRuntimeService> runtimeServiceBuilder();
 
     Class<? extends IFacebookService> facebookService();
 

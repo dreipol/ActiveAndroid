@@ -24,6 +24,7 @@ import ch.dreipol.android.blinq.services.impl.LocationService;
 import ch.dreipol.android.blinq.services.impl.RuntimeService;
 import ch.dreipol.android.dreiworks.ICacheService;
 import ch.dreipol.android.dreiworks.JsonStoreCacheService;
+import ch.dreipol.android.dreiworks.ServiceBuilder;
 
 /**
  * Created by phil on 19/08/14.
@@ -43,8 +44,8 @@ public class BlinqBetaApplication extends BlinqApplication {
             }
 
             @Override
-            public Class<? extends IRuntimeService> runtimeService() {
-                return RuntimeService.class;
+            public ServiceBuilder<? extends IRuntimeService> runtimeServiceBuilder() {
+                return new ServiceBuilder<RuntimeService>(RuntimeService.class);
             }
 
             @Override

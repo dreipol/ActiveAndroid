@@ -103,7 +103,7 @@ public class AppService {
         }
 
         try {
-            registerService(ServiceType.RUNTIME, configuration.runtimeService().newInstance());
+            registerService(ServiceType.RUNTIME, configuration.runtimeServiceBuilder().build());
             registerService(ServiceType.DATABASE, configuration.databaseService().newInstance());
             registerService(ServiceType.LOCATION, configuration.locationService().newInstance());
             registerService(ServiceType.FACEBOOK, configuration.facebookService().newInstance());
