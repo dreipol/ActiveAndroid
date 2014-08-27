@@ -165,8 +165,7 @@ public class NetworkService extends BaseService implements INetworkMethods {
 
     @Override
     public void loadMatches() {
-        getService().getMatchesService().loadMatches(
-                getRequestObservable(mMatchesNetworkService.getMatchesTask(new HashMap()), new TypeToken<ArrayList<Match>>() {
+        getService().getMatchesService().loadMatches(getRequestObservable(mMatchesNetworkService.getMatchesTask(new HashMap()), new TypeToken<ArrayList<Match>>() {
                 }));
     }
 

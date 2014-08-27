@@ -26,24 +26,37 @@ public class MatchesListFragment extends BlinqFragment {
     @Override
     public void onStart() {
 
-        AppService.getInstance().getNetworkService().loadMatches().subscribe(new Action1<ArrayList<Match>>() {
-            @Override
-            public void call(ArrayList<Match> matches) {
-                    LoadingInfo v = new LoadingInfo(LoadingState.LOADED);
-                v.setData(new MatchData(matches));
-                mDataSubject.onNext(v);
+//        AppService.getInstance().getNetworkService().loadMatches().subscribe(new Action1<ArrayList<Match>>() {
+//            @Override
+//            public void call(ArrayList<Match> matches) {
+//                    LoadingInfo v = new LoadingInfo(LoadingState.LOADED);
+//                v.setData(new MatchData(matches));
+//                mDataSubject.onNext(v);
+//
+//            }
+//        });
 
-            }
-        });
+
+        mDataSubject.onNext(new LoadingInfo(LoadingState.LOADED));
+
+
+
+
+
 
         mLoadingSubscription.subscribe(new Action1<LoadingInfo>() {
             @Override
             public void call(LoadingInfo loadingInfo) {
+
                 View viewContainer = loadingInfo.getViewContainer();
+
+
                 MatchData data = (MatchData) loadingInfo.getData();
                 final ArrayList<Match> matches = data.getMatches();
 
                 mMatchesList = (ListView) viewContainer.findViewById(R.id.matches_list);
+
+                
 
                 mMatchesList.setAdapter(new ListAdapter() {
                     @Override
