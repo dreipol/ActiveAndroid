@@ -50,7 +50,7 @@ public class BlinqDrawerLayout extends ViewGroup {
     public BlinqDrawerLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         mBackgroundView = new View(context);
-        mBackgroundView.setBackgroundColor(getResources().getColor(R.color.blinq_background_almost_black_2f2f2f));
+        mBackgroundView.setBackgroundColor(getResources().getColor(R.color.blinq_black));
         addView(mBackgroundView);
 
         mLeftViewContainer = new FrameLayout(context);
