@@ -29,6 +29,7 @@ public class BlinqDrawerLayout extends ViewGroup {
     private final RelativeLayout mRightView;
     private final RelativeLayout mCenterView;
     private final HeaderView mHeaderView;
+    private final RelativeLayout mCenterOverlayView;
     private View mBackgroundView;
     private FrameLayout mLeftViewContainer;
     private FrameLayout mRightViewContainer;
@@ -77,14 +78,19 @@ public class BlinqDrawerLayout extends ViewGroup {
         mCenterViewContainer.addView(mHeaderView, new LayoutParams(LayoutParams.MATCH_PARENT, StaticResources.convertDisplayPointsToPixel(context, 44)));
 
         mCenterView = new RelativeLayout(context);
-
-
         mCenterView.setId(StaticResources.generateViewId());
         RelativeLayout.LayoutParams centerParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-
         centerParams.addRule(RelativeLayout.BELOW, mHeaderView.getId());
-
         mCenterViewContainer.addView(mCenterView, centerParams);
+
+
+        mCenterOverlayView = new RelativeLayout(context);
+        mCenterOverlayView.setId(StaticResources.generateViewId());
+        RelativeLayout.LayoutParams centerOverlayParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        centerOverlayParams.addRule(RelativeLayout.BELOW, mCenterOverlayView.getId());
+        mCenterViewContainer.addView(mCenterOverlayView, centerOverlayParams);
+        mCenterOverlayView.setBackgroundColor(context.getResources().getColor(R.color.blinq_transparent));
+        mCenterOverlayView.setVisibility(GONE);
 
         mLeftView = new RelativeLayout(context);
         mLeftView.setId(StaticResources.generateViewId());
@@ -198,12 +204,18 @@ public class BlinqDrawerLayout extends ViewGroup {
 
     public void setDrawerPosition(DrawerPosition position) {
         mSnap = position;
+
         centerViewUpdateFinished();
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         int actionMasked = ev.getActionMasked();
+        if(isTouchInCenter(ev)  && mCenterOverlayView.getVisibility()==VISIBLE){
+            return true;
+        }
+
+
         if (isTouchInCenter(ev) && actionMasked != MotionEvent.ACTION_DOWN && actionMasked != MotionEvent.ACTION_UP && actionMasked !=MotionEvent.ACTION_MOVE) {
             return true;
         } else {
@@ -244,19 +256,23 @@ public class BlinqDrawerLayout extends ViewGroup {
                     case CENTER:
                         mLeftViewContainer.setVisibility(GONE);
                         mRightViewContainer.setVisibility(GONE);
+                        mCenterOverlayView.setVisibility(GONE);
                         break;
                     case LEFT:
                         mLeftViewContainer.setVisibility(GONE);
                         mRightViewContainer.setVisibility(VISIBLE);
+                        mCenterOverlayView.setVisibility(VISIBLE);
                         break;
                     case RIGHT:
                         mRightViewContainer.setVisibility(GONE);
                         mLeftViewContainer.setVisibility(VISIBLE);
+                        mCenterOverlayView.setVisibility(VISIBLE);
                 }
 
                 if(mDrawerLayoutListener!=null){
                     mDrawerLayoutListener.finishMovementOnPosition(mSnap);
                 }
+
 
             }
 

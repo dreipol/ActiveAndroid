@@ -94,7 +94,7 @@ public class MainActivity extends BaseBlinqActivity implements ISettingsListList
             @Override
             public void finishMovementOnPosition(DrawerPosition newPosition) {
                 if(mCurrentCenterFragment!=null){
-                    mCurrentCenterFragment.setPosition(DrawerPosition.CENTER);
+                    mCurrentCenterFragment.setPosition(newPosition);
                 }
             }
         });

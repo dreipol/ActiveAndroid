@@ -54,6 +54,21 @@ public abstract class BlinqFragment extends Fragment implements IDrawerPositionL
 
     @Override
     public void setPosition(DrawerPosition newPosition) {
+//        View view = getView();
+//        if(view instanceof ViewGroup){
+//            disableEnableControls(newPosition.equals(DrawerPosition.CENTER), (ViewGroup) view);
+//        }
+
 
     }
+//    private void disableEnableControls(boolean enable, ViewGroup vg){
+//        for (int i = 0; i < vg.getChildCount(); i++){
+//            View child = vg.getChildAt(i);
+//            child.setEnabled(enable);
+//            if (child instanceof ViewGroup){
+//                disableEnableControls(enable, (ViewGroup)child);
+//            }
+//        }
+//    }
+
 }
