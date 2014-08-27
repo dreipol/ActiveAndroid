@@ -18,20 +18,43 @@
             android:orientation="horizontal"
             android:layout_height="250dp"
             android:id="@+id/profile_overview"
-            android:layout_alignParentTop="true" >
+            android:background="@color/blinq_red_f9395C"
+            android:baselineAligned="false">
 
-            <ImageView
-                android:layout_width="150dp"
-                android:layout_height="200dp"
-                android:id="@+id/main_image"
-                android:layout_marginLeft="20dp" />
+            <RelativeLayout
+                android:layout_width="156dp"
+                android:layout_height="156dp"
+                android:background="@drawable/detailscreen_picture_large_standard"
+                android:clickable="false"
+                android:layout_marginLeft="20dp"
+                android:layout_gravity="center_vertical">
 
-            <view
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                class="ch.dreipol.android.blinq.ui.layout.FlowLayout"
-                android:id="@+id/flow_layout"
-                android:focusableInTouchMode="false"/>
+                <ImageView
+                    android:layout_width="115dp"
+                    android:layout_height="115dp"
+                    android:id="@+id/main_image"
+                    android:src="@drawable/icon"
+                    android:scaleType="centerCrop"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginBottom="25dp"
+                    android:layout_marginTop="22dp"
+                    android:layout_marginRight="19dp"
+                    android:layout_alignParentTop="false"
+                    android:layout_alignParentLeft="false"
+                    android:layout_alignParentBottom="false"
+                    android:layout_alignParentRight="false"
+                    android:layout_alignWithParentIfMissing="false"
+                    android:layout_alignParentEnd="false"
+                    android:layout_alignParentStart="false"/>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:id="@+id/small_images"
+                android:layout_height="fill_parent">
+            </LinearLayout>
+
 
         </LinearLayout>
 
@@ -73,16 +96,16 @@
             android:background="@color/blinq_background_light_grey_eeeeee">
 
             <ToggleButton
-                android:layout_width="80dp"
+                android:layout_width="60dp"
                 android:background="@drawable/default_switch_left_button"
                 android:layout_height="60dp"
                 android:text="m"
                 android:id="@+id/toggle_female"
                 android:checked="true"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp" />
             <ToggleButton
-                android:layout_width="80dp"
+                android:layout_width="60dp"
                 android:background="@drawable/default_switch_right_button"
                 android:layout_height="60dp"
                 android:text="f"
@@ -91,13 +114,13 @@
                 android:layout_marginTop="20dp" />
 
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="60dp"
                 android:text="Colorpicker"
                 android:id="@+id/button_colorpicker"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp" />
+                android:layout_marginLeft="10dp" />
 
             </LinearLayout>
 

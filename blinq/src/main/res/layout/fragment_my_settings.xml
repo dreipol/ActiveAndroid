@@ -14,7 +14,7 @@
 
 
         <view
-            android:id="@+id/view"
+            android:id="@+id/profile_picture"
             class="ch.dreipol.android.blinq.ui.textviews.AVMTextView"
             android:textSize="16sp"
             android:layout_width="wrap_content"
@@ -116,7 +116,7 @@
             android:orientation="horizontal">
 
             <view
-                android:id="@+id/view3"
+                android:id="@+id/status_text"
                 class="ch.dreipol.android.blinq.ui.textviews.AVMTextView"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"

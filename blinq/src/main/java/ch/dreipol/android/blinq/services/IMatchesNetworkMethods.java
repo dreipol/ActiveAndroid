@@ -9,5 +9,5 @@ import rx.Observable;
  * Created by melbic on 18/07/14.
  */
 public interface IMatchesNetworkMethods {
-    public void loadMatches();
+    public Observable<java.util.ArrayList<ch.dreipol.android.blinq.services.model.Match>> loadMatches();
 }

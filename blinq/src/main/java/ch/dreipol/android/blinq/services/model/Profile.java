@@ -99,4 +99,12 @@ public class Profile extends Model implements ILoadable {
     }
 
 
+    public Photo getMainPhoto() {
+        Photo result = null;
+        List<Photo> photos = getPhotos();
+        if (photos.size() > 0) {
+            result = photos.get(0);
+        }
+        return result;
+    }
 }

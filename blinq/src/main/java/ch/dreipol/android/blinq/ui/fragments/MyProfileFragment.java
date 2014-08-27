@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,13 +31,6 @@ import rx.schedulers.Schedulers;
 public class MyProfileFragment extends BlinqFragment {
 
 
-    public static MyProfileFragment newInstance() {
-        MyProfileFragment fragment = new MyProfileFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     public MyProfileFragment() {
     }
 
@@ -55,7 +49,7 @@ public class MyProfileFragment extends BlinqFragment {
 
                 View container = loadingInfo.getViewContainer();
 
-                ImageView imageView = (ImageView) container.findViewById(R.id.main_image);
+                ImageView bigImage = (ImageView) container.findViewById(R.id.main_image);
 
 
                 TextView ageView = (TextView) container.findViewById(R.id.profile_age);
@@ -77,26 +71,43 @@ public class MyProfileFragment extends BlinqFragment {
                 LinearLayout profileOverviewView = (LinearLayout) container.findViewById(R.id.profile_overview);
                 GradientDrawable g = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.parseColor(profile.getColorTop()), bottomColor});
                 g.setGradientType(GradientDrawable.LINEAR_GRADIENT);
+
                 profileOverviewView.setBackgroundDrawable(g);
 
-                FlowLayout flowLayout = (FlowLayout) container.findViewById(R.id.flow_layout);
+                LinearLayout flowLayout = (LinearLayout) container.findViewById(R.id.small_images);
                 flowLayout.removeAllViews();
 
                 IImageCacheService imageCacheService = AppService.getInstance().getImageCacheService();
 
                 List<Photo> profilePhotos = profile.getPhotos();
+                Integer count = 0;
+                LinearLayout currentColumn = new LinearLayout(container.getContext());
+                currentColumn.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                currentColumn.setOrientation(LinearLayout.VERTICAL);
+
+
                 for (Photo photo : profilePhotos) {
                     Bog.d(Bog.Category.UI, "loading photo...");
 
                     if (profilePhotos.indexOf(photo) == 0) {
-                        imageCacheService.displayPhoto(photo, imageView);
+                        imageCacheService.displayPhoto(photo, bigImage);
                         Bog.d(Bog.Category.UI, "...main");
                     } else {
+                        if (count > 0 &&  count % 2 == 0) {
+                            currentColumn = new LinearLayout(container.getContext());
+                            currentColumn.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                            currentColumn.setOrientation(LinearLayout.VERTICAL);
+
+                            flowLayout.addView(currentColumn);
+                            Bog.d(Bog.Category.UI, "...new column");
+                        }
                         ImageView imgView = new ImageView(container.getContext());
-                        flowLayout.addView(imgView);
-                        imageCacheService.displayPhoto(photo, imageView);
+                        currentColumn.addView(imgView, 100,100);
+                        imageCacheService.displayPhoto(photo, imgView);
                         Bog.d(Bog.Category.UI, "...small");
+                        count += 1;
                     }
+
                 }
 
 
