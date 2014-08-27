@@ -15,4 +15,6 @@ public interface IAccountService extends IService {
 
 
     public Observable<SettingsProfile> getMe();
+
+    Observable<SaveResult> saveMe(SettingsProfile myProfile);
 }

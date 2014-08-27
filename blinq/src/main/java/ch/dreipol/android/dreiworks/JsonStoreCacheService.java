@@ -45,23 +45,6 @@ public class JsonStoreCacheService extends BaseService implements ICacheService 
         return getByType(key, clazz);
     }
 
-    private <T> CachedModel<T> getByType(String key, Type type) throws IOException {
-        synchronized (mCacheMap) {
-            CachedModel<T> storedObject = (CachedModel<T>) mCacheMap.get(key);
-            if (storedObject == null) {
-                storedObject = new CachedModel<T>();
-                mCacheMap.put(key, storedObject);
-                try {
-                    T object = mStore.getByType(key, type);
-                    storedObject.setCachedObject(object);
-                } catch (FileNotFoundException e) {
-                    Bog.v(Bog.Category.SYSTEM, "File " + key + " does not exist.");
-                }
-            }
-            return storedObject;
-        }
-    }
-
     @Override
     public <T> CachedModel<T> get(String key, TypeToken<T> type) throws IOException {
         return getByType(key, type.getType());
@@ -97,6 +80,18 @@ public class JsonStoreCacheService extends BaseService implements ICacheService 
         }
     }
 
+    @Override
+    public void dispose() {
+        super.dispose();
+    }
+
+    @Override
+    public void setup(AppService appService) {
+        super.setup(appService);
+        mCacheMap = new HashMap<String, CachedModel>();
+        mStore = new JsonStore(GsonHelper.getGSONSerializationBuilder().create(), new AndroidStreamProvider(appService.getContext()), new AESEncryption());
+    }
+
     protected <T> Observable<T> getObservableByType(final String key, final Type type) {
         Observable<T> o = Observable.empty();
         try {
@@ -110,16 +105,21 @@ public class JsonStoreCacheService extends BaseService implements ICacheService 
         }
     }
 
-    @Override
-    public void dispose() {
-        super.dispose();
-    }
-
-    @Override
-    public void setup(AppService appService) {
-        super.setup(appService);
-        mCacheMap = new HashMap<String, CachedModel>();
-        mStore = new JsonStore(GsonHelper.getGSONSerializationBuilder().create(), new AndroidStreamProvider(appService.getContext()), new AESEncryption());
+    private <T> CachedModel<T> getByType(String key, Type type) throws IOException {
+        synchronized (mCacheMap) {
+            CachedModel<T> storedObject = (CachedModel<T>) mCacheMap.get(key);
+            if (storedObject == null) {
+                storedObject = new CachedModel<T>();
+                mCacheMap.put(key, storedObject);
+                try {
+                    T object = mStore.getByType(key, type);
+                    storedObject.setCachedObject(object);
+                } catch (FileNotFoundException e) {
+                    Bog.v(Bog.Category.SYSTEM, "File " + key + " does not exist.");
+                }
+            }
+            return storedObject;
+        }
     }
 
     class OnSubscribeObserver<T> implements Observable.OnSubscribe<T>, Observer {

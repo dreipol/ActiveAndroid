@@ -57,6 +57,7 @@ public class SwarmManager {
     }
 
     private void getSwarm() {
+//        AppService.getInstance().getJsonCacheService()
         IValueStoreService valueStore = AppService.getInstance().getValueStore();
         HashSet<String> keys = new HashSet<String>(Arrays.asList("radius", "min_age", "max_age"));
         Map<String, ?> searchSettings = valueStore.getEntriesAsMap(keys);

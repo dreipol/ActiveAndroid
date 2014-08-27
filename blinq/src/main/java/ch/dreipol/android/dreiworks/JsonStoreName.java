@@ -4,7 +4,7 @@ package ch.dreipol.android.dreiworks;
  * Created by melbic on 27/08/14.
  */
 public enum JsonStoreName {
-    SETTINGS_PROFILE("SettingsProfile");
+    SETTINGS_PROFILE("SettingsProfile"), SEARCH_SETTINGS("SearchSettings");
     private final String mName;
 
     private JsonStoreName(String name) {
