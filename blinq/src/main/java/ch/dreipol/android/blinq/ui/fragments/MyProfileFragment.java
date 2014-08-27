@@ -21,6 +21,7 @@ import ch.dreipol.android.blinq.services.IImageCacheService;
 import ch.dreipol.android.blinq.services.model.LoadingInfo;
 import ch.dreipol.android.blinq.services.model.Photo;
 import ch.dreipol.android.blinq.services.model.Profile;
+import ch.dreipol.android.blinq.services.model.SettingsProfile;
 import ch.dreipol.android.blinq.ui.layout.FlowLayout;
 import ch.dreipol.android.blinq.util.Bog;
 import rx.android.schedulers.AndroidSchedulers;
@@ -114,13 +115,13 @@ public class MyProfileFragment extends BlinqFragment {
             }
         });
 
-        AppService.getInstance().getNetworkService().getMe()
+        AppService.getInstance().getAccountService().getMe()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Profile>() {
+                .subscribe(new Action1<SettingsProfile>() {
                                @Override
-                               public void call(Profile profile) {
-                                   LoadingInfo<Profile> loadingInfo = new LoadingInfo<Profile>(LoadingState.LOADED);
+                               public void call(SettingsProfile profile) {
+                                   LoadingInfo<SettingsProfile> loadingInfo = new LoadingInfo<SettingsProfile>(LoadingState.LOADED);
                                    loadingInfo.setData(profile);
                                    mDataSubject.onNext(loadingInfo);
                                }

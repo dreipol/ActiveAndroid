@@ -1,4 +1,4 @@
-package ch.dreipol.android.dreiworks.serialization.gson;
+package ch.dreipol.android.dreiworks.activeandroid.gson;
 
 import com.activeandroid.TableInfo;
 import com.google.gson.ExclusionStrategy;

@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -16,10 +17,12 @@ import ch.dreipol.android.blinq.services.ConnectionSignatureCreator;
 import ch.dreipol.android.blinq.services.ICredentials;
 import ch.dreipol.android.blinq.services.IFacebookService;
 import ch.dreipol.android.blinq.services.INetworkMethods;
+import ch.dreipol.android.blinq.services.model.GenderInterests;
 import ch.dreipol.android.blinq.services.model.Match;
 import ch.dreipol.android.blinq.services.model.Profile;
 import ch.dreipol.android.blinq.services.ServerStatus;
-import ch.dreipol.android.blinq.services.TaskStatus;
+import ch.dreipol.android.blinq.services.network.TaskStatus;
+import ch.dreipol.android.blinq.services.model.SettingsProfile;
 import ch.dreipol.android.blinq.services.network.Pollworker;
 import ch.dreipol.android.blinq.services.network.retrofit.IMatchesNetworkService;
 import ch.dreipol.android.blinq.services.network.retrofit.SwarmNetworkService;
@@ -27,7 +30,10 @@ import ch.dreipol.android.blinq.services.network.retrofit.PollService;
 import ch.dreipol.android.blinq.services.network.retrofit.ProfileService;
 import ch.dreipol.android.blinq.util.Bog;
 import ch.dreipol.android.blinq.util.gson.DateTypeAdapter;
-import ch.dreipol.android.dreiworks.serialization.gson.GsonHelper;
+import ch.dreipol.android.blinq.util.gson.GenderInterestsAdapter;
+import ch.dreipol.android.dreiworks.GsonHelper;
+import ch.dreipol.android.dreiworks.ICacheService;
+import ch.dreipol.android.dreiworks.JsonStoreName;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 import retrofit.mime.TypedOutput;
@@ -101,6 +107,7 @@ public class NetworkService extends BaseService implements INetworkMethods {
         return GsonHelper.getGSONDeserializationBuilder()
                 .registerTypeAdapter(Date.class, new DateTypeAdapter())
                 .registerTypeAdapter(ServerStatus.class, new ServerStatusAdapter())
+                .registerTypeAdapter(GenderInterests.class, new GenderInterestsAdapter())
                 .create();
     }
 
@@ -144,15 +151,23 @@ public class NetworkService extends BaseService implements INetworkMethods {
     }
 
     @Override
-    public Observable<Profile> getMe() {
-        return getRequestObservable(mProfileService.getMe(new HashMap()), TypeToken.get(Profile.class));
+    public void getMe() {
+        getRequestObservable(mProfileService.getMe(new HashMap()), TypeToken.get(SettingsProfile.class))
+                .flatMap(new Func1<SettingsProfile, Observable<?>>() {
+                             @Override
+                             public Observable<SettingsProfile> call(SettingsProfile settingsProfile) {
+                                 return getService().getJsonCacheService().putToObservable(JsonStoreName.SETTINGS_PROFILE.toString(), settingsProfile);
+                             }
+                         }
+
+                ).subscribe();
     }
 
     @Override
-    public Observable<ArrayList<Match>> loadMatches() {
-        Observable<ArrayList<Match>> observable = getRequestObservable(mMatchesNetworkService.getMatchesTask(new HashMap()), new TypeToken<ArrayList<Match>>() {});
-        getService().getMatchesService().loadMatches(observable);
-        return observable;
+    public void loadMatches() {
+        getService().getMatchesService().loadMatches(
+                getRequestObservable(mMatchesNetworkService.getMatchesTask(new HashMap()), new TypeToken<ArrayList<Match>>() {
+                }));
     }
 
 
