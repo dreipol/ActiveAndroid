@@ -151,6 +151,8 @@ public class JsonStoreCacheService extends BaseService implements ICacheService 
                 } else {
                     mSubscriber.onNext(mCachedModel.getObject());
                 }
+            } else if (mSubscriber == null || mSubscriber.isUnsubscribed()) {
+                observable.deleteObserver(this);
             }
         }
     }

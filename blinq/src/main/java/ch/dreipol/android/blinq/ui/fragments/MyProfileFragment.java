@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,6 +23,7 @@ import ch.dreipol.android.blinq.services.model.Profile;
 import ch.dreipol.android.blinq.services.model.SettingsProfile;
 import ch.dreipol.android.blinq.ui.layout.FlowLayout;
 import ch.dreipol.android.blinq.util.Bog;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Action1;
@@ -31,6 +31,15 @@ import rx.schedulers.Schedulers;
 
 public class MyProfileFragment extends BlinqFragment {
 
+
+    private Subscription mMeSubscription;
+
+    public static MyProfileFragment newInstance() {
+        MyProfileFragment fragment = new MyProfileFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     public MyProfileFragment() {
     }
@@ -50,7 +59,7 @@ public class MyProfileFragment extends BlinqFragment {
 
                 View container = loadingInfo.getViewContainer();
 
-                ImageView bigImage = (ImageView) container.findViewById(R.id.main_image);
+                ImageView imageView = (ImageView) container.findViewById(R.id.main_image);
 
 
                 TextView ageView = (TextView) container.findViewById(R.id.profile_age);
@@ -72,50 +81,33 @@ public class MyProfileFragment extends BlinqFragment {
                 LinearLayout profileOverviewView = (LinearLayout) container.findViewById(R.id.profile_overview);
                 GradientDrawable g = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.parseColor(profile.getColorTop()), bottomColor});
                 g.setGradientType(GradientDrawable.LINEAR_GRADIENT);
-
                 profileOverviewView.setBackgroundDrawable(g);
 
-                LinearLayout flowLayout = (LinearLayout) container.findViewById(R.id.small_images);
+                FlowLayout flowLayout = (FlowLayout) container.findViewById(R.id.flow_layout);
                 flowLayout.removeAllViews();
 
                 IImageCacheService imageCacheService = AppService.getInstance().getImageCacheService();
 
                 List<Photo> profilePhotos = profile.getPhotos();
-                Integer count = 0;
-                LinearLayout currentColumn = new LinearLayout(container.getContext());
-                currentColumn.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                currentColumn.setOrientation(LinearLayout.VERTICAL);
-
-
                 for (Photo photo : profilePhotos) {
                     Bog.d(Bog.Category.UI, "loading photo...");
 
                     if (profilePhotos.indexOf(photo) == 0) {
-                        imageCacheService.displayPhoto(photo, bigImage);
+                        imageCacheService.displayPhoto(photo, imageView);
                         Bog.d(Bog.Category.UI, "...main");
                     } else {
-                        if (count > 0 &&  count % 2 == 0) {
-                            currentColumn = new LinearLayout(container.getContext());
-                            currentColumn.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                            currentColumn.setOrientation(LinearLayout.VERTICAL);
-
-                            flowLayout.addView(currentColumn);
-                            Bog.d(Bog.Category.UI, "...new column");
-                        }
                         ImageView imgView = new ImageView(container.getContext());
-                        currentColumn.addView(imgView, 100,100);
-                        imageCacheService.displayPhoto(photo, imgView);
+                        flowLayout.addView(imgView);
+                        imageCacheService.displayPhoto(photo, imageView);
                         Bog.d(Bog.Category.UI, "...small");
-                        count += 1;
                     }
-
                 }
 
 
             }
         });
 
-        AppService.getInstance().getAccountService().getMe()
+        mMeSubscription = AppService.getInstance().getAccountService().getMe()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<SettingsProfile>() {
@@ -146,7 +138,7 @@ public class MyProfileFragment extends BlinqFragment {
     public void onDestroy() {
         super.onDestroy();
         mLoadingSubscription.unsubscribeOn(Schedulers.io());
-
+        mMeSubscription.unsubscribe();
     }
 
     @Override
