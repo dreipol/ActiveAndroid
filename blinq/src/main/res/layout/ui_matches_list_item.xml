@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/blinq_background_very_dark_grey_383838">
+
+    <view
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        class="com.makeramen.RoundedImageView"
+        android:id="@+id/profile_picture"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="8dp"
+        android:src="@drawable/icon"/>
+
+    <view
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        class="ch.dreipol.android.blinq.ui.textviews.AVMTextView"
+        android:id="@+id/match_name"
+        android:layout_toRightOf="@+id/profile_picture"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+
+        android:layout_marginRight="68dp"
+        android:textColor="@color/blinq_white"
+        android:text="Simon"
+        android:textSize="20dp"
+        android:layout_marginTop="8dp"/>
+
+    <view
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        class="ch.dreipol.android.blinq.ui.textviews.AVMTextView"
+        android:id="@+id/status_text"
+        android:layout_toRightOf="@+id/profile_picture"
+        android:layout_toEndOf="@+id/profile_picture"
+        android:text="matched on 20.08.2014"
+        android:textColor="@color/blinq_text_dark_grey_777777"
+        android:layout_alignBottom="@+id/profile_picture"
+        android:layout_marginBottom="4dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="68dp"
+        android:textSize="12dp"/>
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/chat_icon"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="8dp"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/icon_chat_standard"/>
+</RelativeLayout>

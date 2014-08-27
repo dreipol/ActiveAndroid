@@ -28,13 +28,11 @@ public abstract class BlinqFragment extends Fragment {
         mDataSubject = BehaviorSubject.create();
 
         mLoadingSubscription = Observable.zip(mViewSubject, mDataSubject, new Func2<View, LoadingInfo, LoadingInfo>() {
-
             @Override
             public LoadingInfo call(View view, LoadingInfo loadingInfo) {
                 loadingInfo.setViewContainer(view);
                 return loadingInfo;
             }
-
         });
     }
 
@@ -43,6 +41,7 @@ public abstract class BlinqFragment extends Fragment {
         View view = inflater.inflate(getLayoutResourceId(), container, false);
 
         mViewSubject.onNext(view);
+
         return view;
     }
 
@@ -51,7 +50,6 @@ public abstract class BlinqFragment extends Fragment {
         super.onDestroy();
         mViewSubject = null;
         mDataSubject = null;
-
     }
 
     protected abstract int getLayoutResourceId();

@@ -16,7 +16,6 @@ import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.impl.FacebookService;
 import ch.dreipol.android.blinq.services.model.LoadingInfo;
 import ch.dreipol.android.blinq.services.model.facebook.FacebookPhoto;
-import ch.dreipol.android.blinq.services.model.facebook.FacebookPhotoSource;
 import ch.dreipol.android.blinq.ui.fragments.BlinqFragment;
 import ch.dreipol.android.blinq.ui.fragments.LoadingState;
 import ch.dreipol.android.blinq.ui.lists.FacebookPhotoListItemView;

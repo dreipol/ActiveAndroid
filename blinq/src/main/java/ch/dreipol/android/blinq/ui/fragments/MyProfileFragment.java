@@ -90,16 +90,12 @@ public class MyProfileFragment extends BlinqFragment {
 
                 List<Photo> profilePhotos = profile.getPhotos();
                 for (Photo photo : profilePhotos) {
-                    Bog.d(Bog.Category.UI, "loading photo...");
-
                     if (profilePhotos.indexOf(photo) == 0) {
                         imageCacheService.displayPhoto(photo, imageView);
-                        Bog.d(Bog.Category.UI, "...main");
                     } else {
                         ImageView imgView = new ImageView(container.getContext());
                         flowLayout.addView(imgView);
                         imageCacheService.displayPhoto(photo, imageView);
-                        Bog.d(Bog.Category.UI, "...small");
                     }
                 }
 

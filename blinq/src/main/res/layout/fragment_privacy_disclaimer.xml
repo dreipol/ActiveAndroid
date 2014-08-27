@@ -67,7 +67,7 @@
                 android:textColor="@color/blinq_white"/>
 
             <view
-                android:id="@+id/view3"
+                android:id="@+id/status_text"
                 class="ch.dreipol.android.blinq.ui.DarkSeparatorView"
                 android:layout_width="wrap_content"
                 android:layout_height="4dp"/>

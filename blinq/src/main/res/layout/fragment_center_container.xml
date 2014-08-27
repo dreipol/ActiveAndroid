@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             class="ch.dreipol.android.blinq.ui.textviews.JMTextView"
-            android:id="@+id/view"
+            android:id="@+id/profile_picture"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:text="Suche nach Personen in deiner Nähe..."
