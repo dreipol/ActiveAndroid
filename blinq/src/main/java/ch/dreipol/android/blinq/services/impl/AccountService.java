@@ -26,6 +26,7 @@ public class AccountService extends BaseService implements IAccountService {
 
     @Override
     public Observable<SettingsProfile> getMe() {
+
         this.getService().getNetworkService().getMe();
         return this.getService().getJsonCacheService().getObservable(JsonStoreName.SETTINGS_PROFILE.toString(), SettingsProfile.class);
     }

@@ -38,6 +38,8 @@ import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 import retrofit.mime.TypedOutput;
 import rx.Observable;
+import rx.Subscription;
+import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -156,11 +158,17 @@ public class NetworkService extends BaseService implements INetworkMethods {
                 .flatMap(new Func1<SettingsProfile, Observable<?>>() {
                              @Override
                              public Observable<SettingsProfile> call(SettingsProfile settingsProfile) {
-                                 return getService().getJsonCacheService().putToObservable(JsonStoreName.SETTINGS_PROFILE.toString(), settingsProfile);
+                                  getService().getJsonCacheService().putToObservable(JsonStoreName.SETTINGS_PROFILE.toString(), settingsProfile);
+                                return Observable.empty();
                              }
                          }
 
-                ).subscribe();
+                ).subscribe(new Action1<Object>() {
+                                @Override
+                                public void call(Object o) {
+
+                                }
+                            });
     }
 
     @Override

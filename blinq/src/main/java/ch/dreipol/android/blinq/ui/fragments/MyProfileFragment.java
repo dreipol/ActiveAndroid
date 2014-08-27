@@ -23,6 +23,7 @@ import ch.dreipol.android.blinq.services.model.Profile;
 import ch.dreipol.android.blinq.services.model.SettingsProfile;
 import ch.dreipol.android.blinq.ui.layout.FlowLayout;
 import ch.dreipol.android.blinq.util.Bog;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Action1;
@@ -30,6 +31,8 @@ import rx.schedulers.Schedulers;
 
 public class MyProfileFragment extends BlinqFragment {
 
+
+    private Subscription mMeSubscription;
 
     public static MyProfileFragment newInstance() {
         MyProfileFragment fragment = new MyProfileFragment();
@@ -104,7 +107,7 @@ public class MyProfileFragment extends BlinqFragment {
             }
         });
 
-        AppService.getInstance().getAccountService().getMe()
+        mMeSubscription = AppService.getInstance().getAccountService().getMe()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<SettingsProfile>() {
@@ -135,7 +138,7 @@ public class MyProfileFragment extends BlinqFragment {
     public void onDestroy() {
         super.onDestroy();
         mLoadingSubscription.unsubscribeOn(Schedulers.io());
-
+        mMeSubscription.unsubscribe();
     }
 
     @Override
