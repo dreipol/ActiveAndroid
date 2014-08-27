@@ -104,7 +104,7 @@ public class MyProfileFragment extends BlinqFragment {
             }
         });
 
-        AppService.getInstance().getNetworkService().getMe()
+        AppService.getInstance().getAccountService().getMe()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<SettingsProfile>() {

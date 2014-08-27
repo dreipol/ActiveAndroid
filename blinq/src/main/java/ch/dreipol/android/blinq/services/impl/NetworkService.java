@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -31,6 +32,8 @@ import ch.dreipol.android.blinq.util.Bog;
 import ch.dreipol.android.blinq.util.gson.DateTypeAdapter;
 import ch.dreipol.android.blinq.util.gson.GenderInterestsAdapter;
 import ch.dreipol.android.dreiworks.GsonHelper;
+import ch.dreipol.android.dreiworks.ICacheService;
+import ch.dreipol.android.dreiworks.JsonStoreName;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 import retrofit.mime.TypedOutput;
@@ -148,15 +151,23 @@ public class NetworkService extends BaseService implements INetworkMethods {
     }
 
     @Override
-    public Observable<SettingsProfile> getMe() {
-        return getRequestObservable(mProfileService.getMe(new HashMap()), TypeToken.get(SettingsProfile.class));
+    public void getMe() {
+        getRequestObservable(mProfileService.getMe(new HashMap()), TypeToken.get(SettingsProfile.class))
+                .flatMap(new Func1<SettingsProfile, Observable<?>>() {
+                             @Override
+                             public Observable<SettingsProfile> call(SettingsProfile settingsProfile) {
+                                 return getService().getJsonCacheService().putToObservable(JsonStoreName.SETTINGS_PROFILE.toString(), settingsProfile);
+                             }
+                         }
+
+                ).subscribe();
     }
 
     @Override
     public void loadMatches() {
         getService().getMatchesService().loadMatches(
                 getRequestObservable(mMatchesNetworkService.getMatchesTask(new HashMap()), new TypeToken<ArrayList<Match>>() {
-        }));
+                }));
     }
 
 

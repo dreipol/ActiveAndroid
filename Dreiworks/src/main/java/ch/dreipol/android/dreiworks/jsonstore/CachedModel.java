@@ -21,7 +21,7 @@ public class CachedModel<T> extends Observable {
 
     public void setCachedObject(T cachedObject) {
         mCachedObject = cachedObject;
-        hasChanged();
+        setChanged();
         notifyObservers(mCachedObject);
     }
 
@@ -36,4 +36,9 @@ public class CachedModel<T> extends Observable {
     public boolean isRemoved() {
         return mIsRemoved;
     }
+
+    public boolean doesExist() {
+        return !isRemoved() && (mCachedObject != null);
+    }
+
 }

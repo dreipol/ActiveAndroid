@@ -87,7 +87,7 @@ public class NetworkDebugActivity extends BaseBlinqActivity {
         findButtonWithId(R.id.test_raw_me).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppService.getInstance().getNetworkService().getMe()
+                AppService.getInstance().getAccountService().getMe()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(printProfileAction(), new Action1<Throwable>() {
