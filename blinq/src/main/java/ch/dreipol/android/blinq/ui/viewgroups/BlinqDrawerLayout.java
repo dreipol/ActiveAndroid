@@ -252,8 +252,12 @@ public class BlinqDrawerLayout extends ViewGroup {
                     case RIGHT:
                         mRightViewContainer.setVisibility(GONE);
                         mLeftViewContainer.setVisibility(VISIBLE);
-
                 }
+
+                if(mDrawerLayoutListener!=null){
+                    mDrawerLayoutListener.finishMovementOnPosition(mSnap);
+                }
+
             }
 
             @Override

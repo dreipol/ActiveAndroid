@@ -33,9 +33,10 @@ public class MySettingsFragment extends BlinqFragment {
     private SearchSettings mSearchSettings;
     private Subscription mAccountServiceSubscription;
 
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onStart() {
+        super.onStart();
 
         mAccountServiceSubscription = AppService.getInstance().getAccountService().getSearchSettings().subscribe(new Action1<SearchSettings>() {
             @Override
@@ -53,24 +54,25 @@ public class MySettingsFragment extends BlinqFragment {
 
 
         mLoadingSubscription.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<LoadingInfo>() {
-           @Override
-           public void call(LoadingInfo loadingInfo) {
-               View v = loadingInfo.getViewContainer();
-               mSearchSettings = (SearchSettings) loadingInfo.getData();
-               configureDistanceControls(v);
-               configureAgeControls(v);
-               configureInterestedControls(v);
-               configureVibrationControls(v);
-           }
-       });
+            @Override
+            public void call(LoadingInfo loadingInfo) {
+                View v = loadingInfo.getViewContainer();
+                mSearchSettings = (SearchSettings) loadingInfo.getData();
+                configureDistanceControls(v);
+                configureAgeControls(v);
+                configureInterestedControls(v);
+                configureVibrationControls(v);
+            }
+        });
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onPause() {
+        super.onPause();
         mAccountServiceSubscription.unsubscribe();
         mLoadingSubscription.unsubscribeOn(Schedulers.io());
     }
+
 
     @Override
     protected int getLayoutResourceId() {

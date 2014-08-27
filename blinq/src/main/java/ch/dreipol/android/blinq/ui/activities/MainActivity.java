@@ -1,18 +1,19 @@
 package ch.dreipol.android.blinq.ui.activities;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
 
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.application.BlinqApplication;
+import ch.dreipol.android.blinq.ui.fragments.BlinqFragment;
 import ch.dreipol.android.blinq.ui.fragments.IHeaderConfigurationProvider;
 import ch.dreipol.android.blinq.ui.fragments.ISettingsListListener;
-import ch.dreipol.android.blinq.ui.fragments.MainFragment;
+import ch.dreipol.android.blinq.ui.fragments.ProfileSearchFragment;
 import ch.dreipol.android.blinq.ui.fragments.MatchesListFragment;
 import ch.dreipol.android.blinq.ui.fragments.MyProfileFragment;
 import ch.dreipol.android.blinq.ui.fragments.MySettingsFragment;
@@ -22,13 +23,13 @@ import ch.dreipol.android.blinq.ui.viewgroups.BlinqDrawerLayout;
 import ch.dreipol.android.blinq.ui.viewgroups.DrawerPosition;
 import ch.dreipol.android.blinq.util.exceptions.BlinqRuntimeException;
 
-public class HomeActivity extends BaseBlinqActivity implements ISettingsListListener {
+public class MainActivity extends BaseBlinqActivity implements ISettingsListListener {
 
     private BlinqDrawerLayout mLayout;
-    private MainFragment mMainFragment;
+    private ProfileSearchFragment mProfileSearchFragment;
     private MatchesListFragment mRightFragment;
     private SettingsListFragment mLeftFragment;
-    private Fragment mCurrentCenterFragment;
+    private BlinqFragment mCurrentCenterFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,24 +39,32 @@ public class HomeActivity extends BaseBlinqActivity implements ISettingsListList
 
         mLayout = (BlinqDrawerLayout) findViewById(R.id.drawer_layout);
 
-//
-//        mLayout.findViewById(R.id.blinq_header_left_button).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mLayout.setDrawerPosition(DrawerPosition.RIGHT);
-//
-//            }
-//        });
-//        mLayout.findViewById(R.id.blinq_header_right_button).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mLayout.setDrawerPosition(DrawerPosition.LEFT);
-//            }
-//        });
-//
+        mLayout.findViewById(R.id.blinq_header_left_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(mLayout.getDrawerPosition().equals(DrawerPosition.RIGHT)){
+                    setPosition(DrawerPosition.CENTER);
+                }else{
+                    setPosition(DrawerPosition.RIGHT);
+                }
+
+            }
+        });
+        mLayout.findViewById(R.id.blinq_header_right_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(mLayout.getDrawerPosition().equals(DrawerPosition.LEFT)){
+                    setPosition(DrawerPosition.CENTER);
+                }else{
+                    setPosition(DrawerPosition.LEFT);
+                }
+            }
+        });
 
 
-        setCenterFragment(MainFragment.class);
+        setCenterFragment(ProfileSearchFragment.class);
 
 
         mLayout.setDrawerLayoutListener(new IDrawerLayoutListener() {
@@ -73,7 +82,7 @@ public class HomeActivity extends BaseBlinqActivity implements ISettingsListList
                 if (mLeftFragment == null) {
                     mLeftFragment = new SettingsListFragment();
 
-                    mLeftFragment.setSettingsListListener(HomeActivity.this);
+                    mLeftFragment.setSettingsListListener(MainActivity.this);
 
                     getSupportFragmentManager().beginTransaction()
                             .add(mLayout.getLeftContainer(), mLeftFragment)
@@ -81,20 +90,28 @@ public class HomeActivity extends BaseBlinqActivity implements ISettingsListList
 
                 }
             }
+
+            @Override
+            public void finishMovementOnPosition(DrawerPosition newPosition) {
+                if(mCurrentCenterFragment!=null){
+                    mCurrentCenterFragment.setPosition(DrawerPosition.CENTER);
+                }
+            }
         });
 
 
     }
 
-    private void setCenterFragment(Class<? extends Fragment> newCenterFragmentClass) {
+    private void setCenterFragment(Class<? extends BlinqFragment> newCenterFragmentClass) {
         FragmentManager fragmentManager = getSupportFragmentManager();
 
-        Fragment newFragment;
-        if (newCenterFragmentClass.isInstance(MainFragment.class)) {
-            if (mMainFragment == null) {
-                mMainFragment = new MainFragment();
+
+        BlinqFragment newFragment;
+        if (newCenterFragmentClass.isAssignableFrom(ProfileSearchFragment.class)) {
+            if (mProfileSearchFragment == null) {
+                mProfileSearchFragment = new ProfileSearchFragment();
             }
-            newFragment = mMainFragment;
+            newFragment = mProfileSearchFragment;
         } else {
             try {
                 newFragment = newCenterFragmentClass.newInstance();
@@ -118,7 +135,7 @@ public class HomeActivity extends BaseBlinqActivity implements ISettingsListList
 
         mCurrentCenterFragment = newFragment;
 
-        if(mCurrentCenterFragment instanceof IHeaderConfigurationProvider){
+        if (mCurrentCenterFragment instanceof IHeaderConfigurationProvider) {
             IHeaderConfigurationProvider headerProvider = (IHeaderConfigurationProvider) mCurrentCenterFragment;
             mLayout.updateHeaderConfiguration(headerProvider.getHeaderConfiguration());
         }
@@ -146,8 +163,15 @@ public class HomeActivity extends BaseBlinqActivity implements ISettingsListList
     @Override
     public void onBackPressed() {
 
-        if (!mLayout.getDrawerPosition().equals(DrawerPosition.CENTER)) {
-            mLayout.setDrawerPosition(DrawerPosition.CENTER);
+        if(!mCurrentCenterFragment.equals(mProfileSearchFragment) && mLayout.getDrawerPosition().equals(DrawerPosition.CENTER)){
+            setPosition(DrawerPosition.RIGHT);
+        }else if (!mLayout.getDrawerPosition().equals(DrawerPosition.CENTER) && !mCurrentCenterFragment.equals(mProfileSearchFragment)) {
+            setCenterFragment(ProfileSearchFragment.class);
+            setPosition(DrawerPosition.CENTER);
+
+        }else if (!mLayout.getDrawerPosition().equals(DrawerPosition.CENTER)) {
+            setPosition(DrawerPosition.CENTER);
+
         } else {
             super.onBackPressed();
             moveTaskToBack(true);
@@ -156,32 +180,39 @@ public class HomeActivity extends BaseBlinqActivity implements ISettingsListList
 
     @Override
     public void helpTapped() {
-        mLayout.setDrawerPosition(DrawerPosition.CENTER);
         setCenterFragment(HelpWebViewFragment.class);
+        setPosition(DrawerPosition.CENTER);
     }
 
     @Override
     public void settingsTapped() {
-        mLayout.setDrawerPosition(DrawerPosition.CENTER);
         setCenterFragment(MySettingsFragment.class);
+        setPosition(DrawerPosition.CENTER);
 
     }
 
     @Override
     public void profileTapped() {
-        mLayout.setDrawerPosition(DrawerPosition.CENTER);
         setCenterFragment(MyProfileFragment.class);
+        setPosition(DrawerPosition.CENTER);
     }
 
 
     @Override
     public void matchesTapped() {
-        mLayout.setDrawerPosition(DrawerPosition.LEFT);
+        setPosition(DrawerPosition.LEFT);
     }
 
     @Override
     public void homeTapped() {
-        mLayout.setDrawerPosition(DrawerPosition.CENTER);
-        setCenterFragment(MainFragment.class);
+        setPosition(DrawerPosition.CENTER);
+        setCenterFragment(ProfileSearchFragment.class);
     }
+
+    private void setPosition(DrawerPosition drawerPosition) {
+
+        mLayout.setDrawerPosition(drawerPosition);
+
+    }
+
 }

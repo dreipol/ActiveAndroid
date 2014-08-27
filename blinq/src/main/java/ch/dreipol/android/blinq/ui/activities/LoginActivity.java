@@ -40,7 +40,7 @@ public class LoginActivity extends BaseBlinqActivity implements JoinBlinqFragmen
             @Override
             public void call(FacebookService.FacebookServiceInfo info) {
                 if (info.status.equals(FacebookService.FacebookServiceStatus.LOGGED_IN)) {
-                    Intent startIntent = new Intent(getApplicationContext(), HomeActivity.class);
+                    Intent startIntent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(startIntent);
                 }
             }

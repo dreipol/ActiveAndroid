@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activities.HomeActivity"
+            android:name=".ui.activities.MainActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity android:name="net.hockeyapp.android.UpdateActivity" />
