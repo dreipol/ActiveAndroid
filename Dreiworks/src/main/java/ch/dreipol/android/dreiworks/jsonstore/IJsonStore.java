@@ -16,4 +16,6 @@ public interface IJsonStore {
     public <T> T get(String key, TypeToken<T> type) throws IOException;
 
     public <T> T getByType(String key, Type type) throws IOException;
+
+    public void remove(String key);
 }

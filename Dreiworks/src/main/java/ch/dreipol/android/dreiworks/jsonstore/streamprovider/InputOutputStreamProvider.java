@@ -13,4 +13,5 @@ public interface InputOutputStreamProvider {
 
     public OutputStream getOutputStream(String fileName) throws IOException;
 
+    void removeFile(String fileName);
 }

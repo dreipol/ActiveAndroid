@@ -8,6 +8,7 @@ import java.util.Observable;
 public class CachedModel<T> extends Observable {
 
     private T mCachedObject;
+    private boolean mIsRemoved;
 
     public CachedModel() {
         super();
@@ -26,5 +27,13 @@ public class CachedModel<T> extends Observable {
 
     public T getObject() {
         return mCachedObject;
+    }
+
+    public void setRemoved() {
+        mIsRemoved = true;
+    }
+
+    public boolean isRemoved() {
+        return mIsRemoved;
     }
 }

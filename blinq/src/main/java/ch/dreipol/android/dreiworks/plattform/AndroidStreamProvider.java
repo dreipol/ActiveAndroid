@@ -29,4 +29,9 @@ public class AndroidStreamProvider implements InputOutputStreamProvider {
     public OutputStream getOutputStream(String fileName) throws IOException {
         return mContext.openFileOutput(fileName, Context.MODE_PRIVATE);
     }
+
+    @Override
+    public void removeFile(String fileName) {
+        mContext.deleteFile(fileName);
+    }
 }

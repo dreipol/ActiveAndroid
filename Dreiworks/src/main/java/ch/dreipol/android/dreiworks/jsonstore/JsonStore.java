@@ -76,6 +76,11 @@ public class JsonStore implements IJsonStore {
         });
     }
 
+    @Override
+    public void remove(String fileName) {
+        mProvider.removeFile(fileName);
+    }
+
     private <C extends Closeable, R> R readWrite(C c, StreamFunction<C, R> func) throws IOException {
         Closer closer = Closer.create();
         try {
