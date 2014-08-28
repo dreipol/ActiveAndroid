@@ -211,12 +211,12 @@ public class BlinqDrawerLayout extends ViewGroup {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         int actionMasked = ev.getActionMasked();
-        if(isTouchInCenter(ev)  && mCenterOverlayView.getVisibility()==VISIBLE){
+        if (isTouchInCenter(ev) && mCenterOverlayView.getVisibility() == VISIBLE) {
             return true;
         }
 
 
-        if (isTouchInCenter(ev) && actionMasked != MotionEvent.ACTION_DOWN && actionMasked != MotionEvent.ACTION_UP && actionMasked !=MotionEvent.ACTION_MOVE) {
+        if (isTouchInCenter(ev) && actionMasked != MotionEvent.ACTION_DOWN && actionMasked != MotionEvent.ACTION_UP && actionMasked != MotionEvent.ACTION_MOVE) {
             return true;
         } else {
             mInitialX = ev.getX() - mXTranslation;
@@ -269,7 +269,7 @@ public class BlinqDrawerLayout extends ViewGroup {
                         mCenterOverlayView.setVisibility(VISIBLE);
                 }
 
-                if(mDrawerLayoutListener!=null){
+                if (mDrawerLayoutListener != null) {
                     mDrawerLayoutListener.finishMovementOnPosition(mSnap);
                 }
 
@@ -320,13 +320,12 @@ public class BlinqDrawerLayout extends ViewGroup {
         if (maxPercentage > 1) {
 
 
-            maxPercentage = 1+(maxPercentage-1)/2;
+            maxPercentage = 1 + (maxPercentage - 1) / 2;
             additionalPercentage = maxPercentage;
-            maxPercentage = 1+(maxPercentage-1)/2;
+            maxPercentage = 1 + (maxPercentage - 1) / 2;
         } else {
             additionalPercentage = 1;
         }
-
 
 
         if (toRight) {
