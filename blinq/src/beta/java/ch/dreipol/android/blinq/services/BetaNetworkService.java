@@ -5,33 +5,33 @@ import android.content.res.Resources;
 import com.google.gson.Gson;
 import com.squareup.okhttp.OkHttpClient;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.UnrecoverableKeyException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 
 import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
 
 import ch.dreipol.android.blinq.services.impl.NetworkService;
+import ch.dreipol.android.blinq.services.model.Match;
 import retrofit.RestAdapter;
-import retrofit.client.ApacheClient;
 import retrofit.client.OkClient;
+import rx.Observable;
+
+import com.google.gson.reflect.TypeToken;
 
 /**
  * Created by phil on 19/08/14.
@@ -121,5 +121,21 @@ public class BetaNetworkService extends NetworkService {
         return resources.openRawResource(
                         resources.getIdentifier("raw/server",
                                 "raw", getService().getContext().getPackageName()));
+    }
+
+    @Override
+    public void loadMatches() {
+        Resources resources = getService().getContext().getResources();
+        Gson gson = getGson();
+        InputStream inputStream = getMatchesStream(resources);
+        getService().getMatchesService().loadMatches(Observable.<ArrayList<Match>>from(gson.<ArrayList<Match>>fromJson(new InputStreamReader(inputStream), new TypeToken<ArrayList<Match>>() {
+        }.getType())));
+    }
+    
+    
+    private InputStream getMatchesStream(Resources resources) {
+        return resources.openRawResource(
+                resources.getIdentifier("raw/matches",
+                        "raw", getService().getContext().getPackageName()));
     }
 }
