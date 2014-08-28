@@ -10,7 +10,6 @@ import ch.dreipol.android.blinq.services.IAccountService;
 import ch.dreipol.android.blinq.services.IDatabaseService;
 import ch.dreipol.android.blinq.services.IFacebookService;
 import ch.dreipol.android.blinq.services.IImageCacheService;
-import ch.dreipol.android.blinq.services.ILocationService;
 import ch.dreipol.android.blinq.services.IMatchesService;
 import ch.dreipol.android.blinq.services.INetworkMethods;
 import ch.dreipol.android.blinq.services.IRuntimeService;
@@ -21,10 +20,11 @@ import ch.dreipol.android.blinq.services.impl.FacebookService;
 import ch.dreipol.android.blinq.services.impl.LocationService;
 import ch.dreipol.android.blinq.services.impl.NetworkService;
 import ch.dreipol.android.blinq.services.impl.RuntimeService;
+import ch.dreipol.android.blinq.services.model.SearchSettings;
 import ch.dreipol.android.blinq.util.Bog;
 import ch.dreipol.android.blinq.services.impl.DatabaseService;
 import ch.dreipol.android.dreiworks.ICacheService;
-import ch.dreipol.android.dreiworks.JsonStoreCacheService;
+import ch.dreipol.android.dreiworks.JsonStoreName;
 import ch.dreipol.android.dreiworks.ServiceBuilder;
 
 /**
@@ -54,8 +54,8 @@ public class BlinqApplication extends Application implements Application.Activit
             }
 
             @Override
-            public Class<? extends ILocationService> locationService() {
-                return LocationService.class;
+            public ServiceBuilder<? extends ch.dreipol.android.blinq.services.ILocationService> locationServiceBuilder() {
+                return new ServiceBuilder<LocationService>(LocationService.class);
             }
 
             @Override
@@ -64,43 +64,44 @@ public class BlinqApplication extends Application implements Application.Activit
             }
 
             @Override
-            public Class<? extends IFacebookService> facebookService() {
-                return FacebookService.class;
+            public ServiceBuilder<? extends IFacebookService> facebookServiceBuilder() {
+                return new ServiceBuilder<FacebookService>(FacebookService.class);
             }
 
             @Override
-            public Class<? extends IValueStoreService> valueStoreService() {
-                return PreferencesValueStore.class;
+            public ServiceBuilder<? extends IValueStoreService> valueStoreServiceBuilder() {
+                return new ServiceBuilder<PreferencesValueStore>(PreferencesValueStore.class);
             }
 
             @Override
-            public Class<? extends INetworkMethods> networkService() {
-                return NetworkService.class;
+            public ServiceBuilder<? extends INetworkMethods> networkServiceBuilder() {
+                return new ServiceBuilder<NetworkService>(NetworkService.class);
             }
 
             @Override
-            public Class<? extends IImageCacheService> imageCacheService() {
-                return ImageCache.class;
+            public ServiceBuilder<? extends IImageCacheService> imageCacheServiceBuilder() {
+                return new ServiceBuilder<ImageCacheService>(ImageCacheService.class);
             }
 
             @Override
-            public Class<? extends IMatchesService> matchesService() {
-                return MatchesService.class;
+            public ServiceBuilder<? extends IMatchesService> matchesServiceBuilder() {
+                return new ServiceBuilder<MatchesService>(MatchesService.class);
             }
 
             @Override
-            public Class<? extends IAccountService> accountService() {
-                return AccountService.class;
+            public ServiceBuilder<? extends IAccountService> accountServiceBuilder() {
+                return new ServiceBuilder<AccountService>(AccountService.class);
             }
 
             @Override
-            public Class<? extends IDatabaseService> databaseService() {
-                return DatabaseService.class;
+            public ServiceBuilder<? extends IDatabaseService> databaseServiceBuilder() {
+                return new ServiceBuilder<DatabaseService>(DatabaseService.class);
             }
 
             @Override
-            public Class<? extends ICacheService> jsonCache() {
-                return JsonStoreCacheService.class;
+            public ServiceBuilder<? extends ICacheService> jsonCacheServiceBuilder() {
+                return new JsonStoreServiceBuilder().
+                        addDefault(JsonStoreName.SEARCH_SETTINGS.toString(), SearchSettings.defaultSettings());
             }
         };
     }
