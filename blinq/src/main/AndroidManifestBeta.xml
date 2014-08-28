@@ -38,6 +38,6 @@
             android:name="ch.dreipol.android.blinq.ui.activities.NetworkDebugActivity"
             android:label="@string/title_activity_network_debug">
         </activity>
-
+        <provider android:authorities="ch.dreipol.android.blinqtest" android:exported="false" android:name="com.activeandroid.content.ContentProvider" />
     </application>
 </manifest>

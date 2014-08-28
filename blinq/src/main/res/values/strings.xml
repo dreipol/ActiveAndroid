@@ -39,5 +39,6 @@
     <string name="action_settings">Settings</string>
     <string name="photos_of_you">Photos of you</string>
     <string name="blinq_cancel">Cancel</string>
+    <string name="profile_header_title">Profile</string>
 
 </resources>

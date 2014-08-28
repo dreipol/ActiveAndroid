@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activities.HomeActivity"
+            android:name=".ui.activities.MainActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity android:name="net.hockeyapp.android.UpdateActivity" />
@@ -47,7 +47,7 @@
             android:label="@string/title_activity_facebook_albums" >
         </activity>
 
-        <provider android:authorities="ch.dreipol.android.blinq.provider" android:exported="false" android:name="com.activeandroid.content.ContentProvider" />
+
 
     </application>
 

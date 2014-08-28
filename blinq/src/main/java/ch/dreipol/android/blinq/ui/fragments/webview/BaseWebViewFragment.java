@@ -8,25 +8,30 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 
 import ch.dreipol.android.blinq.R;
+import ch.dreipol.android.blinq.ui.fragments.BlinqFragment;
 import ch.dreipol.android.blinq.ui.fragments.IHeaderConfigurationProvider;
 import ch.dreipol.android.blinq.ui.headers.IHeaderViewConfiguration;
 
 /**
  * Created by phil on 24.04.14.
  */
-public abstract class BaseWebViewFragment extends Fragment implements IHeaderConfigurationProvider {
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_webview, container, false);
-        WebView webView = (WebView) v.findViewById(R.id.blinq_webView);
-        webView.loadUrl(getUrl());
-        return v;
-    }
+public abstract class BaseWebViewFragment extends BlinqFragment implements IHeaderConfigurationProvider {
+
 
     protected abstract String getUrl();
 
     protected abstract String getTitle();
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    protected int getLayoutResourceId() {
+        return R.layout.fragment_webview;
+    }
 
     @Override
     public IHeaderViewConfiguration getHeaderConfiguration() {

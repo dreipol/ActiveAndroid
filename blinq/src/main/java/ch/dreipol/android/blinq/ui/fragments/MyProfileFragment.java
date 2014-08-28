@@ -21,6 +21,7 @@ import ch.dreipol.android.blinq.services.model.LoadingInfo;
 import ch.dreipol.android.blinq.services.model.Photo;
 import ch.dreipol.android.blinq.services.model.Profile;
 import ch.dreipol.android.blinq.services.model.SettingsProfile;
+import ch.dreipol.android.blinq.ui.headers.IHeaderViewConfiguration;
 import ch.dreipol.android.blinq.ui.layout.FlowLayout;
 import ch.dreipol.android.blinq.util.Bog;
 import rx.Subscription;
@@ -29,7 +30,7 @@ import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
-public class MyProfileFragment extends BlinqFragment {
+public class MyProfileFragment extends BlinqFragment implements IHeaderConfigurationProvider {
 
 
     private Subscription mMeSubscription;
@@ -59,6 +60,26 @@ public class MyProfileFragment extends BlinqFragment {
 
                 View container = loadingInfo.getViewContainer();
 
+
+
+                final ToggleButton toggleMale = (ToggleButton) container.findViewById(R.id.toggle_male);
+
+                final ToggleButton toggleFemale = (ToggleButton) container.findViewById(R.id.toggle_female);
+
+                toggleMale.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        toggleFemale.setChecked(false);
+                    }
+                });
+
+                toggleFemale.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        toggleMale.setChecked(false);
+                    }
+                });
+
                 ImageView imageView = (ImageView) container.findViewById(R.id.main_image);
 
 
@@ -77,14 +98,13 @@ public class MyProfileFragment extends BlinqFragment {
                 ageView.setText(age.toString());
                 nameView.setText(profile.getFirstName());
 
-
                 LinearLayout profileOverviewView = (LinearLayout) container.findViewById(R.id.profile_overview);
                 GradientDrawable g = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.parseColor(profile.getColorTop()), bottomColor});
                 g.setGradientType(GradientDrawable.LINEAR_GRADIENT);
                 profileOverviewView.setBackgroundDrawable(g);
 
-                FlowLayout flowLayout = (FlowLayout) container.findViewById(R.id.flow_layout);
-                flowLayout.removeAllViews();
+//                FlowLayout flowLayout = (FlowLayout) container.findViewById(R.id.small_images);
+//                flowLayout.removeAllViews();
 
                 IImageCacheService imageCacheService = AppService.getInstance().getImageCacheService();
 
@@ -94,8 +114,8 @@ public class MyProfileFragment extends BlinqFragment {
                         imageCacheService.displayPhoto(photo, imageView);
                     } else {
                         ImageView imgView = new ImageView(container.getContext());
-                        flowLayout.addView(imgView);
-                        imageCacheService.displayPhoto(photo, imageView);
+//                        flowLayout.addView(imgView);
+                        imageCacheService.displayPhoto(photo, imgView);
                     }
                 }
 
@@ -138,37 +158,27 @@ public class MyProfileFragment extends BlinqFragment {
     }
 
     @Override
+    public IHeaderViewConfiguration getHeaderConfiguration() {
+        return new IHeaderViewConfiguration() {
+            @Override
+            public boolean showTitle() {
+                return true;
+            }
+
+            @Override
+            public String getTitle() {
+                return "Profile";
+            }
+        };
+    }
+
+    @Override
     protected int getLayoutResourceId() {
         return R.layout.fragment_my_profile;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        View result = super.onCreateView(inflater, container, savedInstanceState);
-
-        final ToggleButton toggleMale = (ToggleButton) result.findViewById(R.id.toggle_male);
-
-        final ToggleButton toggleFemale = (ToggleButton) result.findViewById(R.id.toggle_female);
-
-        toggleMale.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toggleFemale.setChecked(false);
-            }
-        });
-
-        toggleFemale.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toggleMale.setChecked(false);
-            }
-        });
 
 
-        return result;
-    }
 
 
 }

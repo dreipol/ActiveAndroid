@@ -1,11 +1,8 @@
 package ch.dreipol.android.blinq.ui.activities;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.AppService;
@@ -40,7 +37,7 @@ public class LaunchActivity extends BaseBlinqActivity implements JoinBlinqFragme
                 ActivityTransitionType transitionType = ActivityTransitionType.DEFAULT;
 
                 if (AppService.getInstance().getFacebookService().hasFacebookSession()) {
-                    startIntent = HomeActivity.class;
+                    startIntent = MainActivity.class;
                 } else {
                     startIntent = LoginActivity.class;
                     transitionType = ActivityTransitionType.CROSSFADE;

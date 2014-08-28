@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.model.LoadingInfo;
+import ch.dreipol.android.blinq.ui.viewgroups.DrawerPosition;
 import rx.Observable;
 import rx.functions.Func2;
 import rx.subjects.BehaviorSubject;
@@ -16,8 +16,8 @@ import rx.subjects.BehaviorSubject;
 /**
  * Created by phil on 24/08/14.
  */
-public abstract class BlinqFragment extends Fragment {
-    private BehaviorSubject<View> mViewSubject;
+public abstract class BlinqFragment extends Fragment implements IDrawerPositionListener{
+    protected BehaviorSubject<View> mViewSubject;
     protected BehaviorSubject<LoadingInfo> mDataSubject;
     protected Observable<LoadingInfo> mLoadingSubscription;
 
@@ -39,18 +39,36 @@ public abstract class BlinqFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(getLayoutResourceId(), container, false);
-
         mViewSubject.onNext(view);
-
         return view;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mViewSubject = null;
-        mDataSubject = null;
+//        mViewSubject = null;
+//        mDataSubject = null;
     }
 
     protected abstract int getLayoutResourceId();
+
+    @Override
+    public void setPosition(DrawerPosition newPosition) {
+//        View view = getView();
+//        if(view instanceof ViewGroup){
+//            disableEnableControls(newPosition.equals(DrawerPosition.CENTER), (ViewGroup) view);
+//        }
+
+
+    }
+//    private void disableEnableControls(boolean enable, ViewGroup vg){
+//        for (int i = 0; i < vg.getChildCount(); i++){
+//            View child = vg.getChildAt(i);
+//            child.setEnabled(enable);
+//            if (child instanceof ViewGroup){
+//                disableEnableControls(enable, (ViewGroup)child);
+//            }
+//        }
+//    }
+
 }
