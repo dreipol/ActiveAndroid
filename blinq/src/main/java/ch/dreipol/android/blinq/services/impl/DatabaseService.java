@@ -35,6 +35,7 @@ public class DatabaseService extends BaseService implements IDatabaseService {
         Configuration.Builder builder = new Configuration.Builder(getService().getContext());
         builder.addModelClasses(Profile.class, Match.class, ChatMessage.class, SettingsProfile.class);
         builder.addTypeSerializer(MutualDataSerializer.class);
+        builder.addTypeSerializer(ListSerializer.class);
         ActiveAndroid.initialize(builder.create());
     }
 

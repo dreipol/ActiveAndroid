@@ -7,6 +7,12 @@ import android.support.v4.widget.ResourceCursorAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.activeandroid.Model;
+import com.activeandroid.query.Select;
+import com.activeandroid.util.SQLiteUtils;
+
+import java.util.List;
+
 import ch.dreipol.android.blinq.services.model.LoadingInfo;
 import ch.dreipol.android.blinq.services.model.Match;
 import ch.dreipol.android.blinq.services.model.Profile;
@@ -30,8 +36,10 @@ public class MatchListCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         MatchListItemView matchItemView = (MatchListItemView)view;
-
-        Match match = Match.load(Match.class, cursor.getLong(cursor.getColumnIndex("_id")));
+//        List<Model> models = SQLiteUtils.processCursor(Match.class, cursor);
+        Match match = new Match();
+        match.loadFromCursor(cursor);
+//        Match match = Match.load(Match.class, cursor.getLong(cursor.getColumnIndex("_id")));
 //        Integer profileId = cursor.getInt(4);
 //
 //        Profile profile = Profile.load(Profile.class, profileId);
