@@ -56,14 +56,11 @@ public class MatchesListFragment extends BlinqFragment {
                 mListView = (ListView) viewContainer.findViewById(R.id.matches_list);
 
 
-                From from = new Select().from(Match.class);
-                List<Model> execute = from.execute();
-                Bog.d(Bog.Category.UI,execute.toString());
-                String query = from.toSql();
-                Cursor cursor = ActiveAndroid.getDatabase().rawQuery(query, null);
+                Cursor cursor = ActiveAndroid.getDatabase().rawQuery(new Select().from(Match.class).toSql(), null);
 
 
                 FragmentActivity activity = MatchesListFragment.this.getActivity();
+
                 mAdapter = new MatchListCursorAdapter(activity, cursor, 0);
 
 

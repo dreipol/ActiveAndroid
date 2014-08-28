@@ -42,21 +42,27 @@ public class MatchListItemView extends RelativeLayout {
 
 
     public void setMatch(Match match) {
-        Profile profile = match.getProfile();
-        mMatchTitle.setText(profile.getFirstName());
+        if(match!=null){
+            Profile profile = match.getProfile();
+            mMatchTitle.setText(profile.getFirstName());
 
-        if (mPhotoSubscription != null) {
-            mPhotoSubscription.unsubscribe();
-
-        }
-
-        mPhotoSubscription = AppService.getInstance().getImageCacheService().displayPhoto(profile.getMainPhoto(), mProfileImage).subscribe(new Action1<LoadingInfo>() {
-            @Override
-            public void call(LoadingInfo loadingInfo) {
-//
+            if (mPhotoSubscription != null) {
+                mPhotoSubscription.unsubscribe();
 
             }
-        });
+
+            mPhotoSubscription = AppService.getInstance().getImageCacheService().displayPhoto(profile.getMainPhoto(), mProfileImage).subscribe(new Action1<LoadingInfo>() {
+                @Override
+                public void call(LoadingInfo loadingInfo) {
+
+                }
+            });
+        }else{
+            mMatchTitle.setText("null");
+            mStatusTxt.setText("null");
+            mProfileImage.setImageDrawable(null);
+        }
+
 
 
     }

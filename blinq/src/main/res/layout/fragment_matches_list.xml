@@ -16,25 +16,11 @@
         android:textColor="@color/blinq_white"
         android:textSize="20dp"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button"
-        android:layout_gravity="center_horizontal"/>
-
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="match_parent"
         android:id="@+id/matches_list"
         android:layout_gravity="center_horizontal"
         android:choiceMode="none"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button2"
-        android:layout_gravity="center_horizontal"/>
 
 </LinearLayout>

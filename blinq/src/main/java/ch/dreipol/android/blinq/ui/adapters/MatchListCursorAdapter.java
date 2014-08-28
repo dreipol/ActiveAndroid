@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import ch.dreipol.android.blinq.services.model.LoadingInfo;
 import ch.dreipol.android.blinq.services.model.Match;
+import ch.dreipol.android.blinq.services.model.Profile;
 import ch.dreipol.android.blinq.ui.lists.MatchListItemView;
 import ch.dreipol.android.blinq.util.Bog;
 import rx.functions.Action1;
@@ -28,7 +29,14 @@ public class MatchListCursorAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
+        MatchListItemView matchItemView = (MatchListItemView)view;
 
+        Match match = Match.load(Match.class, cursor.getLong(cursor.getColumnIndex("_id")));
+//        Integer profileId = cursor.getInt(4);
+//
+//        Profile profile = Profile.load(Profile.class, profileId);
+//
+        matchItemView.setMatch(match);
     }
 
 
