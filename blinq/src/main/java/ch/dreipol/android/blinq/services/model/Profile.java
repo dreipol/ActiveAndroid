@@ -1,6 +1,8 @@
 
 package ch.dreipol.android.blinq.services.model;
 
+import android.provider.BaseColumns;
+
 import com.activeandroid.Model;
 import com.activeandroid.naming.AndroidNamingStrategy;
 import com.activeandroid.annotation.Column;
@@ -9,7 +11,7 @@ import com.activeandroid.annotation.Table;
 import java.util.ArrayList;
 import java.util.List;
 
-@Table(name = "profiles", columnNaming = AndroidNamingStrategy.class, uniqueIdentifier = "mFbId")
+@Table(name = "profiles", columnNaming = AndroidNamingStrategy.class, uniqueIdentifier = "mFbId", id = BaseColumns._ID)
 public class Profile extends Model implements ILoadable {
 
     @Column(unique = true, index = true, onUniqueConflict = Column.ConflictAction.REPLACE)

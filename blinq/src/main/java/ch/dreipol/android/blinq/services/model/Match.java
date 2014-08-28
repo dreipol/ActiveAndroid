@@ -14,15 +14,15 @@ import java.util.List;
 import ch.dreipol.android.dreiworks.activeandroid.Utils;
 
 
-@Table(name = "matches", columnNaming = AndroidNamingStrategy.class, uniqueIdentifier = "mMatchId")
+@Table(name = "matches", columnNaming = AndroidNamingStrategy.class, uniqueIdentifier = "mMatchId", id = BaseColumns._ID)
 public class Match extends Model {
 
-    @Column(autoCreate = true, onModelUpdate = Column.ModelUpdateAction.UPDATE )
+    @Column(autoCreate = true, onModelUpdate = Column.ModelUpdateAction.UPDATE, onDelete = Column.ForeignKeyAction.CASCADE)
     private Profile mProfile;
 
     private boolean mReceived;
 
-    @Column(unique = true, index = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+    @Column(unique = true, index = true)
     private long mMatchId;
 
     @Column
@@ -117,5 +117,9 @@ public class Match extends Model {
 
     public void setReceived(boolean received) {
         mReceived = received;
+    }
+
+    public Date getLastActive() {
+        return mLastActive;
     }
 }
