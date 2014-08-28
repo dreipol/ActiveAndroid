@@ -20,7 +20,7 @@ import rx.subjects.BehaviorSubject;
 /**
  * Created by melbic on 18/07/14.
  */
-public class ImageCache extends BaseService implements IImageCacheService {
+public class ImageCacheService extends BaseService implements IImageCacheService {
 
     private ImageLoader mImageLoader;
 
@@ -66,7 +66,7 @@ public class ImageCache extends BaseService implements IImageCacheService {
 
     @Override
     public BehaviorSubject<LoadingInfo> displayPhoto(Photo photo, ImageView view) {
-        String URI = photo.getProfileId();
+        String URI = photo.getThumbId();
         return displayImage(URI, view);
     }
 }

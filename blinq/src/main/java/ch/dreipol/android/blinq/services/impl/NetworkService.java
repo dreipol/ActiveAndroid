@@ -105,7 +105,7 @@ public class NetworkService extends BaseService implements INetworkMethods {
                 .setConverter(new BlinqConverter(gson)).setLogLevel(RestAdapter.LogLevel.FULL);
     }
 
-    private static Gson getGson() {
+    protected static Gson getGson() {
         return GsonHelper.getGSONDeserializationBuilder()
                 .registerTypeAdapter(Date.class, new DateTypeAdapter())
                 .registerTypeAdapter(ServerStatus.class, new ServerStatusAdapter())

@@ -85,7 +85,6 @@ public class AppService {
 
     public void registerService(ServiceType serviceType, IService service) {
         mServices.put(serviceType, service);
-        service.setup(this);
     }
 
     public IService getService(ServiceType serviceType) {
@@ -103,16 +102,16 @@ public class AppService {
         }
 
         try {
-            registerService(ServiceType.RUNTIME, configuration.runtimeService().newInstance());
-            registerService(ServiceType.DATABASE, configuration.databaseService().newInstance());
-            registerService(ServiceType.LOCATION, configuration.locationService().newInstance());
-            registerService(ServiceType.FACEBOOK, configuration.facebookService().newInstance());
-            registerService(ServiceType.NETWORK, configuration.networkService().newInstance());
-            registerService(ServiceType.VALUE_STORE, configuration.valueStoreService().newInstance());
-            registerService(ServiceType.JSON_CACHE, configuration.jsonCache().newInstance());
-            registerService(ServiceType.IMAGE_CACHE, configuration.imageCacheService().newInstance());
-            registerService(ServiceType.MATCHES, configuration.matchesService().newInstance());
-            registerService(ServiceType.ACCOUNT, configuration.accountService().newInstance());
+            registerService(ServiceType.RUNTIME, configuration.runtimeServiceBuilder().build(this));
+            registerService(ServiceType.DATABASE, configuration.databaseServiceBuilder().build(this));
+            registerService(ServiceType.LOCATION, configuration.locationServiceBuilder().build(this));
+            registerService(ServiceType.FACEBOOK, configuration.facebookServiceBuilder().build(this));
+            registerService(ServiceType.NETWORK, configuration.networkServiceBuilder().build(this));
+            registerService(ServiceType.VALUE_STORE, configuration.valueStoreServiceBuilder().build(this));
+            registerService(ServiceType.JSON_CACHE, configuration.jsonCacheServiceBuilder().build(this));
+            registerService(ServiceType.IMAGE_CACHE, configuration.imageCacheServiceBuilder().build(this));
+            registerService(ServiceType.MATCHES, configuration.matchesServiceBuilder().build(this));
+            registerService(ServiceType.ACCOUNT, configuration.accountServiceBuilder().build(this));
 
         } catch (InstantiationException e) {
             throw new RuntimeException(e);
