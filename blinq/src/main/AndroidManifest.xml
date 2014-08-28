@@ -47,7 +47,7 @@
             android:label="@string/title_activity_facebook_albums" >
         </activity>
 
-        <provider android:authorities="ch.dreipol.android.blinq.provider" android:exported="false" android:name="com.activeandroid.content.ContentProvider" />
+
 
     </application>
 

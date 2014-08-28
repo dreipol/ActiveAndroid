@@ -1,28 +1,99 @@
 package ch.dreipol.android.blinq.ui.fragments;
 
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.view.View;
 import android.widget.ListView;
 
+import com.activeandroid.ActiveAndroid;
+import com.activeandroid.Model;
 import com.activeandroid.content.ContentProvider;
+import com.activeandroid.query.From;
+import com.activeandroid.query.Select;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.model.ILoadable;
 import ch.dreipol.android.blinq.services.model.LoadingInfo;
 import ch.dreipol.android.blinq.services.model.Match;
+import ch.dreipol.android.blinq.ui.adapters.MatchListCursorAdapter;
+import ch.dreipol.android.blinq.util.Bog;
+import rx.functions.Action1;
 
 /**
  * Created by phil on 21.03.14.
  */
 public class MatchesListFragment extends BlinqFragment {
 
+    private ListView mListView;
+    private MatchListCursorAdapter mAdapter;
+    private Loader<Cursor> mCursorLoader;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+
+    }
+
     @Override
     public void onStart() {
+        super.onStart();
+
+
+        mLoadingSubscription.subscribe(new Action1<LoadingInfo>() {
+            @Override
+            public void call(LoadingInfo loadingInfo) {
+
+                View viewContainer = loadingInfo.getViewContainer();
+                mListView = (ListView) viewContainer.findViewById(R.id.matches_list);
+
+
+                From from = new Select().from(Match.class);
+                List<Model> execute = from.execute();
+                Bog.d(Bog.Category.UI,execute.toString());
+                String query = from.toSql();
+                Cursor cursor = ActiveAndroid.getDatabase().rawQuery(query, null);
+
+
+                FragmentActivity activity = MatchesListFragment.this.getActivity();
+                mAdapter = new MatchListCursorAdapter(activity, cursor, 0);
+
+
+                mCursorLoader = getLoaderManager().initLoader(0, null, new LoaderManager.LoaderCallbacks<Cursor>() {
+                    @Override
+                    public Loader<Cursor> onCreateLoader(int arg0, Bundle cursor) {
+                        Uri uri = ContentProvider.createUri(Match.class, null);
+                        return new CursorLoader(getActivity(),
+                                uri,
+                                null, null, null, null
+                        );
+                    }
+
+                    @Override
+                    public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor) {
+                        mAdapter.swapCursor(cursor);
+                    }
+
+                    @Override
+                    public void onLoaderReset(Loader<Cursor> arg0) {
+                        mAdapter.swapCursor(null);
+                    }
+                });
+
+
+                mListView.setAdapter(mAdapter);
+                mCursorLoader.startLoading();
+            }
+
+        });
 
         mDataSubject.onNext(new LoadingInfo(LoadingState.LOADED));
 
