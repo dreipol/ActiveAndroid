@@ -1,8 +1,11 @@
 package ch.dreipol.android.blinq.services.model;
 
+import android.provider.BaseColumns;
+
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.naming.AndroidNamingStrategy;
 
 import java.util.Date;
 import java.util.List;
@@ -12,7 +15,7 @@ import java.util.UUID;
 /**
  * Created by melbic on 22/08/14.
  */
-@Table(name = "messages")
+@Table(name = "messages", columnNaming = AndroidNamingStrategy.class, id = BaseColumns._ID)
 public class ChatMessage extends Model {
 
     @Column
