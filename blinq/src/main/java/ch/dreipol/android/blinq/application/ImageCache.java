@@ -66,7 +66,7 @@ public class ImageCache extends BaseService implements IImageCacheService {
 
     @Override
     public BehaviorSubject<LoadingInfo> displayPhoto(Photo photo, ImageView view) {
-        String URI = photo.getProfileId();
+        String URI = photo.getThumbId();
         return displayImage(URI, view);
     }
 }

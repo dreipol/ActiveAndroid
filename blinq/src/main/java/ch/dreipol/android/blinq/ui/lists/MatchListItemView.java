@@ -13,6 +13,7 @@ import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.model.LoadingInfo;
 import ch.dreipol.android.blinq.services.model.Match;
+import ch.dreipol.android.blinq.services.model.Photo;
 import ch.dreipol.android.blinq.services.model.Profile;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -51,12 +52,16 @@ public class MatchListItemView extends RelativeLayout {
 
             }
 
-            mPhotoSubscription = AppService.getInstance().getImageCacheService().displayPhoto(profile.getMainPhoto(), mProfileImage).subscribe(new Action1<LoadingInfo>() {
-                @Override
-                public void call(LoadingInfo loadingInfo) {
+            Photo mainPhoto = profile.getMainPhoto();
+            if(mainPhoto != null){
+                mPhotoSubscription = AppService.getInstance().getImageCacheService().displayPhoto(mainPhoto, mProfileImage).subscribe(new Action1<LoadingInfo>() {
+                    @Override
+                    public void call(LoadingInfo loadingInfo) {
 
-                }
-            });
+                    }
+                });
+            }
+
         }else{
             mMatchTitle.setText("null");
             mStatusTxt.setText("null");

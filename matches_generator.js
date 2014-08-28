@@ -1,5 +1,5 @@
 [
-  '{{repeat(5, 100)}}',
+  '{{repeat(500, 800)}}',
   {
     profile: {
            distance: '{{floating(0.5, 500, 2, "0.00")}} km',
@@ -19,10 +19,10 @@
       approved: true,
       photos: [ '{{repeat(1,5)}}',
                {
-                "full_id": "http://lorempixel.com/225/225",
+                "full_id": "http://lorempixel.com/640/960",
           "profile_id": "http://lorempixel.com/508/508",
           object_id:  '{{phone("xxxxxx")}}',
-          "thumb_id": "http://lorempixel.com/640/960",
+          "thumb_id": "http://lorempixel.com/225/225",
           eviction: 30
                }
                ],
