@@ -67,9 +67,6 @@ public class MatchListItemView extends RelativeLayout {
             mStatusTxt.setText("null");
             mProfileImage.setImageDrawable(null);
         }
-
-
-
     }
 
 }
