@@ -30,6 +30,7 @@
     <color name="blinq_background_grey_888888">#888888</color>
     <color name="blinq_background_light_grey_eeeeee">#eeeeee</color>
     <color name="blinq_transparent">#44FF0000</color>
+    <color name="blinq_almost_white">#ededed</color>
 </resources>
 
 
