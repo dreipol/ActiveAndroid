@@ -1,9 +1,13 @@
 package ch.dreipol.android.blinq.ui.activities;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.widget.GridLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Date;
 
@@ -77,6 +81,19 @@ public class SystemInformationActivity extends BaseBlinqActivity {
         addRow("TYPE", Build.TYPE);
         addRow("USER", Build.USER);
         addSeparatorRow();
+        PackageManager manager = this.getPackageManager();
+        try {
+            PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
+            addRow("Build number", Integer.toString(info.versionCode));
+            addRow("Build version", info.versionName);
+            addSeparatorRow();
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        addRow("ANDROID_ID", Settings.Secure.getString(appService.getContext().getContentResolver(), Settings.Secure.ANDROID_ID));
+
     }
 
     private void addSeparatorRow() {

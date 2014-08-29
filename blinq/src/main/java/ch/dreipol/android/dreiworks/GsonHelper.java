@@ -26,7 +26,7 @@ public abstract class GsonHelper {
     /**
      * GSON Builder for receiving JSON from a server
      */
-    public static GsonBuilder getGSONDeserializationBuilder() {
+    public static GsonBuilder  getGSONDeserializationBuilder() {
         return getActiveAndroidBuilder(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
     }
 

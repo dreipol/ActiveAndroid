@@ -55,6 +55,7 @@ public class NetworkService extends BaseService implements INetworkMethods {
     private SwarmNetworkService mSwarmNetworkService;
     private ProfileService mProfileService;
     private Pollworker mPollWorker;
+    private Map<String, Object> mDeviceInfo;
     public static final TypeToken PROFILE_COLLECTION_TYPE_TOKEN = new TypeToken<Collection<Profile>>() {
     };
 
@@ -79,6 +80,12 @@ public class NetworkService extends BaseService implements INetworkMethods {
             }
         });
         jsonObject.addProperty("signature", signature);
+        jsonObject.add("device", getGson().toJsonTree(mDeviceInfo));
+    }
+
+    private JsonElement getDeviceMap() {
+
+        return null;
     }
 
 
@@ -98,6 +105,8 @@ public class NetworkService extends BaseService implements INetworkMethods {
         mProfileService = restAdapter.create(ProfileService.class);
         mMatchesNetworkService = restAdapter.create(IMatchesNetworkService.class);
         mPollWorker = new Pollworker(restAdapter.create(PollService.class));
+        mDeviceInfo = appService.getRuntimeService().getDeviceInformation();
+//        mDeviceInformation = appService.getRuntimeService()
     }
 
     protected RestAdapter.Builder getRestBuilder(Gson gson, String serverUrl) {
