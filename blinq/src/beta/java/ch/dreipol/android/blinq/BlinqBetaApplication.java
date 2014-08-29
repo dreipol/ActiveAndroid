@@ -33,7 +33,6 @@ import ch.dreipol.android.dreiworks.ServiceBuilder;
 public class BlinqBetaApplication extends BlinqApplication {
 
     protected IServiceConfiguration getConfiguration() {
-        IServiceConfiguration configuration = super.getConfiguration();
         return new IServiceConfiguration() {
             @Override
             public Context getContext() {
