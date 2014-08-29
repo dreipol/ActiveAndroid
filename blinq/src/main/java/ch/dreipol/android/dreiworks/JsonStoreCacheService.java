@@ -1,5 +1,6 @@
 package ch.dreipol.android.dreiworks;
 
+import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.FileNotFoundException;
@@ -11,7 +12,9 @@ import java.util.concurrent.Callable;
 
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.impl.BaseService;
+import ch.dreipol.android.blinq.services.model.GenderInterests;
 import ch.dreipol.android.blinq.util.Bog;
+import ch.dreipol.android.blinq.util.gson.GenderInterestsAdapter;
 import ch.dreipol.android.dreiworks.jsonstore.AESEncryption;
 import ch.dreipol.android.dreiworks.jsonstore.CachedModel;
 import ch.dreipol.android.dreiworks.jsonstore.JsonStore;
@@ -81,16 +84,30 @@ public class JsonStoreCacheService extends BaseService implements ICacheService 
     }
 
     @Override
+    /**
+     * Clears the cache and removes all the files. The defaults values aren't restored!
+     */
+    public void clear() {
+        mCacheMap.clear();
+        mStore.clear();
+    }
+
+    @Override
     public void dispose() {
         super.dispose();
     }
 
     @Override
     public void setup(AppService appService) {
+        setup(appService, GsonHelper.getGSONSerializationBuilder().create());
+    }
+
+    public void setup(AppService appService, Gson gson) {
         super.setup(appService);
         mCacheMap = new HashMap<String, CachedModel>();
-        mStore = new JsonStore(GsonHelper.getGSONSerializationBuilder().create(), new AndroidStreamProvider(appService.getContext()), new AESEncryption());
+        mStore = new JsonStore(gson, new AndroidStreamProvider(appService.getContext(), "JSONSTORE"), new AESEncryption());
     }
+
 
     protected <T> Observable<T> getObservableByType(final String key, final Type type) {
         Observable<T> o = Observable.empty();

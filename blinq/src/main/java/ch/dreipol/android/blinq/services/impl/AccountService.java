@@ -51,6 +51,11 @@ public class AccountService extends BaseService implements IAccountService {
     }
 
     @Override
+    public Observable<SettingsProfile> signup() {
+        return this.getService().getNetworkService().signup();
+    }
+
+    @Override
     public Observable<SaveResult> saveMe(SettingsProfile myProfile) {
         //TODO: save to server
         SaveResult saveResult = SaveResult.COMPLETE;

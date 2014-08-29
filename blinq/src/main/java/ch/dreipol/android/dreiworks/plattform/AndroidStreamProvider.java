@@ -14,24 +14,41 @@ import ch.dreipol.android.dreiworks.jsonstore.streamprovider.InputOutputStreamPr
 public class AndroidStreamProvider implements InputOutputStreamProvider {
 
     private Context mContext;
+    private String mSuffix;
 
-    public AndroidStreamProvider(Context context) {
+    public AndroidStreamProvider(Context context, String suffix) {
 
         mContext = context;
+        mSuffix = "_" + suffix;
     }
 
     @Override
     public InputStream getInputStream(String fileName) throws IOException {
-        return mContext.openFileInput(fileName);
+        return mContext.openFileInput(addSuffix(fileName));
     }
 
     @Override
     public OutputStream getOutputStream(String fileName) throws IOException {
-        return mContext.openFileOutput(fileName, Context.MODE_PRIVATE);
+        return mContext.openFileOutput(addSuffix(fileName), Context.MODE_PRIVATE);
     }
 
     @Override
     public void removeFile(String fileName) {
-        mContext.deleteFile(fileName);
+        mContext.deleteFile(addSuffix(fileName));
     }
+
+    @Override
+    public void clear()  {
+        for (String fileName : mContext.fileList()) {
+            if (fileName.endsWith(mSuffix)) {
+                mContext.deleteFile(fileName);
+            }
+        }
+    }
+
+    private String addSuffix(String fileName) {
+
+        return fileName + mSuffix;
+    }
+
 }

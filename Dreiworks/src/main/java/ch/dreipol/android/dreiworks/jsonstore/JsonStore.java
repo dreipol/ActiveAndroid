@@ -96,4 +96,10 @@ public class JsonStore implements IJsonStore {
     interface StreamFunction<I, O> {
         public O call(I stream) throws IOException, EncryptionException;
     }
+
+    @Override
+    public void clear() {
+        mProvider.clear();
+    }
 }
+

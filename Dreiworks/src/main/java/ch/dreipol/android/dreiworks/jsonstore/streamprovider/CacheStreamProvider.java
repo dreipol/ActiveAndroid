@@ -44,4 +44,9 @@ public class CacheStreamProvider implements InputOutputStreamProvider {
     public void removeFile(String fileName) {
         mByteArrayMap.remove(fileName);
     }
+
+    @Override
+    public void clear() {
+        mByteArrayMap.clear();
+    }
 }

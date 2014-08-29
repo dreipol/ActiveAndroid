@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -135,7 +136,7 @@ public class NetworkService extends BaseService implements INetworkMethods {
         Map m = new HashMap();
         m.put("otherId", other.getFbId());
 
-        return getRequestObservable(mSwarmNetworkService.getHiTask(m), TypeToken.get(Profile.class));
+        return getRequestObservable(mSwarmNetworkService.getHiTask(m), Profile.class);
     }
 
     @Override
@@ -158,27 +159,43 @@ public class NetworkService extends BaseService implements INetworkMethods {
                 .flatMap(new Func1<SettingsProfile, Observable<?>>() {
                              @Override
                              public Observable<SettingsProfile> call(SettingsProfile settingsProfile) {
-                                  getService().getJsonCacheService().putToObservable(JsonStoreName.SETTINGS_PROFILE.toString(), settingsProfile);
-                                return Observable.empty();
+                                 getService().getJsonCacheService().putToObservable(JsonStoreName.SETTINGS_PROFILE.toString(), settingsProfile);
+                                 return Observable.empty();
                              }
                          }
 
                 ).subscribe(new Action1<Object>() {
-                                @Override
-                                public void call(Object o) {
+            @Override
+            public void call(Object o) {
 
-                                }
-                            });
+            }
+        });
     }
+
+
+    @Override
+    public Observable<SettingsProfile> signup() {
+        return getRequestObservable(mProfileService.signup(new HashMap()), TypeToken.get(SettingsProfile.class)).flatMap(new Func1<SettingsProfile, Observable<? extends SettingsProfile>>() {
+            @Override
+            public Observable<SettingsProfile> call(SettingsProfile settingsProfile) {
+                return getService().getJsonCacheService().putToObservable(JsonStoreName.SETTINGS_PROFILE.toString(), settingsProfile);
+            }
+        });
+    }
+
 
     @Override
     public void loadMatches() {
         getService().getMatchesService().loadMatches(getRequestObservable(mMatchesNetworkService.getMatchesTask(new HashMap()), new TypeToken<ArrayList<Match>>() {
-                }));
+        }));
     }
 
-
     private <T> Observable<T> getRequestObservable(Observable<TaskStatus<JsonElement>> observable, final TypeToken<T> typeToken) {
+
+        return getRequestObservable(observable, typeToken.getType());
+    }
+
+    private <T> Observable<T> getRequestObservable(Observable<TaskStatus<JsonElement>> observable, final Type type) {
 //        Observable<FacebookService.FacebookServiceInfo> facebookObservable = this.getService().getFacebookService().subscribeToSessionState().subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).filter(new Func1<FacebookService.FacebookServiceInfo, Boolean>() {
 //            @Override
 //            public Boolean call(FacebookService.FacebookServiceInfo facebookServiceInfo) {
@@ -210,7 +227,7 @@ public class NetworkService extends BaseService implements INetworkMethods {
         }).map(new Func1<TaskStatus<JsonElement>, T>() {
             @Override
             public T call(TaskStatus<JsonElement> taskStatus) {
-                return getGson().fromJson(taskStatus.getMessage(), typeToken.getType());
+                return getGson().fromJson(taskStatus.getMessage(), type);
             }
         });
     }

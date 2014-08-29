@@ -1,7 +1,5 @@
 package ch.dreipol.android.blinq.services.model;
 
-import java.util.Arrays;
-
 /**
  * Created by melbic on 25/08/14.
  */
@@ -10,29 +8,29 @@ public enum GenderInterests {
     FEMALE("f"),
     MALE("m"),
     BOTH("f,m");
-    private final String interestedIn;
+    private final String text;
 
     private GenderInterests(String s) {
-        this.interestedIn = s;
+        this.text = s;
     }
 
     public String toString() {
-        return this.interestedIn;
+        return this.text;
     }
 
     public String[] toArray() {
-        return interestedIn.split(",");
+        return text.split(",");
     }
 
 
-    public static GenderInterests createFromArray(String[] strings) {
+    public static GenderInterests create(String[] strings) {
         GenderInterests interests;
         switch (strings.length) {
             case 0:
                 interests = NO_INTERESTS;
                 break;
             case 1:
-                interests = GenderInterests.valueOf(strings[0]);
+                interests = fromString(strings[0]);
                 break;
             case 2:
             default:
@@ -40,6 +38,17 @@ public enum GenderInterests {
                 break;
         }
         return interests;
+    }
+
+    public static GenderInterests fromString(String text) {
+        if (text != null) {
+            for (GenderInterests i : GenderInterests.values()) {
+                if (text.equalsIgnoreCase(i.text)) {
+                    return i;
+                }
+            }
+        }
+        return null;
     }
 }
 

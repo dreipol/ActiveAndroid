@@ -15,4 +15,6 @@ import rx.Observable;
 public interface ProfileService {
     @POST("/me/")
     Observable<TaskStatus<JsonElement>> getMe(@Body Map meBody);
+    @POST("/sign_up/")
+    Observable<TaskStatus<JsonElement>> signup(@Body Map meBody);
 }

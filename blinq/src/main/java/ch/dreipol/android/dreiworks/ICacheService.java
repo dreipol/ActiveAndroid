@@ -25,4 +25,6 @@ public interface ICacheService extends IService{
     <T> rx.Observable<T> getObservable(String key, TypeToken<T> type);
 
     <T> rx.Observable<T> putToObservable(String key, T object);
+
+    void clear();
 }
