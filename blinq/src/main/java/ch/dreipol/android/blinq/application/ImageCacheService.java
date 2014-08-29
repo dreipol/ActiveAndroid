@@ -20,7 +20,7 @@ import rx.subjects.BehaviorSubject;
 /**
  * Created by melbic on 18/07/14.
  */
-public class ImageCache extends BaseService implements IImageCacheService {
+public class ImageCacheService extends BaseService implements IImageCacheService {
 
     private ImageLoader mImageLoader;
 

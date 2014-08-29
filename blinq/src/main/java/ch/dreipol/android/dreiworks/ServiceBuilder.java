@@ -1,5 +1,6 @@
 package ch.dreipol.android.dreiworks;
 
+import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.impl.BaseService;
 
 /**
@@ -14,8 +15,10 @@ public class ServiceBuilder<T extends BaseService> {
         mClass = clazz;
     }
 
-    public T build() throws IllegalAccessException, InstantiationException {
+    public T build(AppService appService) throws IllegalAccessException, InstantiationException {
+        T t = mClass.newInstance();
+        t.setup(appService);
+        return t;
 
-        return mClass.newInstance();
     }
 }
