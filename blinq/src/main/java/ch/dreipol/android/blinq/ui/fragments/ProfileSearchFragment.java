@@ -27,7 +27,7 @@ public class ProfileSearchFragment extends BlinqFragment implements IHeaderConfi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewSubject.take(1).subscribe(new Action1<View>() {
+        mViewSubject.subscribe(new Action1<View>() {
             @Override
             public void call(View view) {
                 mLocationDetailsTextView = (TextView) view.findViewById(R.id.location_details_textview);

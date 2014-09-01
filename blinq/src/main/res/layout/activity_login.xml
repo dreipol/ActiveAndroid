@@ -5,5 +5,4 @@
     android:background="@drawable/tutorial_gradient"
     tools:context="ch.dreipol.android.blinq.ui.activities.LoginActivity"
     android:id="@+id/login_container">
-
 </RelativeLayout>

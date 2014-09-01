@@ -122,7 +122,7 @@ public class FacebookAlbumFragment extends ListFragment {
                     txtView.setImage(album.getCoverId());
 
                 } else {
-                    txtView.setText(getResources().getString(R.string.photos_of_you));
+                    txtView.setText(getResources().getString(R.string.taggedPhotoAlbumTitle));
                     txtView.setImage(null);
                 }
 

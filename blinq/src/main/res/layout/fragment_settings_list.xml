@@ -11,7 +11,7 @@
     <ch.dreipol.android.blinq.ui.buttons.SettingsButton
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        app:buttonText="@string/blinq_hi_or_bye_title"
+        app:buttonText="@string/hiOrBye"
         app:buttonTextColor="@color/blinq_white"
         app:leftImage="@drawable/icon_menu_main_standard"
         android:id="@+id/home"
@@ -20,7 +20,7 @@
     <ch.dreipol.android.blinq.ui.buttons.SettingsButton
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        app:buttonText="@string/blinq_matches_title"
+        app:buttonText="@string/matchesTitle"
         app:buttonTextColor="@color/blinq_white"
         app:leftImage="@drawable/icon_menu_match_standard"
         android:id="@+id/matches"
@@ -33,7 +33,7 @@
     <ch.dreipol.android.blinq.ui.buttons.SettingsButton
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        app:buttonText="@string/blinq_profile_title"
+        app:buttonText="@string/profile"
         app:buttonTextColor="@color/blinq_white"
         app:leftImage="@drawable/icon_menu_profile_standard"
         android:id="@+id/profile"
@@ -42,7 +42,7 @@
     <ch.dreipol.android.blinq.ui.buttons.SettingsButton
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        app:buttonText="@string/blinq_settings_title"
+        app:buttonText="@string/search"
         app:buttonTextColor="@color/blinq_white"
         app:leftImage="@drawable/icon_menu_searchsettings_standard"
         android:id="@+id/settings"
@@ -51,7 +51,7 @@
     <ch.dreipol.android.blinq.ui.buttons.SettingsButton
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        app:buttonText="@string/blinq_help_title"
+        app:buttonText="@string/help"
         app:buttonTextColor="@color/blinq_white"
         app:leftImage="@drawable/icon_menu_help_standard"
         android:id="@+id/help"

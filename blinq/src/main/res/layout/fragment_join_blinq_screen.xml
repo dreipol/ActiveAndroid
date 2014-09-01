@@ -22,7 +22,7 @@
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/blinq_join_blinq_button_title"
+            android:text="@string/fbInviteDescription"
             android:id="@+id/join_button"
             android:layout_gravity="center"
             android:layout_marginLeft="40dp"

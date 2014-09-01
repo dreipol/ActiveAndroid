@@ -116,8 +116,8 @@ public class JoinBlinqFragment extends Fragment {
 
             args.putString(TutorialFragment.TEXT, getResources().getString(textIdentifier));
             int translatedImageIdentifier = getResources().getIdentifier(imageName, "string", packageName);
-            String string = getResources().getString(translatedImageIdentifier);
-            int imageIdentifier = getResources().getIdentifier(string, "drawable", packageName);
+            String imageKey = getResources().getString(translatedImageIdentifier).replaceAll(".jpg", "").toLowerCase();
+            int imageIdentifier = getResources().getIdentifier(imageKey, "drawable", packageName);
             args.putInt(TutorialFragment.IMAGE_ID, imageIdentifier);
             args.putBoolean(SHOW_MASQUERADE, mShowMasquerade);
             fragment.setArguments(args);
