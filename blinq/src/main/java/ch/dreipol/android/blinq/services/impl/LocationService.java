@@ -17,8 +17,11 @@ import java.util.Locale;
 
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.ILocationService;
+import ch.dreipol.android.blinq.util.Bog;
 import rx.Observable;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.observables.BlockingObservable;
 import rx.schedulers.Schedulers;
 import rx.subjects.BehaviorSubject;
 
@@ -42,7 +45,7 @@ public class LocationService extends BaseService implements ILocationService {
     public class LocationInformation {
         public LocationStatus status;
         public String locationName;
-        public Location mLocation;
+        private Location mLocation;
 
         public LocationInformation(LocationStatus status, Location location) {
             this.status = status;
@@ -59,7 +62,8 @@ public class LocationService extends BaseService implements ILocationService {
                         Address firstAddress = addresses.get(0);
                         String countryName = firstAddress.getCountryName();
                         String locality = firstAddress.getLocality();
-                        this.locationName = String.format("%s, %s", countryName, locality);
+
+                        this.locationName = String.format("%s, %s, %s", countryName, locality, firstAddress.getFeatureName());
                     }
                 } catch (IOException e) {
                     this.locationName = "Unable to retrieve a valid Address";
@@ -71,6 +75,9 @@ public class LocationService extends BaseService implements ILocationService {
             }
         }
 
+        public Location getLocation() {
+            return mLocation;
+        }
     }
 
 
@@ -108,6 +115,7 @@ public class LocationService extends BaseService implements ILocationService {
         });
 
         mLocationClient.connect();
+
     }
 
 
@@ -128,6 +136,15 @@ public class LocationService extends BaseService implements ILocationService {
     @Override
     public Observable<LocationInformation> subscribeToLocation() {
         return mLocationSubject.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public LocationInformation getCurrentLocationInformation() {
+        Observable<LocationInformation> last = mLocationSubject.take(1);
+        Subscription subscribe = last.subscribe();
+        LocationInformation information = last.toBlocking().last();
+        subscribe.unsubscribe();
+        return information;
     }
 
 }

@@ -2,6 +2,7 @@ package ch.dreipol.android.blinq.services.impl;
 
 import java.io.IOException;
 
+import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.IAccountService;
 import ch.dreipol.android.blinq.services.SaveResult;
 import ch.dreipol.android.blinq.services.model.SearchSettings;
@@ -11,8 +12,7 @@ import ch.dreipol.android.dreiworks.ICacheService;
 import ch.dreipol.android.dreiworks.JsonStoreName;
 import ch.dreipol.android.dreiworks.jsonstore.CachedModel;
 import rx.Observable;
-import rx.subjects.BehaviorSubject;
-
+import ch.dreipol.android.blinq.services.network.UploadProfile;
 /**
  * Created by phil on 21/08/14.
  */
@@ -67,5 +67,22 @@ public class AccountService extends BaseService implements IAccountService {
             saveResult = SaveResult.ERROR;
         }
         return Observable.just(saveResult);
+    }
+
+    @Override
+    public void update() {
+        try {
+            CachedModel<SettingsProfile> cachedModel = getService().getJsonCacheService().get(JsonStoreName.SETTINGS_PROFILE.toString(), SettingsProfile.class);
+            if (cachedModel.doesExist()) {
+                UploadProfile uploadProfile = new UploadProfile(cachedModel.getObject());
+                String language = getService().getContext().getString(R.string.lang);
+                LocationService.LocationInformation information = getService().getLocationService().getCurrentLocationInformation();
+                uploadProfile.setLanguage(language);
+                uploadProfile.setLocation(information.getLocation());
+                getService().getNetworkService().update(uploadProfile);
+            }
+        } catch (IOException e) {
+            Bog.e(Bog.Category.NETWORKING, "The profile couldn't be received from Json store. " + e.toString());
+        }
     }
 }

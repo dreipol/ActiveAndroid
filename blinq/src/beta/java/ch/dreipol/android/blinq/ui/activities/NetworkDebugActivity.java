@@ -107,6 +107,12 @@ public class NetworkDebugActivity extends BaseBlinqActivity {
                         );
             }
         });
+        findButtonWithId(R.id.update_profile).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppService.getInstance().getAccountService().update();
+            }
+        });
     }
 
     private static Action1<Profile> printProfileAction() {

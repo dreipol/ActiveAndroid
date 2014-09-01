@@ -9,7 +9,7 @@ import android.util.Log;
 public class Bog {
 
     public enum Category {
-        NETWORKING, DATABASE, SYSTEM, UI, FACEBOOK, VIEW
+        NETWORKING, DATABASE, SYSTEM, UI, FACEBOOK, VIEW, LOCATION
     }
 
     private static final String TAG = "BLINQ";

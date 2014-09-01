@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.widget.GridLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Date;
 
@@ -37,8 +36,8 @@ public class SystemInformationActivity extends BaseBlinqActivity {
                 addSeparatorRow();
 
                 addRow("Location:", locationInformation.locationName);
-                if (locationInformation.mLocation != null) {
-                    addRow("Coordinates:", locationInformation.mLocation.toString());
+                if (locationInformation.getLocation() != null) {
+                    addRow("Coordinates:", locationInformation.getLocation().toString());
                 }
 
             }

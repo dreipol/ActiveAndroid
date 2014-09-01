@@ -13,4 +13,5 @@ public interface ILocationService extends IService{
     Observable<LocationService.LocationInformation> subscribeToLocation();
     Geocoder getGeoCoder();
 
+    LocationService.LocationInformation getCurrentLocationInformation();
 }

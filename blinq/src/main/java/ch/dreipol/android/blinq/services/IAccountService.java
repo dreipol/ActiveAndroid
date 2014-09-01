@@ -19,4 +19,6 @@ public interface IAccountService extends IService {
     Observable<SettingsProfile> signup();
 
     Observable<SaveResult> saveMe(SettingsProfile myProfile);
+
+    void update();
 }

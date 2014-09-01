@@ -2,6 +2,7 @@ package ch.dreipol.android.blinq.services;
 
 import ch.dreipol.android.blinq.services.model.Profile;
 import ch.dreipol.android.blinq.services.model.SettingsProfile;
+import ch.dreipol.android.blinq.services.network.UploadProfile;
 import rx.Observable;
 
 /**
@@ -12,4 +13,6 @@ public interface INetworkMethods extends IService, ISwarmNetworkMethods, IMatche
     void getMe();
 
     Observable<SettingsProfile> signup();
+
+    void update(UploadProfile profile);
 }

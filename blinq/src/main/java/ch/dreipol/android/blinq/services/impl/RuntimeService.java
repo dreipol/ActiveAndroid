@@ -9,11 +9,8 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
 import ch.dreipol.android.blinq.application.BlinqApplicationFlavour;
+import ch.dreipol.android.blinq.services.DeviceInformation;
 import ch.dreipol.android.blinq.services.IRuntimeService;
 import ch.dreipol.android.blinq.util.Bog;
 
@@ -60,23 +57,22 @@ public class RuntimeService extends BaseService implements IRuntimeService {
     }
 
     @Override
-    public Map<String, Object> getDeviceInformation() {
-        Map<String, Object> map = new HashMap<String, Object>();
+    public DeviceInformation getDeviceInformation() {
         Context context = getService().getContext();
         PackageManager manager = context.getPackageManager();
+        DeviceInformation device = new DeviceInformation();
         try {
             PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
-            map.put("build_number", info.versionCode);
-            map.put("app_version", info.versionName);
-
+            device.buildNumber = info.versionCode;
+            device.appVersion = info.versionName;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        map.put("uuid", Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID));
-        map.put("system_version", Build.VERSION.RELEASE);
-        map.put("type", Build.MODEL);
-        map.put("platform", ANDROID_PLATFORM);
-        map.put("name", Build.BRAND + "-" + Build.MODEL);
-        return map;
+        device.uuid = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        device.systemVersion = Build.VERSION.RELEASE;
+        device.type = Build.MODEL;
+        device.platform = ANDROID_PLATFORM;
+        device.name = Build.BRAND + "-" + Build.MODEL;
+        return device;
     }
 }

@@ -1,11 +1,12 @@
 package ch.dreipol.android.blinq.services.impl;
 
+import android.location.Location;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,6 +16,7 @@ import java.util.Map;
 
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.ConnectionSignatureCreator;
+import ch.dreipol.android.blinq.services.DeviceInformation;
 import ch.dreipol.android.blinq.services.ICredentials;
 import ch.dreipol.android.blinq.services.IFacebookService;
 import ch.dreipol.android.blinq.services.INetworkMethods;
@@ -25,6 +27,7 @@ import ch.dreipol.android.blinq.services.ServerStatus;
 import ch.dreipol.android.blinq.services.network.TaskStatus;
 import ch.dreipol.android.blinq.services.model.SettingsProfile;
 import ch.dreipol.android.blinq.services.network.Pollworker;
+import ch.dreipol.android.blinq.services.network.UploadProfile;
 import ch.dreipol.android.blinq.services.network.retrofit.IMatchesNetworkService;
 import ch.dreipol.android.blinq.services.network.retrofit.SwarmNetworkService;
 import ch.dreipol.android.blinq.services.network.retrofit.PollService;
@@ -33,14 +36,12 @@ import ch.dreipol.android.blinq.util.Bog;
 import ch.dreipol.android.blinq.util.gson.DateTypeAdapter;
 import ch.dreipol.android.blinq.util.gson.GenderInterestsAdapter;
 import ch.dreipol.android.dreiworks.GsonHelper;
-import ch.dreipol.android.dreiworks.ICacheService;
 import ch.dreipol.android.dreiworks.JsonStoreName;
+import ch.dreipol.android.dreiworks.gson.LatLonAdapter;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 import retrofit.mime.TypedOutput;
 import rx.Observable;
-import rx.Subscription;
-import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -55,7 +56,7 @@ public class NetworkService extends BaseService implements INetworkMethods {
     private SwarmNetworkService mSwarmNetworkService;
     private ProfileService mProfileService;
     private Pollworker mPollWorker;
-    private Map<String, Object> mDeviceInfo;
+    private DeviceInformation mDeviceInfo;
     public static final TypeToken PROFILE_COLLECTION_TYPE_TOKEN = new TypeToken<Collection<Profile>>() {
     };
 
@@ -120,6 +121,7 @@ public class NetworkService extends BaseService implements INetworkMethods {
                 .registerTypeAdapter(Date.class, new DateTypeAdapter())
                 .registerTypeAdapter(ServerStatus.class, new ServerStatusAdapter())
                 .registerTypeAdapter(GenderInterests.class, new GenderInterestsAdapter())
+                .registerTypeAdapter(Location.class, new LatLonAdapter())
                 .create();
     }
 
@@ -192,6 +194,17 @@ public class NetworkService extends BaseService implements INetworkMethods {
         });
     }
 
+
+    @Override
+    public void update(UploadProfile profile) {
+
+        getRequestObservable(mProfileService.update(profile), TypeToken.get(SettingsProfile.class)).flatMap(new Func1<SettingsProfile, Observable<? extends SettingsProfile>>() {
+            @Override
+            public Observable<SettingsProfile> call(SettingsProfile settingsProfile) {
+                return getService().getJsonCacheService().putToObservable(JsonStoreName.SETTINGS_PROFILE.toString(), settingsProfile);
+            }
+        });
+    }
 
     @Override
     public void loadMatches() {

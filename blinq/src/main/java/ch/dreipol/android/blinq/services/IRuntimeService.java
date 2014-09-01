@@ -16,6 +16,6 @@ public interface IRuntimeService  extends IService{
     public BlinqApplicationFlavour getFlavour();
     public <T> T getMetadata(String key);
 
-    Map<String, Object> getDeviceInformation();
+    DeviceInformation getDeviceInformation();
 //    public Map getMetadata(String key);
 }
