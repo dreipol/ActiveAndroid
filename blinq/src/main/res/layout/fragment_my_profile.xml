@@ -22,26 +22,28 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:orientation="horizontal"
-                android:layout_height="250dp"
+                android:layout_height="230dp"
                 android:id="@+id/profile_overview"
                 android:baselineAligned="false"
-                android:background="@drawable/detailscreen_background_standard">
+                android:background="@drawable/detailscreen_background_standard"
+                android:layout_alignParentTop="false">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/detailscreen_picture_large_standard"
                     android:clickable="false"
-                    android:layout_marginLeft="20dp"
-                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
                     android:paddingLeft="15dp"
                     android:paddingRight="10dp"
                     android:paddingBottom="15dp"
-                    android:paddingTop="10dp">
+                    android:paddingTop="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp">
 
                     <ImageView
-                        android:layout_width="140dp"
-                        android:layout_height="140dp"
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
                         android:id="@+id/main_image"
                         android:src="@drawable/icon"
                         android:scaleType="centerCrop"
@@ -56,10 +58,12 @@
                 </RelativeLayout>
 
                 <LinearLayout
+                    android:background="@color/debug_green"
                     android:orientation="horizontal"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:id="@+id/small_images"
-                    android:layout_height="fill_parent">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp">
                 </LinearLayout>
 
 
