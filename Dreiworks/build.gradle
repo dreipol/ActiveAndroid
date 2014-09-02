@@ -23,8 +23,8 @@ sourceSets {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile('com.netflix.rxjava:rxjava-core:0.19.2')
-    compile('com.netflix.rxjava:rxjava-android:0.19.2')
+    compile('com.netflix.rxjava:rxjava-core:0.20.3')
+    compile('com.netflix.rxjava:rxjava-android:0.20.3')
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.google.guava:guava:17.0'
     testCompile 'junit:junit:4.11'

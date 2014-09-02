@@ -1,17 +1,25 @@
 
 package ch.dreipol.android.blinq.services.model;
 
+import com.google.gson.annotations.Expose;
+
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
+
+import rx.functions.Action1;
 
 public class Photo implements Serializable {
-    private Long mPk;
-    private String mFullId;
-    private String mProfileId;
-    private Long mObjectId;
+    private long mPk;
     private String mThumbId;
-    private Integer mEviction;
+    private String mProfileId;
+    private String mFullId;
+    private long mObjectId;
+    private int mEviction;
+    @Expose
+    private Date mExpireDate;
 
-    public Long getPk() {
+    public long getPk() {
         return mPk;
     }
 
@@ -23,7 +31,7 @@ public class Photo implements Serializable {
         return mProfileId;
     }
 
-    public Long getObjectId() {
+    public long getObjectId() {
         return mObjectId;
     }
 
@@ -31,9 +39,49 @@ public class Photo implements Serializable {
         return mThumbId;
     }
 
-    public Integer getEviction() {
+    public int getEviction() {
         return mEviction;
     }
 
+    public boolean isExpired() {
+//        return true;
+        return mExpireDate.before(new Date());
+    }
 
+    public void setExpireDate() {
+        Calendar calendar = Calendar.getInstance(); // gets a calendar using the default time zone and locale.
+        calendar.add(Calendar.MINUTE, mEviction);
+        mExpireDate = calendar.getTime();
+    }
+
+    private void updateWithOther(Photo other) {
+        if (other.mPk != this.mPk) {
+            throw new RuntimeException("The updating photo hasn't got the same pk as the old one.");
+        }
+        mObjectId = other.mObjectId;
+        mThumbId = other.mThumbId;
+        mProfileId = other.mProfileId;
+        mFullId = other.mFullId;
+        mEviction = other.mEviction;
+    }
+
+    public Action1<Photo> getUpdateAction() {
+        return new PhotoUpdateAction();
+    }
+
+    class PhotoUpdateAction implements Action1<Photo> {
+        @Override
+        public void call(Photo photo) {
+            Photo.this.updateWithOther(photo);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Photo{" +
+                "mPk=" + mPk +
+                ", mObjectId=" + mObjectId +
+                ", mExpireDate=" + mExpireDate +
+                '}';
+    }
 }

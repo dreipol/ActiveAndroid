@@ -1,5 +1,6 @@
 package ch.dreipol.android.blinq.services;
 
+import ch.dreipol.android.blinq.services.model.Photo;
 import ch.dreipol.android.blinq.services.model.Profile;
 import ch.dreipol.android.blinq.services.model.SettingsProfile;
 import ch.dreipol.android.blinq.services.network.UploadProfile;
@@ -15,4 +16,6 @@ public interface INetworkMethods extends IService, ISwarmNetworkMethods, IMatche
     Observable<SettingsProfile> signup();
 
     void update(UploadProfile profile);
+
+    Observable<Photo> renewPhotoSource(Photo photo);
 }

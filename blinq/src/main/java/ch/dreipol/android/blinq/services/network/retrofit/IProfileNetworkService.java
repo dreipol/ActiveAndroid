@@ -14,7 +14,7 @@ import rx.Observable;
 /**
  * Created by phil on 26.03.14.
  */
-public interface ProfileService {
+public interface IProfileNetworkService {
     @POST("/me/")
     Observable<TaskStatus<JsonElement>> getMe(@Body Map meBody);
     @POST("/sign_up/")

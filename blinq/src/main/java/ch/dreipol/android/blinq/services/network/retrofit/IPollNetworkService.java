@@ -13,7 +13,7 @@ import rx.Observable;
 /**
  * Created by phil on 26.03.14.
  */
-public interface PollService {
+public interface IPollNetworkService {
 
     @POST("/poll/")
     Observable<List<TaskStatus<JsonElement>>> poll(@Body Map pollBody);

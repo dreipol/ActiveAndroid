@@ -15,6 +15,10 @@ import ch.dreipol.android.blinq.services.impl.BaseService;
 import ch.dreipol.android.blinq.services.model.LoadingInfo;
 import ch.dreipol.android.blinq.services.model.Photo;
 import ch.dreipol.android.blinq.ui.fragments.LoadingState;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 import rx.subjects.BehaviorSubject;
 
 /**
@@ -65,8 +69,22 @@ public class ImageCacheService extends BaseService implements IImageCacheService
     }
 
     @Override
-    public BehaviorSubject<LoadingInfo> displayPhoto(Photo photo, ImageView view) {
-        String URI = photo.getThumbId();
-        return displayImage(URI, view);
+    public Observable<LoadingInfo> displayPhoto(Photo photo, final ImageView view) {
+        Observable<Photo> startingObservable = Observable.just(photo);
+        if (photo.isExpired()) {
+            startingObservable = renew(photo).subscribeOn(Schedulers.io());
+        }
+        return startingObservable.observeOn(AndroidSchedulers.mainThread()).concatMap(new Func1<Photo, Observable<LoadingInfo>>() {
+            @Override
+            public Observable<LoadingInfo> call(Photo photo) {
+                String URI = photo.getThumbId();
+                return ImageCacheService.this.displayImage(URI, view);
+            }
+        });
+
+    }
+
+    public Observable<Photo> renew(Photo photo) {
+        return getService().getNetworkService().renewPhotoSource(photo).doOnNext(photo.getUpdateAction());
     }
 }

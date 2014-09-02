@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import ch.dreipol.android.blinq.services.ServerStatus;
-import ch.dreipol.android.blinq.services.network.retrofit.PollService;
+import ch.dreipol.android.blinq.services.network.retrofit.IPollNetworkService;
 import ch.dreipol.android.blinq.util.Bog;
 import ch.dreipol.android.blinq.util.NullSubscription;
 import rx.Observable;
@@ -29,10 +29,10 @@ import rx.subjects.Subject;
 public class Pollworker {
 
     private HashMap<String, BehaviorSubject<TaskStatus<JsonElement>>> mTaskMap;
-    private PollService mService;
+    private IPollNetworkService mService;
     private Scheduler.Worker mWorker;
 
-    public Pollworker(PollService service) {
+    public Pollworker(IPollNetworkService service) {
 
         mService = service;
         mTaskMap = new HashMap<String, BehaviorSubject<TaskStatus<JsonElement>>>();

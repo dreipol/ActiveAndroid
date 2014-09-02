@@ -28,12 +28,14 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Action1;
+import rx.internal.util.SubscriptionList;
 import rx.schedulers.Schedulers;
 
 public class MyProfileFragment extends BlinqFragment implements IHeaderConfigurationProvider {
 
 
     private Subscription mMeSubscription;
+    private SubscriptionList mImageSubscriptionList = new SubscriptionList();
 
     public static MyProfileFragment newInstance() {
         MyProfileFragment fragment = new MyProfileFragment();
@@ -59,7 +61,6 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
                 int bottomColor = Color.parseColor(profile.getColorBottom());
 
                 View container = loadingInfo.getViewContainer();
-
 
 
                 final ToggleButton toggleMale = (ToggleButton) container.findViewById(R.id.toggle_male);
@@ -110,13 +111,14 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
 
                 List<Photo> profilePhotos = profile.getPhotos();
                 for (Photo photo : profilePhotos) {
-                    if (profilePhotos.indexOf(photo) == 0) {
-                        imageCacheService.displayPhoto(photo, imageView);
-                    } else {
-                        ImageView imgView = new ImageView(container.getContext());
+                    ImageView imgView = imageView;
+                    if (profilePhotos.indexOf(photo) != 0) {
+                        imgView = new ImageView(container.getContext());
 //                        flowLayout.addView(imgView);
-                        imageCacheService.displayPhoto(photo, imgView);
                     }
+                    Subscription subscription = imageCacheService.displayPhoto(photo, imgView)
+                            .observeOn(AndroidSchedulers.mainThread()).subscribe();
+                    mImageSubscriptionList.add(subscription);
                 }
 
 
@@ -155,6 +157,7 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
         super.onDestroy();
         mLoadingSubscription.unsubscribeOn(Schedulers.io());
         mMeSubscription.unsubscribe();
+        mImageSubscriptionList.unsubscribe();
     }
 
     @Override
@@ -176,9 +179,6 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
     protected int getLayoutResourceId() {
         return R.layout.fragment_my_profile;
     }
-
-
-
 
 
 }

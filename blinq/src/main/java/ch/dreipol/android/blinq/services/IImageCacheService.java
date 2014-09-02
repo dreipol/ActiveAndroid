@@ -10,5 +10,5 @@ import ch.dreipol.android.blinq.services.model.Photo;
 public interface IImageCacheService extends IService {
 
     public rx.subjects.BehaviorSubject<ch.dreipol.android.blinq.services.model.LoadingInfo> displayImage(String imageURI, ImageView view);
-    public rx.subjects.BehaviorSubject<ch.dreipol.android.blinq.services.model.LoadingInfo> displayPhoto(Photo photo, ImageView view);
+    public rx.Observable<ch.dreipol.android.blinq.services.model.LoadingInfo> displayPhoto(Photo photo, ImageView view);
 }
