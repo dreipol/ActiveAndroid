@@ -95,4 +95,7 @@ public class StaticResources {
         }
         return justMeAgain;
     }
+
+    public static void convertDisplayPointsToPixel(int i) {
+    }
 }

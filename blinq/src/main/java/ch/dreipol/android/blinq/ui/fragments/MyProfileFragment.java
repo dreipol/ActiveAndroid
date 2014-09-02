@@ -24,6 +24,8 @@ import ch.dreipol.android.blinq.services.model.LoadingInfo;
 import ch.dreipol.android.blinq.services.model.Photo;
 import ch.dreipol.android.blinq.services.model.Profile;
 import ch.dreipol.android.blinq.services.model.SettingsProfile;
+import ch.dreipol.android.blinq.ui.ProfileImageView;
+import ch.dreipol.android.blinq.ui.ProfileImageViewType;
 import ch.dreipol.android.blinq.ui.headers.IHeaderViewConfiguration;
 import ch.dreipol.android.blinq.ui.layout.FlowLayout;
 import ch.dreipol.android.blinq.util.Bog;
@@ -85,7 +87,9 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
                     }
                 });
 
-                ImageView imageView = (ImageView) container.findViewById(R.id.main_image);
+                ProfileImageView mainProfileImageView = (ProfileImageView) container.findViewById(R.id.main_profile_view);
+                mainProfileImageView.setType(ProfileImageViewType.BIG);
+                ImageView imageView = mainProfileImageView.getImageView();
 
 
                 TextView ageView = (TextView) container.findViewById(R.id.profile_age);
@@ -124,13 +128,16 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
                     ImageView imgView = imageView;
                     if (profilePhotos.indexOf(photo) != 0) {
 
-                        imgView = new ImageView(container.getContext());
-                        imgView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        ProfileImageView profileImageView = new ProfileImageView(container.getContext());
 
                         int size = StaticResources.convertDisplayPointsToPixel(container.getContext(), 60);
-                        imgView.setLayoutParams(new LinearLayout.LayoutParams(size,size));
-                        column.addView(imgView);
-                        if(column.getChildCount()==2){
+                        profileImageView.setLayoutParams(new RelativeLayout.LayoutParams(size, size));
+                        profileImageView.setType(ProfileImageViewType.SMALL);
+                        imgView = profileImageView.getImageView();
+                        imgView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+                        column.addView(profileImageView);
+                        if (column.getChildCount() == 2) {
                             column = new LinearLayout(container.getContext());
                             column.setOrientation(LinearLayout.VERTICAL);
                             column.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -138,6 +145,7 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
 
                         }
                     }
+
 
                     Subscription subscription = imageCacheService.displayPhoto(photo, imgView)
                             .observeOn(AndroidSchedulers.mainThread()).subscribe();
