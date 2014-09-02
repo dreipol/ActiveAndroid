@@ -123,14 +123,14 @@ public class BetaNetworkService extends NetworkService {
                                 "raw", getService().getContext().getPackageName()));
     }
 
-    @Override
-    public void loadMatches() {
-        Resources resources = getService().getContext().getResources();
-        Gson gson = getGson();
-        InputStream inputStream = getMatchesStream(resources);
-        getService().getMatchesService().loadMatches(Observable.<ArrayList<Match>>from(gson.<ArrayList<Match>>fromJson(new InputStreamReader(inputStream), new TypeToken<ArrayList<Match>>() {
-        }.getType())));
-    }
+//    @Override
+//    public void loadMatches() {
+//        Resources resources = getService().getContext().getResources();
+//        Gson gson = getGson();
+//        InputStream inputStream = getMatchesStream(resources);
+//        getService().getMatchesService().loadMatches(Observable.<ArrayList<Match>>from(gson.<ArrayList<Match>>fromJson(new InputStreamReader(inputStream), new TypeToken<ArrayList<Match>>() {
+//        }.getType())));
+//    }
     
     
     private InputStream getMatchesStream(Resources resources) {

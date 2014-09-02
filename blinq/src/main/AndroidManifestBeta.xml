@@ -12,7 +12,7 @@
             android:value="BETA"/>
         <meta-data
             android:name="BLINQ_SERVER"
-            android:value="http://10.0.1.36:8000"/>
+            android:value="https://beta.blinqapp.ch/"/>
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/fb_app_id_beta"/>

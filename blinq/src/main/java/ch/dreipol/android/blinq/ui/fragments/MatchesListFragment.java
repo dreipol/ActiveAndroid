@@ -20,10 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.dreipol.android.blinq.R;
+import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.model.ILoadable;
 import ch.dreipol.android.blinq.services.model.LoadingInfo;
 import ch.dreipol.android.blinq.services.model.Match;
 import ch.dreipol.android.blinq.ui.adapters.MatchListCursorAdapter;
+import ch.dreipol.android.blinq.ui.viewgroups.DrawerPosition;
 import ch.dreipol.android.blinq.util.Bog;
 import rx.functions.Action1;
 
@@ -47,6 +49,7 @@ public class MatchesListFragment extends BlinqFragment {
     public void onStart() {
         super.onStart();
 
+        AppService.getInstance().getNetworkService().loadMatches();
 
         mLoadingSubscription.subscribe(new Action1<LoadingInfo>() {
             @Override
@@ -217,6 +220,7 @@ public class MatchesListFragment extends BlinqFragment {
 //        });
         super.onStart();
     }
+
 
     @Override
     public void onStop() {
