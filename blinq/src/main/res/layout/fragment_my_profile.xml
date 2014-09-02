@@ -13,50 +13,58 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:orientation="horizontal"
-            android:layout_height="250dp"
-            android:id="@+id/profile_overview"
-            android:background="@color/blinq_red_f9395C"
-            android:baselineAligned="false">
-
-            <RelativeLayout
-                android:layout_width="156dp"
-                android:layout_height="156dp"
-                android:background="@drawable/detailscreen_picture_large_standard"
-                android:clickable="false"
-                android:layout_marginLeft="20dp"
-                android:layout_gravity="center_vertical">
-
-                <ImageView
-                    android:layout_width="115dp"
-                    android:layout_height="115dp"
-                    android:id="@+id/main_image"
-                    android:src="@drawable/icon"
-                    android:scaleType="centerCrop"
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginBottom="25dp"
-                    android:layout_marginTop="22dp"
-                    android:layout_marginRight="19dp"
-                    android:layout_alignParentTop="false"
-                    android:layout_alignParentLeft="false"
-                    android:layout_alignParentBottom="false"
-                    android:layout_alignParentRight="false"
-                    android:layout_alignWithParentIfMissing="false"
-                    android:layout_alignParentEnd="false"
-                    android:layout_alignParentStart="false"/>
-            </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profile_background"
+            android:background="@color/blinq_red_f9395C">
 
             <LinearLayout
+                android:layout_width="fill_parent"
                 android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:id="@+id/small_images"
-                android:layout_height="fill_parent">
+                android:layout_height="250dp"
+                android:id="@+id/profile_overview"
+                android:baselineAligned="false"
+                android:background="@drawable/detailscreen_background_standard">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/detailscreen_picture_large_standard"
+                    android:clickable="false"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="10dp">
+
+                    <ImageView
+                        android:layout_width="140dp"
+                        android:layout_height="140dp"
+                        android:id="@+id/main_image"
+                        android:src="@drawable/icon"
+                        android:scaleType="centerCrop"
+                        android:layout_alignParentTop="false"
+                        android:layout_alignParentLeft="false"
+                        android:layout_alignParentBottom="false"
+                        android:layout_alignParentRight="false"
+                        android:layout_alignWithParentIfMissing="false"
+                        android:layout_alignParentEnd="false"
+                        android:layout_alignParentStart="false"
+                        />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:id="@+id/small_images"
+                    android:layout_height="fill_parent">
+                </LinearLayout>
+
+
             </LinearLayout>
-
-
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"

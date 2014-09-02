@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -99,7 +100,7 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
                 ageView.setText(age.toString());
                 nameView.setText(profile.getFirstName());
 
-                LinearLayout profileOverviewView = (LinearLayout) container.findViewById(R.id.profile_overview);
+                RelativeLayout profileOverviewView = (RelativeLayout) container.findViewById(R.id.profile_background);
                 GradientDrawable g = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.parseColor(profile.getColorTop()), bottomColor});
                 g.setGradientType(GradientDrawable.LINEAR_GRADIENT);
                 profileOverviewView.setBackgroundDrawable(g);
