@@ -9,8 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+
+import com.google.common.io.LineReader;
 
 import java.util.List;
 
@@ -21,9 +24,12 @@ import ch.dreipol.android.blinq.services.model.LoadingInfo;
 import ch.dreipol.android.blinq.services.model.Photo;
 import ch.dreipol.android.blinq.services.model.Profile;
 import ch.dreipol.android.blinq.services.model.SettingsProfile;
+import ch.dreipol.android.blinq.ui.ProfileImageView;
+import ch.dreipol.android.blinq.ui.ProfileImageViewType;
 import ch.dreipol.android.blinq.ui.headers.IHeaderViewConfiguration;
 import ch.dreipol.android.blinq.ui.layout.FlowLayout;
 import ch.dreipol.android.blinq.util.Bog;
+import ch.dreipol.android.blinq.util.StaticResources;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
@@ -81,7 +87,9 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
                     }
                 });
 
-                ImageView imageView = (ImageView) container.findViewById(R.id.main_image);
+                ProfileImageView mainProfileImageView = (ProfileImageView) container.findViewById(R.id.main_profile_view);
+                mainProfileImageView.setType(ProfileImageViewType.BIG);
+                ImageView imageView = mainProfileImageView.getImageView();
 
 
                 TextView ageView = (TextView) container.findViewById(R.id.profile_age);
@@ -99,23 +107,46 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
                 ageView.setText(age.toString());
                 nameView.setText(profile.getFirstName());
 
-                LinearLayout profileOverviewView = (LinearLayout) container.findViewById(R.id.profile_overview);
+                RelativeLayout profileOverviewView = (RelativeLayout) container.findViewById(R.id.profile_background);
                 GradientDrawable g = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.parseColor(profile.getColorTop()), bottomColor});
                 g.setGradientType(GradientDrawable.LINEAR_GRADIENT);
                 profileOverviewView.setBackgroundDrawable(g);
 
-//                FlowLayout flowLayout = (FlowLayout) container.findViewById(R.id.small_images);
-//                flowLayout.removeAllViews();
+                LinearLayout imagesLayout = (LinearLayout) container.findViewById(R.id.small_images);
+                imagesLayout.removeAllViews();
 
                 IImageCacheService imageCacheService = AppService.getInstance().getImageCacheService();
 
+                LinearLayout column = new LinearLayout(container.getContext());
+                column.setOrientation(LinearLayout.VERTICAL);
+                column.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                imagesLayout.addView(column);
+
                 List<Photo> profilePhotos = profile.getPhotos();
+
                 for (Photo photo : profilePhotos) {
                     ImageView imgView = imageView;
                     if (profilePhotos.indexOf(photo) != 0) {
-                        imgView = new ImageView(container.getContext());
-//                        flowLayout.addView(imgView);
+
+                        ProfileImageView profileImageView = new ProfileImageView(container.getContext());
+
+                        int size = StaticResources.convertDisplayPointsToPixel(container.getContext(), 60);
+                        profileImageView.setLayoutParams(new RelativeLayout.LayoutParams(size, size));
+                        profileImageView.setType(ProfileImageViewType.SMALL);
+                        imgView = profileImageView.getImageView();
+                        imgView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+                        column.addView(profileImageView);
+                        if (column.getChildCount() == 2) {
+                            column = new LinearLayout(container.getContext());
+                            column.setOrientation(LinearLayout.VERTICAL);
+                            column.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            imagesLayout.addView(column);
+
+                        }
                     }
+
+
                     Subscription subscription = imageCacheService.displayPhoto(photo, imgView)
                             .observeOn(AndroidSchedulers.mainThread()).subscribe();
                     mImageSubscriptionList.add(subscription);
