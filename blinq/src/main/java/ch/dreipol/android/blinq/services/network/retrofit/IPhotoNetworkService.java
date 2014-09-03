@@ -18,8 +18,6 @@ public interface IPhotoNetworkService {
     Observable<TaskStatus<JsonElement>> renewPhotoSource(@Body Map body);
     @POST("/remove_photo/")
     Observable<TaskStatus<JsonElement>> removePhoto(@Body Map body);
-
-    //TODO:
     @POST("/update_photo/")
     Observable<TaskStatus<JsonElement>> updatePhoto(@Body Map body);
 }

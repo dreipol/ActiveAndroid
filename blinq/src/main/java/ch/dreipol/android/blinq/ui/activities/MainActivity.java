@@ -134,6 +134,7 @@ public class MainActivity extends BaseBlinqActivity implements ISettingsListList
         fragmentTransaction.commit();
 
         mCurrentCenterFragment = newFragment;
+        mCurrentCenterFragment.setGuiStatusObservable(mGuiLoadStatus);
 
         if (mCurrentCenterFragment instanceof IHeaderConfigurationProvider) {
             IHeaderConfigurationProvider headerProvider = (IHeaderConfigurationProvider) mCurrentCenterFragment;

@@ -2,7 +2,6 @@ package ch.dreipol.android.blinq.services.impl;
 
 import android.location.Location;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -242,27 +241,25 @@ public class NetworkService extends BaseService implements INetworkMethods {
     }
 
     @Override
-    public void createOrUpdatePhoto(String fbObejctId, int position) {
-        HashMap<String, Object> body = ServerBodyCreator.create("object_id", fbObejctId);
+    public Observable<SettingsProfile> createOrUpdatePhoto(String fbObjectId, int position) {
+        HashMap<String, Object> body = ServerBodyCreator.create("object_id", fbObjectId);
         body.put("position", position);
-        getRequestObservable(mPhotoNetworkService.updatePhoto(body), new TypeToken<List<Photo>>() {
-        }).subscribeOn(Schedulers.io()).flatMap(new Func1<List<Photo>, Observable<SettingsProfile>>() {
-            @Override
-            public Observable<SettingsProfile> call(List<Photo> photos) {
-                try {
-                    ICacheService jsonCacheService = getService().getJsonCacheService();
-                    final String settingsProfileKey = JsonStoreName.SETTINGS_PROFILE.toString();
-                    CachedModel<SettingsProfile> cachedModel = jsonCacheService.get(settingsProfileKey);
-                    SettingsProfile profile = cachedModel.getObject();
-                    profile.setPhotos(photos);
-                    return jsonCacheService.putToObservable(settingsProfileKey, profile);
-                } catch (IOException e) {
-                    return Observable.error(e);
-                } catch (ClassNotFoundException e) {
-                    return Observable.error(e);
-                }
-            }
-        });
+       return getRequestObservable(mPhotoNetworkService.updatePhoto(body), new TypeToken<List<Photo>>() {
+       }).subscribeOn(Schedulers.io()).flatMap(new Func1<List<Photo>, Observable<SettingsProfile>>() {
+           @Override
+           public Observable<SettingsProfile> call(List<Photo> photos) {
+               try {
+                   ICacheService jsonCacheService = getService().getJsonCacheService();
+                   final String settingsProfileKey = JsonStoreName.SETTINGS_PROFILE.toString();
+                   CachedModel<SettingsProfile> cachedModel = jsonCacheService.get(settingsProfileKey, SettingsProfile.class);
+                   SettingsProfile profile = cachedModel.getObject();
+                   profile.setPhotos(photos);
+                   return jsonCacheService.putToObservable(settingsProfileKey, profile);
+               } catch (IOException e) {
+                   return Observable.error(e);
+               }
+           }
+       });
     }
 
     private <T> Observable<T> getRequestObservable(Observable<TaskStatus<JsonElement>> observable, final TypeToken<T> typeToken) {

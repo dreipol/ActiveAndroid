@@ -1,12 +1,12 @@
 package ch.dreipol.android.blinq.ui.fragments;
 
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import java.util.List;
+import java.util.ListIterator;
 
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.AppService;
@@ -25,9 +26,13 @@ import ch.dreipol.android.blinq.services.model.SettingsProfile;
 import ch.dreipol.android.blinq.ui.IProfileImageViewListener;
 import ch.dreipol.android.blinq.ui.ProfileImageView;
 import ch.dreipol.android.blinq.ui.ProfileImageViewType;
+import ch.dreipol.android.blinq.ui.activities.FacebookPhotoPickerActivity;
 import ch.dreipol.android.blinq.ui.headers.IHeaderViewConfiguration;
 import ch.dreipol.android.blinq.util.Bog;
 import ch.dreipol.android.blinq.util.StaticResources;
+import ch.dreipol.android.dreiworks.ui.activities.ActivityTransitionType;
+import ch.dreipol.android.dreiworks.ui.activities.BaseActivity;
+import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
@@ -41,12 +46,6 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
     private Subscription mMeSubscription;
     private SubscriptionList mImageSubscriptionList = new SubscriptionList();
 
-    public static MyProfileFragment newInstance() {
-        MyProfileFragment fragment = new MyProfileFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     public MyProfileFragment() {
     }
@@ -121,16 +120,19 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
                 imagesLayout.addView(column);
 
                 List<Photo> profilePhotos = profile.getPhotos();
+                ListIterator<Photo> it = profilePhotos.listIterator();
 
-                for (Photo photo : profilePhotos) {
+                while (it.hasNext()) {
+                    int position = it.nextIndex();
+                    Photo photo = it.next();
                     ImageView imgView = imageView;
-                    if (profilePhotos.indexOf(photo) != 0) {
+                    if (position > 0) {
 
-                        ProfileImageView profileImageView = createProfileImageView(container);
+                        ProfileImageView profileImageView = createProfileImageView(container, ProfileImageViewType.SMALL);
 
                         imgView = profileImageView.getImageView();
 
-                        profileImageView.setActionListener(new ProfileImageViewListener(photo));
+                        profileImageView.setActionListener(new ProfileImageViewListener(photo, position));
                         column.addView(profileImageView);
                         if (column.getChildCount() >= 2) {
                             column = new LinearLayout(container.getContext());
@@ -141,18 +143,15 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
                         }
                     }
 
-
                     Subscription subscription = imageCacheService.displayPhoto(photo, imgView)
                             .observeOn(AndroidSchedulers.mainThread()).subscribe();
                     mImageSubscriptionList.add(subscription);
                 }
-                if (profilePhotos.size() < 5) {
-                    ProfileImageView imgView = createProfileImageView(container);
-
-                    Subscription subscription = imageCacheService.displayPhoto(profile.getMainPhoto(), imgView.getImageView()).observeOn(AndroidSchedulers.mainThread()).subscribe();
-
-                    mImageSubscriptionList.add(subscription);
-                    imagesLayout.addView(imgView);
+                int photoCount = profilePhotos.size();
+                if (photoCount < 5) {
+                    ProfileImageView profileImageView = createProfileImageView(container, ProfileImageViewType.ADD);
+                    profileImageView.setActionListener(new ProfileImageViewListener(photoCount));
+                    column.addView(profileImageView);
                 }
 
 
@@ -185,13 +184,12 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
 
     }
 
-
-    private ProfileImageView createProfileImageView(View container) {
+    private ProfileImageView createProfileImageView(View container, ProfileImageViewType type) {
         ProfileImageView profileImageView = new ProfileImageView(container.getContext());
 
         int size = StaticResources.convertDisplayPointsToPixel(container.getContext(), 70);
         profileImageView.setLayoutParams(new RelativeLayout.LayoutParams(size, size));
-        profileImageView.setType(ProfileImageViewType.SMALL);
+        profileImageView.setType(type);
         return profileImageView;
     }
 
@@ -227,22 +225,15 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
 
     class ProfileImageViewListener implements IProfileImageViewListener {
         private Photo mPhoto = null;
+        final private int mPosition;
 
-        ProfileImageViewListener(Photo p) {
+        ProfileImageViewListener(Photo p, int position) {
+            this(position);
             mPhoto = p;
         }
 
-        ProfileImageViewListener() {
-        }
-
-        @Override
-        public View.OnClickListener getAddListener() {
-            return new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //add new image
-                }
-            };
+        ProfileImageViewListener(int position) {
+            mPosition = position;
         }
 
         @Override
@@ -251,6 +242,27 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
                 @Override
                 public void onClick(View v) {
 
+                    BaseActivity activity = (BaseActivity) getActivity();
+                    activity.getIntent().putExtra(BaseActivity.PHOTOSOURCE_POSITION, mPosition);
+                    getGuiStatusObservable().subscribe(new Action1<LoadingInfo>() {
+                        @Override
+                        public void call(LoadingInfo o) {
+                            ViewGroup profile = (ViewGroup) getView().findViewById(R.id.profile_overview);
+
+                            switch (o.getState()){
+
+                                case LOADING:
+                                    profile.setVisibility(View.GONE);
+                                    break;
+                                case LOADED:
+                                case CANCELED:
+                                case ERROR:
+                                    profile.setVisibility(View.VISIBLE);
+                                    break;
+                            }
+                        }
+                    });
+                    activity.startActivityForResult(FacebookPhotoPickerActivity.class, ActivityTransitionType.DEFAULT, BaseActivity.FACEBOOK_PHOTOPICKER_REQUEST);
                 }
             };
         }
@@ -262,11 +274,15 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
                 public void onClick(View v) {
                     if (mPhoto != null) {
                         AppService.getInstance().getAccountService().removePhoto(mPhoto);
-
-                        //remove view
                     }
                 }
             };
         }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
     }
 }

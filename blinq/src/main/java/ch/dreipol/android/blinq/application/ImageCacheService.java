@@ -55,6 +55,7 @@ public class ImageCacheService extends BaseService implements IImageCacheService
                 .showImageOnFail(R.drawable.icon_fail) // resource or drawable
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
+                .delayBeforeLoading(5000)
                 .build();
         ImageLoaderConfiguration config = getImageLoaderConfigurationBuilder(context, defaultDisplayOptions)
                 .build();

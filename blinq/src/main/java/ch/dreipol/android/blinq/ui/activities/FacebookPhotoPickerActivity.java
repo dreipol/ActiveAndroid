@@ -1,6 +1,7 @@
 package ch.dreipol.android.blinq.ui.activities;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,6 +16,9 @@ import ch.dreipol.android.blinq.ui.fragments.facebook.FacebookPhotosOfMeFragment
 public class FacebookPhotoPickerActivity extends BaseBlinqActivity implements FacebookAlbumFragment.OnAlbumInteractionListener, FacebookPhotosFragment.OnPhotoInteractionListener {
 
 
+    public static final String FACEBOOK_PHOTO_ID = "ch.dreipol.android.facebookphotopicker.object_id";
+    private static final String FACEBOOK_PHOTO_URL = "ch.dreipol.android.facebookphotopicker.url";
+
     @Override
     public void didSelectAlbum(FacebookAlbum album) {
         String albumId = album.getId();
@@ -23,6 +27,10 @@ public class FacebookPhotoPickerActivity extends BaseBlinqActivity implements Fa
 
     @Override
     public void didSelectPhoto(FacebookPhoto photo) {
+        Intent data = new Intent();
+        data.putExtra(FACEBOOK_PHOTO_ID, photo.getId());
+        data.putExtra(FACEBOOK_PHOTO_URL, photo.getPicture());
+        setResult(RESULT_OK, data);
         finish();
     }
 

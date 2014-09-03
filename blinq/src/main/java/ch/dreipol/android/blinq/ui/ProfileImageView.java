@@ -81,7 +81,14 @@ public class ProfileImageView extends RelativeLayout {
                 mAddButton.setVisibility(GONE);
                 mDeleteButton.setVisibility(VISIBLE);
                 mEditButton.setVisibility(GONE);
-
+                break;
+            case ADD:
+                backgroundId = R.drawable.detailscreen_picture_small_standard;
+                mBackground.setPadding(s8dp, s5dp, s5dp, s8dp);
+                s = StaticResources.convertDisplayPointsToPixel(getContext(), 77);
+                mAddButton.setVisibility(VISIBLE);
+                mDeleteButton.setVisibility(GONE);
+                mEditButton.setVisibility(GONE);
                 break;
         }
 
@@ -98,7 +105,8 @@ public class ProfileImageView extends RelativeLayout {
     }
 
     public void setActionListener(IProfileImageViewListener listener) {
-        mAddButton.setOnClickListener(listener.getAddListener());
+        mImageView.setOnClickListener(listener.getEditListener());
+        mAddButton.setOnClickListener(listener.getEditListener());
         mEditButton.setOnClickListener(listener.getEditListener());
         mDeleteButton.setOnClickListener(listener.getDeleteListener());
     }

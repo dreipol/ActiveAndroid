@@ -21,5 +21,5 @@ public interface INetworkMethods extends IService, ISwarmNetworkMethods, IMatche
 
     void removePhoto(Photo photo);
 
-    void createOrUpdatePhoto(String fbObejctId, int position);
+    Observable<SettingsProfile> createOrUpdatePhoto(String fbObjectId, int position);
 }

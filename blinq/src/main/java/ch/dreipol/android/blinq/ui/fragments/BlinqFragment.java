@@ -12,6 +12,7 @@ import ch.dreipol.android.blinq.ui.viewgroups.DrawerPosition;
 import rx.Observable;
 import rx.functions.Func2;
 import rx.subjects.BehaviorSubject;
+import rx.subjects.PublishSubject;
 
 /**
  * Created by phil on 24/08/14.
@@ -20,6 +21,7 @@ public abstract class BlinqFragment extends Fragment implements IDrawerPositionL
     protected BehaviorSubject<View> mViewSubject;
     protected BehaviorSubject<LoadingInfo> mDataSubject;
     protected Observable<LoadingInfo> mLoadingSubscription;
+    private Observable<LoadingInfo> mGuiStatusObservable = Observable.empty();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,11 +45,19 @@ public abstract class BlinqFragment extends Fragment implements IDrawerPositionL
         return view;
     }
 
+    public Observable<LoadingInfo> getGuiStatusObservable() {
+        return mGuiStatusObservable;
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
 //        mViewSubject = null;
 //        mDataSubject = null;
+    }
+
+    public void setGuiStatusObservable(Observable<LoadingInfo> guiStatusObservable) {
+        mGuiStatusObservable = guiStatusObservable;
     }
 
     protected abstract int getLayoutResourceId();
