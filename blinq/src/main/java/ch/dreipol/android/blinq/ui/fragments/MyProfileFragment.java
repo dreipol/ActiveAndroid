@@ -128,13 +128,9 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
                     ImageView imgView = imageView;
                     if (profilePhotos.indexOf(photo) != 0) {
 
-                        ProfileImageView profileImageView = new ProfileImageView(container.getContext());
+                        ProfileImageView profileImageView = createProfileImageView(container);
 
-                        int size = StaticResources.convertDisplayPointsToPixel(container.getContext(), 60);
-                        profileImageView.setLayoutParams(new RelativeLayout.LayoutParams(size, size));
-                        profileImageView.setType(ProfileImageViewType.SMALL);
                         imgView = profileImageView.getImageView();
-                        imgView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
                         column.addView(profileImageView);
                         if (column.getChildCount() == 2) {
@@ -151,6 +147,15 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
                             .observeOn(AndroidSchedulers.mainThread()).subscribe();
                     mImageSubscriptionList.add(subscription);
                 }
+                if(profilePhotos.size() < 5){
+                    ProfileImageView imgView = createProfileImageView(container);
+
+                    Subscription subscription = imageCacheService.displayPhoto(profile.getMainPhoto(), imgView.getImageView()).observeOn(AndroidSchedulers.mainThread()).subscribe();
+
+                    mImageSubscriptionList.add(subscription);
+                    imagesLayout.addView(imgView);
+                }
+
 
 
             }
@@ -180,6 +185,15 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
                         }
                 );
 
+    }
+
+    private ProfileImageView createProfileImageView(View container) {
+        ProfileImageView profileImageView = new ProfileImageView(container.getContext());
+
+        int size = StaticResources.convertDisplayPointsToPixel(container.getContext(), 70);
+        profileImageView.setLayoutParams(new RelativeLayout.LayoutParams(size, size));
+        profileImageView.setType(ProfileImageViewType.SMALL);
+        return profileImageView;
     }
 
 

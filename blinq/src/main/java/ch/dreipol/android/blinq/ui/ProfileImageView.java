@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -20,6 +21,10 @@ public class ProfileImageView extends RelativeLayout {
     private final RelativeLayout mBackground;
     private final LoaderView mLoaderView;
 
+    private final Button mEditButton;
+    private final Button mDeleteButton;
+    private final Button mAddButton;
+
     public ProfileImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
         LayoutInflater inflater = AppService.getInstance().getRuntimeService().getLayoutInflator(context);
@@ -27,9 +32,13 @@ public class ProfileImageView extends RelativeLayout {
 
         mImageView = (ImageView) findViewById(R.id.image);
         mBackground = (RelativeLayout) findViewById(R.id.background);
-        mBackground.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//        mBackground.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         mLoaderView = (LoaderView) findViewById(R.id.loader);
         mLoaderView.setLoaderType(LoaderView.LoaderType.DARK, LoaderView.LoaderSize.BIG);
+
+        mEditButton = (Button) findViewById(R.id.edit_button);
+        mDeleteButton = (Button) findViewById(R.id.delete_button);
+        mAddButton = (Button) findViewById(R.id.add_button);
 
     }
 
@@ -42,11 +51,6 @@ public class ProfileImageView extends RelativeLayout {
         return mImageView;
     }
 
-//    android:paddingBottom="15dp"
-//    android:paddingLeft="15dp"
-//    android:paddingRight="10dp"
-//    android:paddingTop="10dp"
-//
     public void setType(ProfileImageViewType type) {
         int s = StaticResources.convertDisplayPointsToPixel(getContext(), 160);
         int s10dp = StaticResources.convertDisplayPointsToPixel(getContext(), 12);
@@ -61,16 +65,23 @@ public class ProfileImageView extends RelativeLayout {
         LoaderView.LoaderSize size = LoaderView.LoaderSize.BIG;
 
         int backgroundId = R.drawable.detailscreen_picture_large_standard;
-        switch (type){
+        switch (type) {
             case BIG:
-                mBackground.setPadding(s15dp,s10dp,s10dp,s15dp);
+                mBackground.setPadding(s15dp, s10dp, s10dp, s15dp);
+                mAddButton.setVisibility(GONE);
+                mDeleteButton.setVisibility(GONE);
+                mEditButton.setVisibility(VISIBLE);
                 break;
 
             case SMALL:
-                backgroundId  = R.drawable.detailscreen_picture_small_standard;
-                mBackground.setPadding(s8dp,s5dp,s5dp,s8dp);
+                backgroundId = R.drawable.detailscreen_picture_small_standard;
+                mBackground.setPadding(s8dp, s5dp, s5dp, s8dp);
                 size = LoaderView.LoaderSize.SMALL;
                 s = StaticResources.convertDisplayPointsToPixel(getContext(), 77);
+                mAddButton.setVisibility(GONE);
+                mDeleteButton.setVisibility(VISIBLE);
+                mEditButton.setVisibility(GONE);
+
                 break;
         }
 

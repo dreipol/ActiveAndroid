@@ -37,6 +37,22 @@
 
 </style>
 
+<style name="BlinqCloseButton" parent="BlinqDefaultButton">
+    <item name="android:background">@drawable/icon_photo_delete_standard</item>
+</style>
+
+    <style name="BlinqEditButton">
+        <item name="android:background">@drawable/icon_photo_edit_long_standard</item>
+        <item name="android:textColor">@color/blinq_white</item>
+        <item name="android:shadowColor">@color/blinq_transparent</item>
+
+
+    </style>
+
+    <style name="BlinqAddButton">
+        <item name="android:background">@drawable/icon_photo_add_standard</item>
+    </style>
+
     <!--TODO: Phil mit dem richtigen Wert ersetzen-->
 <drawable name="default_button_text_color">@color/blinq_black</drawable>
     </resources>
