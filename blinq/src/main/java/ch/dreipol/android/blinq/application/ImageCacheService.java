@@ -50,7 +50,7 @@ public class ImageCacheService extends BaseService implements IImageCacheService
         super.setup(appService);
         Context context = appService.getContext();
         DisplayImageOptions defaultDisplayOptions = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.icon_loader_dark_big_animated) // resource or drawable
+                .showImageOnLoading(R.drawable.loader_rotating) // resource or drawable
                 .showImageForEmptyUri(R.drawable.icon) // resource or drawable
                 .showImageOnFail(R.drawable.icon_fail) // resource or drawable
                 .cacheInMemory(true)
