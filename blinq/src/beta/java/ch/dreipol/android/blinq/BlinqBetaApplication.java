@@ -7,6 +7,7 @@ import ch.dreipol.android.blinq.application.ImageCacheService;
 import ch.dreipol.android.blinq.application.JsonStoreServiceBuilder;
 import ch.dreipol.android.blinq.application.MatchesService;
 import ch.dreipol.android.blinq.application.PreferencesValueStore;
+import ch.dreipol.android.blinq.services.BetaImageCacheService;
 import ch.dreipol.android.blinq.services.BetaNetworkService;
 import ch.dreipol.android.blinq.services.IAccountService;
 import ch.dreipol.android.blinq.services.IDatabaseService;
@@ -66,7 +67,7 @@ public class BlinqBetaApplication extends BlinqApplication {
 
             @Override
             public ServiceBuilder<? extends IImageCacheService> imageCacheServiceBuilder() {
-                return new ServiceBuilder<ImageCacheService>(ImageCacheService.class);
+                return new ServiceBuilder<BetaImageCacheService>(BetaImageCacheService.class);
             }
 
             @Override
