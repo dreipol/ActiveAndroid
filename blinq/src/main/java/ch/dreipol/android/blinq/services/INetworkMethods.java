@@ -18,4 +18,8 @@ public interface INetworkMethods extends IService, ISwarmNetworkMethods, IMatche
     void update(UploadProfile profile);
 
     Observable<Photo> renewPhotoSource(Photo photo);
+
+    void removePhoto(Photo photo);
+
+    void createOrUpdatePhoto(String fbObejctId, int position);
 }

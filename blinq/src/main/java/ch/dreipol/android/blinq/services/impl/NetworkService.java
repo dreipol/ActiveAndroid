@@ -8,11 +8,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ch.dreipol.android.blinq.services.AppService;
@@ -26,6 +28,7 @@ import ch.dreipol.android.blinq.services.model.Match;
 import ch.dreipol.android.blinq.services.model.Photo;
 import ch.dreipol.android.blinq.services.model.Profile;
 import ch.dreipol.android.blinq.services.ServerStatus;
+import ch.dreipol.android.blinq.services.network.ServerBodyCreator;
 import ch.dreipol.android.blinq.services.network.TaskStatus;
 import ch.dreipol.android.blinq.services.model.SettingsProfile;
 import ch.dreipol.android.blinq.services.network.Pollworker;
@@ -39,9 +42,11 @@ import ch.dreipol.android.blinq.util.Bog;
 import ch.dreipol.android.blinq.util.gson.DateTypeAdapter;
 import ch.dreipol.android.blinq.util.gson.GenderInterestsAdapter;
 import ch.dreipol.android.dreiworks.GsonHelper;
+import ch.dreipol.android.dreiworks.ICacheService;
 import ch.dreipol.android.dreiworks.JsonStoreName;
 import ch.dreipol.android.dreiworks.gson.LatLonAdapter;
 import ch.dreipol.android.dreiworks.gson.PhotoAdapter;
+import ch.dreipol.android.dreiworks.jsonstore.CachedModel;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 import retrofit.mime.TypedOutput;
@@ -151,19 +156,14 @@ public class NetworkService extends BaseService implements INetworkMethods {
 
     @Override
     public Observable<Profile> hi(Profile other) {
-        Map m = new HashMap();
-        m.put("otherId", other.getFbId());
-
-        return getRequestObservable(mSwarmNetworkService.getHiTask(m), Profile.class);
+        return getRequestObservable(mSwarmNetworkService.getHiTask(ServerBodyCreator.create("otherId", other.getFbId())), Profile.class);
     }
 
     @Override
     public void bye(Profile other) {
-        Map m = new HashMap();
         final Long fb_id = other.getFbId();
-        m.put("otherId", fb_id);
 
-        mSwarmNetworkService.getByeTask(m).subscribe(new Action1<TaskStatus<JsonElement>>() {
+        mSwarmNetworkService.getByeTask(ServerBodyCreator.create("otherId", fb_id)).subscribe(new Action1<TaskStatus<JsonElement>>() {
             @Override
             public void call(TaskStatus<JsonElement> taskStatus) {
                 Bog.v(Bog.Category.NETWORKING, "Said bye to " + fb_id);
@@ -222,9 +222,7 @@ public class NetworkService extends BaseService implements INetworkMethods {
     @Override
     public Observable<Photo> renewPhotoSource(Photo photo) {
         final long oldPk = photo.getPk();
-        HashMap<String, Object> map = new HashMap<String, Object>(4);
-        map.put("pk", oldPk);
-        return getRequestObservable(mPhotoNetworkService.renewPhotoSource(map), new TypeToken<Collection<Photo>>() {
+        return getRequestObservable(mPhotoNetworkService.renewPhotoSource(ServerBodyCreator.create("pk", oldPk)), new TypeToken<Collection<Photo>>() {
         }).flatMap(new Func1<Collection<Photo>, Observable<Photo>>() {
             @Override
             public Observable<Photo> call(Collection<Photo> collection) {
@@ -234,6 +232,35 @@ public class NetworkService extends BaseService implements INetworkMethods {
             @Override
             public Boolean call(Photo p) {
                 return p.getPk() == oldPk;
+            }
+        });
+    }
+
+    @Override
+    public void removePhoto(Photo photo) {
+        mPhotoNetworkService.removePhoto(ServerBodyCreator.create("pk", photo.getPk())).subscribe();
+    }
+
+    @Override
+    public void createOrUpdatePhoto(String fbObejctId, int position) {
+        HashMap<String, Object> body = ServerBodyCreator.create("object_id", fbObejctId);
+        body.put("position", position);
+        getRequestObservable(mPhotoNetworkService.updatePhoto(body), new TypeToken<List<Photo>>() {
+        }).subscribeOn(Schedulers.io()).flatMap(new Func1<List<Photo>, Observable<SettingsProfile>>() {
+            @Override
+            public Observable<SettingsProfile> call(List<Photo> photos) {
+                try {
+                    ICacheService jsonCacheService = getService().getJsonCacheService();
+                    final String settingsProfileKey = JsonStoreName.SETTINGS_PROFILE.toString();
+                    CachedModel<SettingsProfile> cachedModel = jsonCacheService.get(settingsProfileKey);
+                    SettingsProfile profile = cachedModel.getObject();
+                    profile.setPhotos(photos);
+                    return jsonCacheService.putToObservable(settingsProfileKey, profile);
+                } catch (IOException e) {
+                    return Observable.error(e);
+                } catch (ClassNotFoundException e) {
+                    return Observable.error(e);
+                }
             }
         });
     }

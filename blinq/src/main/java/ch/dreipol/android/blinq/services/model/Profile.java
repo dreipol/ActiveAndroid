@@ -9,6 +9,7 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Table(name = "profiles", columnNaming = AndroidNamingStrategy.class, uniqueIdentifier = "mFbId", id = BaseColumns._ID)
@@ -108,5 +109,9 @@ public class Profile extends Model implements ILoadable {
             result = photos.get(0);
         }
         return result;
+    }
+
+    protected void setPhotos(List<Photo> photos) {
+        mPhotos = photos;
     }
 }

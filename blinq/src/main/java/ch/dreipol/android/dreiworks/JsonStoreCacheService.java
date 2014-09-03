@@ -8,13 +8,10 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Observer;
-import java.util.concurrent.Callable;
 
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.impl.BaseService;
-import ch.dreipol.android.blinq.services.model.GenderInterests;
 import ch.dreipol.android.blinq.util.Bog;
-import ch.dreipol.android.blinq.util.gson.GenderInterestsAdapter;
 import ch.dreipol.android.dreiworks.jsonstore.AESEncryption;
 import ch.dreipol.android.dreiworks.jsonstore.CachedModel;
 import ch.dreipol.android.dreiworks.jsonstore.JsonStore;
@@ -90,6 +87,12 @@ public class JsonStoreCacheService extends BaseService implements ICacheService 
     public void clear() {
         mCacheMap.clear();
         mStore.clear();
+    }
+
+    @Override
+    public <T> CachedModel<T> get(String s) throws ClassNotFoundException, IOException {
+        Class<T> clazz = (Class<T>) Class.forName(s);
+        return get(s, clazz);
     }
 
     @Override

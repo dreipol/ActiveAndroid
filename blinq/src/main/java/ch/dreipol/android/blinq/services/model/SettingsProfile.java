@@ -1,7 +1,9 @@
 package ch.dreipol.android.blinq.services.model;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.EnumSet;
+import java.util.List;
 
 /**
  * Created by melbic on 25/08/14.
@@ -40,5 +42,9 @@ public class SettingsProfile extends Profile {
 
     public Date getApprovalDate() {
         return mApprovalDate;
+    }
+
+    public void setPhotos(List<Photo> photos) {
+       super.setPhotos(photos);
     }
 }

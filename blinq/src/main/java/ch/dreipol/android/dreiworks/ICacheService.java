@@ -17,6 +17,7 @@ public interface ICacheService extends IService{
     <T> CachedModel<T> get(String key, Class<T> clazz) throws IOException;
 
     <T> CachedModel<T> get(String key, TypeToken<T> type) throws IOException;
+    <T> CachedModel<T> get(String s) throws IOException, ClassNotFoundException;
 
     void remove(String key) throws IOException;
 
@@ -27,4 +28,5 @@ public interface ICacheService extends IService{
     <T> rx.Observable<T> putToObservable(String key, T object);
 
     void clear();
+
 }
