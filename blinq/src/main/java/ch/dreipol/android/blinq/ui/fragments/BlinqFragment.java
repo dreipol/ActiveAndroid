@@ -27,7 +27,7 @@ public abstract class BlinqFragment extends Fragment implements IDrawerPositionL
         mViewSubject = BehaviorSubject.create();
         mDataSubject = BehaviorSubject.create();
 
-        mLoadingSubscription = Observable.zip(mViewSubject, mDataSubject, new Func2<View, LoadingInfo, LoadingInfo>() {
+        mLoadingSubscription = Observable.combineLatest(mViewSubject, mDataSubject, new Func2<View, LoadingInfo, LoadingInfo>() {
             @Override
             public LoadingInfo call(View view, LoadingInfo loadingInfo) {
                 loadingInfo.setViewContainer(view);

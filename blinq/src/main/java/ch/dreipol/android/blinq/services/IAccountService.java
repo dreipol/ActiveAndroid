@@ -1,5 +1,6 @@
 package ch.dreipol.android.blinq.services;
 
+import ch.dreipol.android.blinq.services.model.Photo;
 import ch.dreipol.android.blinq.services.model.SearchSettings;
 import ch.dreipol.android.blinq.services.model.SettingsProfile;
 import rx.Observable;
@@ -21,4 +22,6 @@ public interface IAccountService extends IService {
     Observable<SaveResult> saveMe(SettingsProfile myProfile);
 
     void update();
+
+    void removePhoto(Photo photo);
 }

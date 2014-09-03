@@ -84,4 +84,24 @@ public class Photo implements Serializable {
                 ", mExpireDate=" + mExpireDate +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Photo)) return false;
+
+        Photo photo = (Photo) o;
+
+        if (mObjectId != photo.mObjectId) return false;
+        if (mPk != photo.mPk) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (mPk ^ (mPk >>> 32));
+        result = 31 * result + (int) (mObjectId ^ (mObjectId >>> 32));
+        return result;
+    }
 }

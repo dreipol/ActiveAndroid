@@ -34,7 +34,7 @@ public class Profile extends Model implements ILoadable {
     private String mSex;
 
     @Column(onModelUpdate = Column.ModelUpdateAction.REPLACE)
-    private List<Photo> mPhotos = new ArrayList<Photo>();
+    protected List<Photo> mPhotos = new ArrayList<Photo>();
     private Boolean mLikedMe;
     @Column(onModelUpdate = Column.ModelUpdateAction.REPLACE)
     private MutualData mMutualData;
@@ -111,7 +111,4 @@ public class Profile extends Model implements ILoadable {
         return result;
     }
 
-    protected void setPhotos(List<Photo> photos) {
-        mPhotos = photos;
-    }
 }

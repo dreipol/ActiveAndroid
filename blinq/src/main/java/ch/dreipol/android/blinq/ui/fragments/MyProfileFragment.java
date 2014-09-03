@@ -4,16 +4,14 @@ package ch.dreipol.android.blinq.ui.fragments;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-
-import com.google.common.io.LineReader;
 
 import java.util.List;
 
@@ -24,10 +22,10 @@ import ch.dreipol.android.blinq.services.model.LoadingInfo;
 import ch.dreipol.android.blinq.services.model.Photo;
 import ch.dreipol.android.blinq.services.model.Profile;
 import ch.dreipol.android.blinq.services.model.SettingsProfile;
+import ch.dreipol.android.blinq.ui.IProfileImageViewListener;
 import ch.dreipol.android.blinq.ui.ProfileImageView;
 import ch.dreipol.android.blinq.ui.ProfileImageViewType;
 import ch.dreipol.android.blinq.ui.headers.IHeaderViewConfiguration;
-import ch.dreipol.android.blinq.ui.layout.FlowLayout;
 import ch.dreipol.android.blinq.util.Bog;
 import ch.dreipol.android.blinq.util.StaticResources;
 import rx.Subscription;
@@ -132,8 +130,9 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
 
                         imgView = profileImageView.getImageView();
 
+                        profileImageView.setActionListener(new ProfileImageViewListener(photo));
                         column.addView(profileImageView);
-                        if (column.getChildCount() == 2) {
+                        if (column.getChildCount() >= 2) {
                             column = new LinearLayout(container.getContext());
                             column.setOrientation(LinearLayout.VERTICAL);
                             column.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -147,7 +146,7 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
                             .observeOn(AndroidSchedulers.mainThread()).subscribe();
                     mImageSubscriptionList.add(subscription);
                 }
-                if(profilePhotos.size() < 5){
+                if (profilePhotos.size() < 5) {
                     ProfileImageView imgView = createProfileImageView(container);
 
                     Subscription subscription = imageCacheService.displayPhoto(profile.getMainPhoto(), imgView.getImageView()).observeOn(AndroidSchedulers.mainThread()).subscribe();
@@ -155,7 +154,6 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
                     mImageSubscriptionList.add(subscription);
                     imagesLayout.addView(imgView);
                 }
-
 
 
             }
@@ -186,6 +184,7 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
                 );
 
     }
+
 
     private ProfileImageView createProfileImageView(View container) {
         ProfileImageView profileImageView = new ProfileImageView(container.getContext());
@@ -226,4 +225,48 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
     }
 
 
+    class ProfileImageViewListener implements IProfileImageViewListener {
+        private Photo mPhoto = null;
+
+        ProfileImageViewListener(Photo p) {
+            mPhoto = p;
+        }
+
+        ProfileImageViewListener() {
+        }
+
+        @Override
+        public View.OnClickListener getAddListener() {
+            return new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //add new image
+                }
+            };
+        }
+
+        @Override
+        public View.OnClickListener getEditListener() {
+            return new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            };
+        }
+
+        @Override
+        public View.OnClickListener getDeleteListener() {
+            return new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mPhoto != null) {
+                        AppService.getInstance().getAccountService().removePhoto(mPhoto);
+
+                        //remove view
+                    }
+                }
+            };
+        }
+    }
 }

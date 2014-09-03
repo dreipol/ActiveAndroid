@@ -5,6 +5,7 @@ import java.io.IOException;
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.IAccountService;
 import ch.dreipol.android.blinq.services.SaveResult;
+import ch.dreipol.android.blinq.services.model.Photo;
 import ch.dreipol.android.blinq.services.model.SearchSettings;
 import ch.dreipol.android.blinq.services.model.SettingsProfile;
 import ch.dreipol.android.blinq.util.Bog;
@@ -13,6 +14,7 @@ import ch.dreipol.android.dreiworks.JsonStoreName;
 import ch.dreipol.android.dreiworks.jsonstore.CachedModel;
 import rx.Observable;
 import ch.dreipol.android.blinq.services.network.UploadProfile;
+
 /**
  * Created by phil on 21/08/14.
  */
@@ -61,7 +63,7 @@ public class AccountService extends BaseService implements IAccountService {
         //TODO: save to server
         SaveResult saveResult = SaveResult.COMPLETE;
         try {
-            this.getService().getJsonCacheService().put(JsonStoreName.SETTINGS_PROFILE.toString(), myProfile);
+            saveMeToCache(myProfile);
         } catch (IOException e) {
             Bog.e(Bog.Category.SYSTEM, e.toString());
             saveResult = SaveResult.ERROR;
@@ -69,10 +71,11 @@ public class AccountService extends BaseService implements IAccountService {
         return Observable.just(saveResult);
     }
 
+
     @Override
     public void update() {
         try {
-            CachedModel<SettingsProfile> cachedModel = getService().getJsonCacheService().get(JsonStoreName.SETTINGS_PROFILE.toString(), SettingsProfile.class);
+            CachedModel<SettingsProfile> cachedModel = getMeFromCache();
             if (cachedModel.doesExist()) {
                 UploadProfile uploadProfile = new UploadProfile(cachedModel.getObject());
                 String language = getService().getContext().getString(R.string.lang);
@@ -85,4 +88,26 @@ public class AccountService extends BaseService implements IAccountService {
             Bog.e(Bog.Category.NETWORKING, "The profile couldn't be received from Json store. " + e.toString());
         }
     }
+
+    @Override
+    public void removePhoto(Photo photo) {
+        try {
+            CachedModel<SettingsProfile> cachedModel = getMeFromCache();
+            SettingsProfile profile = cachedModel.getObject();
+            profile.removePhoto(photo);
+            saveMeToCache(profile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        getService().getNetworkService().removePhoto(photo);
+    }
+
+    protected CachedModel<SettingsProfile> getMeFromCache() throws IOException {
+        return getService().getJsonCacheService().get(JsonStoreName.SETTINGS_PROFILE.toString(), SettingsProfile.class);
+    }
+
+    protected void saveMeToCache(SettingsProfile myProfile) throws IOException {
+        this.getService().getJsonCacheService().put(JsonStoreName.SETTINGS_PROFILE.toString(), myProfile);
+    }
+
 }

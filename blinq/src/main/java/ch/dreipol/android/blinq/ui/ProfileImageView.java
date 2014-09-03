@@ -96,4 +96,10 @@ public class ProfileImageView extends RelativeLayout {
         mLoaderView.setLoaderType(color, size);
 
     }
+
+    public void setActionListener(IProfileImageViewListener listener) {
+        mAddButton.setOnClickListener(listener.getAddListener());
+        mEditButton.setOnClickListener(listener.getEditListener());
+        mDeleteButton.setOnClickListener(listener.getDeleteListener());
+    }
 }
