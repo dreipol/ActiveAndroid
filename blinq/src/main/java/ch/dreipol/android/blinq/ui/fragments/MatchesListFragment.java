@@ -1,5 +1,6 @@
 package ch.dreipol.android.blinq.ui.fragments;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,9 +26,12 @@ import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.model.ILoadable;
 import ch.dreipol.android.blinq.services.model.LoadingInfo;
 import ch.dreipol.android.blinq.services.model.Match;
+import ch.dreipol.android.blinq.ui.activities.BaseBlinqActivity;
+import ch.dreipol.android.blinq.ui.activities.ChatActivity;
 import ch.dreipol.android.blinq.ui.adapters.MatchListCursorAdapter;
 import ch.dreipol.android.blinq.ui.viewgroups.DrawerPosition;
 import ch.dreipol.android.blinq.util.Bog;
+import ch.dreipol.android.dreiworks.ui.activities.ActivityTransitionType;
 import rx.functions.Action1;
 
 /**
@@ -46,6 +50,9 @@ public class MatchesListFragment extends BlinqFragment {
 
     }
 
+
+
+
     @Override
     public void onStart() {
         super.onStart();
@@ -58,17 +65,6 @@ public class MatchesListFragment extends BlinqFragment {
 
                 View viewContainer = loadingInfo.getViewContainer();
                 mListView = (ListView) viewContainer.findViewById(R.id.matches_list);
-                mListView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        Bog.d(Bog.Category.UI, "Selected id " + id + "at position " + id);
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                        Bog.d(Bog.Category.UI, "Nothing selected");
-                    }
-                });
 
                 Cursor cursor = ActiveAndroid.getDatabase().rawQuery(new Select().from(Match.class).toSql(), null);
 
@@ -101,6 +97,18 @@ public class MatchesListFragment extends BlinqFragment {
 
 
                 mListView.setAdapter(mAdapter);
+                mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Bog.d(Bog.Category.UI, "Selected id " + id + "at position " + position);
+                        BaseBlinqActivity activity = (BaseBlinqActivity) getActivity();
+                        Bundle params = new Bundle();
+                        params.putLong(ChatActivity.MATCH_ID,id);
+                        activity.startActivity(ChatActivity.class, ActivityTransitionType.DEFAULT, params);
+
+                    }
+                });
+
                 mCursorLoader.startLoading();
             }
 
@@ -122,16 +130,4 @@ public class MatchesListFragment extends BlinqFragment {
         return R.layout.fragment_matches_list;
     }
 
-    class MatchData implements ILoadable {
-        private ArrayList<Match> mMatches;
-
-        public MatchData(ArrayList<Match> matches) {
-
-            mMatches = matches;
-        }
-
-        public ArrayList<Match> getMatches() {
-            return mMatches;
-        }
-    }
 }

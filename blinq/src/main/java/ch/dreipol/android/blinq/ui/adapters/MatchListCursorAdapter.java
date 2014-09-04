@@ -28,6 +28,7 @@ public class MatchListCursorAdapter extends CursorAdapter {
         super(context, c, flags);
     }
 
+
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
         return new MatchListItemView(context, null);
@@ -36,6 +37,7 @@ public class MatchListCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         MatchListItemView matchItemView = (MatchListItemView)view;
+
         Match match = new Match();
         match.loadFromCursor(cursor);
         matchItemView.setMatch(match);

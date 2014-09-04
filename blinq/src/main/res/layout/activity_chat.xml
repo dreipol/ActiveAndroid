@@ -56,7 +56,7 @@
                 android:textColor="@color/blinq_white"
                 android:text="Dondi"
                 class="ch.dreipol.android.blinq.ui.textviews.AMTextView"
-                android:id="@+id/view"
+                android:id="@+id/profile_name"
                 android:layout_centerInParent="true"/>
         </RelativeLayout>
     </LinearLayout>

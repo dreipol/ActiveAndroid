@@ -3,6 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
+
                 android:background="@color/blinq_background_very_dark_grey_383838">
 
     <view
