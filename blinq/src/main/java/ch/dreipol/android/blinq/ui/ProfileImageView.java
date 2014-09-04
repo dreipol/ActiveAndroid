@@ -104,7 +104,7 @@ public class ProfileImageView extends RelativeLayout {
 
     }
 
-    public void setActionListener(IProfileImageViewListener listener) {
+    public void setOnClickListener(IProfileImageViewListener listener) {
         mImageView.setOnClickListener(listener.getEditListener());
         mAddButton.setOnClickListener(listener.getEditListener());
         mEditButton.setOnClickListener(listener.getEditListener());

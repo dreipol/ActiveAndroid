@@ -32,7 +32,6 @@ import ch.dreipol.android.blinq.util.Bog;
 import ch.dreipol.android.blinq.util.StaticResources;
 import ch.dreipol.android.dreiworks.ui.activities.ActivityTransitionType;
 import ch.dreipol.android.dreiworks.ui.activities.BaseActivity;
-import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
@@ -84,10 +83,6 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
                     }
                 });
 
-                ProfileImageView mainProfileImageView = (ProfileImageView) container.findViewById(R.id.main_profile_view);
-                mainProfileImageView.setType(ProfileImageViewType.BIG);
-                ImageView imageView = mainProfileImageView.getImageView();
-
 
                 TextView ageView = (TextView) container.findViewById(R.id.profile_age);
                 TextView nameView = (TextView) container.findViewById(R.id.profile_name);
@@ -109,6 +104,7 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
                 g.setGradientType(GradientDrawable.LINEAR_GRADIENT);
                 profileOverviewView.setBackgroundDrawable(g);
 
+
                 LinearLayout imagesLayout = (LinearLayout) container.findViewById(R.id.small_images);
                 imagesLayout.removeAllViews();
 
@@ -122,17 +118,18 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
                 List<Photo> profilePhotos = profile.getPhotos();
                 ListIterator<Photo> it = profilePhotos.listIterator();
 
+                ImageView imgView;
+                ProfileImageView profileImageView;
                 while (it.hasNext()) {
                     int position = it.nextIndex();
                     Photo photo = it.next();
-                    ImageView imgView = imageView;
-                    if (position > 0) {
+                    if (position == 0) {
+                        profileImageView = (ProfileImageView) container.findViewById(R.id.main_profile_view);
+                        profileImageView.setType(ProfileImageViewType.BIG);
+                    } else {
 
-                        ProfileImageView profileImageView = createProfileImageView(container, ProfileImageViewType.SMALL);
+                        profileImageView = createProfileImageView(container, ProfileImageViewType.SMALL);
 
-                        imgView = profileImageView.getImageView();
-
-                        profileImageView.setActionListener(new ProfileImageViewListener(photo, position));
                         column.addView(profileImageView);
                         if (column.getChildCount() >= 2) {
                             column = new LinearLayout(container.getContext());
@@ -142,6 +139,8 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
 
                         }
                     }
+                    imgView = profileImageView.getImageView();
+                    profileImageView.setOnClickListener(new ProfileImageViewListener(photo, position));
 
                     Subscription subscription = imageCacheService.displayPhoto(photo, imgView)
                             .observeOn(AndroidSchedulers.mainThread()).subscribe();
@@ -149,8 +148,8 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
                 }
                 int photoCount = profilePhotos.size();
                 if (photoCount < 5) {
-                    ProfileImageView profileImageView = createProfileImageView(container, ProfileImageViewType.ADD);
-                    profileImageView.setActionListener(new ProfileImageViewListener(photoCount));
+                    profileImageView = createProfileImageView(container, ProfileImageViewType.ADD);
+                    profileImageView.setOnClickListener(new ProfileImageViewListener(photoCount));
                     column.addView(profileImageView);
                 }
 
@@ -249,7 +248,7 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
                         public void call(LoadingInfo o) {
                             ViewGroup profile = (ViewGroup) getView().findViewById(R.id.profile_overview);
 
-                            switch (o.getState()){
+                            switch (o.getState()) {
 
                                 case LOADING:
                                     profile.setVisibility(View.GONE);

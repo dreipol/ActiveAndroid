@@ -244,6 +244,7 @@ public class NetworkService extends BaseService implements INetworkMethods {
     public Observable<SettingsProfile> createOrUpdatePhoto(String fbObjectId, int position) {
         HashMap<String, Object> body = ServerBodyCreator.create("object_id", fbObjectId);
         body.put("position", position);
+        body.put("replace", true);
        return getRequestObservable(mPhotoNetworkService.updatePhoto(body), new TypeToken<List<Photo>>() {
        }).subscribeOn(Schedulers.io()).flatMap(new Func1<List<Photo>, Observable<SettingsProfile>>() {
            @Override
