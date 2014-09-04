@@ -20,6 +20,7 @@ import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.model.ChatMessage;
 import ch.dreipol.android.blinq.services.model.Match;
 import ch.dreipol.android.blinq.ui.adapters.ChatCursorAdapter;
+import ch.dreipol.android.dreiworks.ui.activities.ActivityTransitionType;
 
 public class ChatActivity extends BaseBlinqActivity {
 
@@ -102,4 +103,9 @@ public class ChatActivity extends BaseBlinqActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overrideTransitionForAnimationDirection(ActivityTransitionType.TO_RIGHT);
+    }
 }
