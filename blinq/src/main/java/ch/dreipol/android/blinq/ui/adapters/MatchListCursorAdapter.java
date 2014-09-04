@@ -36,27 +36,10 @@ public class MatchListCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         MatchListItemView matchItemView = (MatchListItemView)view;
-//        List<Model> models = SQLiteUtils.processCursor(Match.class, cursor);
         Match match = new Match();
         match.loadFromCursor(cursor);
-//        Match match = Match.load(Match.class, cursor.getLong(cursor.getColumnIndex("_id")));
-//        Integer profileId = cursor.getInt(4);
-//
-//        Profile profile = Profile.load(Profile.class, profileId);
-//
         matchItemView.setMatch(match);
     }
 
 
-//    public MatchListCursorAdapter(Context context, int layout, Cursor c, int flags) {
-//        super(context, layout, c, flags);
-//    }
-//
-//    @Override
-//    public void bindView(View view, Context context, Cursor cursor) {
-//        Bog.d(Bog.Category.UI, view.toString());
-//
-//
-//
-//    }
 }
