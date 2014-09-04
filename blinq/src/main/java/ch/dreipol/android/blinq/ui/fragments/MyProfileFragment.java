@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -67,21 +68,26 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
                 View container = loadingInfo.getViewContainer();
                 container.findViewById(R.id.loading_blocker).setVisibility(View.INVISIBLE);
 
-                final ToggleButton toggleMale = (ToggleButton) container.findViewById(R.id.toggle_male);
+                final RadioButton toggleMale = (RadioButton) container.findViewById(R.id.radio_male);
 
-                final ToggleButton toggleFemale = (ToggleButton) container.findViewById(R.id.toggle_female);
+                final RadioButton toggleFemale = (RadioButton) container.findViewById(R.id.radio_female);
+
+                if(profile.getSex().equals("m")){
+                    toggleMale.setChecked(true);
+                }else{
+                    toggleFemale.setChecked(true);
+                }
 
                 toggleMale.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        toggleFemale.setChecked(false);
                     }
                 });
 
                 toggleFemale.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        toggleMale.setChecked(false);
+
                     }
                 });
 
@@ -92,11 +98,6 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
                 nameView.setTextColor(bottomColor);
 
                 Integer age = profile.getAge();
-
-                if (age == null) {
-//                    TODO: Phil use birthday
-                    age = 99;
-                }
 
                 ageView.setText(age.toString());
                 nameView.setText(profile.getFirstName());
