@@ -8,6 +8,7 @@
  Exported at: Mon, 01 Sep 2014 15:09:05 +0100
 -->
 <resources>
+
     <string name="accessCodePlaceholder">e.g. hX56zU</string>
     <string name="accessCodeTitle">Enter code</string>
     <string name="accessFailButton">Close</string>
@@ -25,7 +26,7 @@
     <string name="appDeletedMessage">The BLINQ app has been deleted from the Facebook App Center. You can activate it on Facebook.</string>
     <string name="appDeletedTitle">App deleted</string>
     <string name="appNoFBPermissionsMessage">Please grant permission for BLINQ on Facebook to use this app.</string>
-    <string name="appNoFBPermissionsSystemMessage">To use this app with your Facebook account, open settings -&gt; Facebook and make sure BLINQ is turned on.</string>
+    <string name="appNoFBPermissionsSystemMessage">To use this app with your Facebook account, open settings -> Facebook and make sure BLINQ is turned on.</string>
     <string name="appNoFBPermissionsSystemTitle">No permission</string>
     <string name="appNoFBPermissionsTitle">No permission</string>
     <string name="app_name">BLINQ</string>
@@ -260,4 +261,8 @@
     <string name="year">year</string>
     <string name="years">years</string>
     <string name="yes">Yes</string>
+    <string name="title_activity_chat">ChatActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
 </resources>
