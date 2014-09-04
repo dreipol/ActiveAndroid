@@ -64,6 +64,18 @@ android {
             manifest.srcFile 'src/main/AndroidManifestBeta.xml'
         }
     }
+
+    signingConfigs {
+        debug {
+//            storeFile file("debug.keystore")
+        }
+        release {
+            storeFile file("blinq.jks")
+            storePassword "bazinga"
+            keyAlias "ch.dreipol.android.blinq.android"
+            keyPassword "bazinga"
+        }
+    }
 }
 
 dependencies {
