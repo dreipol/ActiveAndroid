@@ -46,9 +46,10 @@
             android:name=".ui.activities.FacebookPhotoPickerActivity"
             android:label="@string/imagePickerTitle" >
         </activity>
-
-
-
+        <activity
+            android:name=".ui.activities.ChatActivity"
+            android:label="@string/title_activity_chat" >
+        </activity>
     </application>
 
 </manifest>

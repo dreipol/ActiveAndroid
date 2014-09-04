@@ -69,16 +69,17 @@ public class ProfileImageView extends RelativeLayout {
             case BIG:
                 mBackground.setPadding(s15dp, s10dp, s10dp, s15dp);
                 mAddButton.setVisibility(GONE);
+                mLoaderView.setVisibility(VISIBLE);
                 mDeleteButton.setVisibility(GONE);
                 mEditButton.setVisibility(VISIBLE);
                 break;
-
             case SMALL:
                 backgroundId = R.drawable.detailscreen_picture_small_standard;
                 mBackground.setPadding(s8dp, s5dp, s5dp, s8dp);
                 size = LoaderView.LoaderSize.SMALL;
                 s = StaticResources.convertDisplayPointsToPixel(getContext(), 77);
                 mAddButton.setVisibility(GONE);
+                mLoaderView.setVisibility(VISIBLE);
                 mDeleteButton.setVisibility(VISIBLE);
                 mEditButton.setVisibility(GONE);
                 break;
@@ -87,6 +88,7 @@ public class ProfileImageView extends RelativeLayout {
                 mBackground.setPadding(s8dp, s5dp, s5dp, s8dp);
                 s = StaticResources.convertDisplayPointsToPixel(getContext(), 77);
                 mAddButton.setVisibility(VISIBLE);
+                mLoaderView.setVisibility(GONE);
                 mDeleteButton.setVisibility(GONE);
                 mEditButton.setVisibility(GONE);
                 break;
