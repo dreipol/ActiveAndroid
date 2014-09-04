@@ -139,7 +139,7 @@ public abstract class BaseActivity extends FragmentActivity implements IActivity
                     }
                 });
 
-                
+
             }
             getIntent().removeExtra(PHOTOSOURCE_POSITION);
 

@@ -25,6 +25,8 @@ public abstract class BaseWebViewFragment extends BlinqFragment implements IHead
     @Override
     public void onStart() {
         super.onStart();
+        WebView webView = (WebView) getView().findViewById(R.id.blinq_webView);
+        webView.loadUrl(getUrl());
 
     }
 

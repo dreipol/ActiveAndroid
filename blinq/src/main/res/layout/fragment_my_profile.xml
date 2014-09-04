@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/profile_background"
-            android:background="@color/blinq_red_f9395C">
+            android:background="@color/blinq_black">
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -48,6 +48,25 @@
 
 
             </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="230dp"
+                android:id="@+id/loading_blocker"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="false"
+                android:background="@color/blinq_overlay_transparent">
+
+                <view
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    class="ch.dreipol.android.blinq.ui.LoaderView"
+                    android:id="@+id/loader_view"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"/>
+            </RelativeLayout>
+
         </RelativeLayout>
 
         <LinearLayout
@@ -67,7 +86,6 @@
                 android:layout_height="wrap_content"
                 class="ch.dreipol.android.blinq.ui.textviews.ABTextView"
                 android:id="@+id/profile_name"
-                android:text="Simon"
                 android:textSize="42dp" />
 
             <view
@@ -75,7 +93,6 @@
                 android:layout_height="wrap_content"
                 class="ch.dreipol.android.blinq.ui.textviews.AMTextView"
                 android:id="@+id/profile_age"
-                android:text="36"
                 android:textSize="32dp"
                 android:layout_marginLeft="15dp" />
         </LinearLayout>

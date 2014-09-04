@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -63,7 +65,7 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
                 int bottomColor = Color.parseColor(profile.getColorBottom());
 
                 View container = loadingInfo.getViewContainer();
-
+                container.findViewById(R.id.loading_blocker).setVisibility(View.INVISIBLE);
 
                 final ToggleButton toggleMale = (ToggleButton) container.findViewById(R.id.toggle_male);
 
@@ -246,17 +248,15 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
                     getGuiStatusObservable().subscribe(new Action1<LoadingInfo>() {
                         @Override
                         public void call(LoadingInfo o) {
-                            ViewGroup profile = (ViewGroup) getView().findViewById(R.id.profile_overview);
-
+                            View blocker = getView().findViewById(R.id.loading_blocker);
                             switch (o.getState()) {
-
                                 case LOADING:
-                                    profile.setVisibility(View.GONE);
+                                    blocker.setVisibility(View.VISIBLE);
                                     break;
                                 case LOADED:
                                 case CANCELED:
                                 case ERROR:
-                                    profile.setVisibility(View.VISIBLE);
+                                    blocker.setVisibility(View.INVISIBLE);
                                     break;
                             }
                         }
@@ -284,4 +284,5 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
         super.onAttach(activity);
 
     }
+
 }
