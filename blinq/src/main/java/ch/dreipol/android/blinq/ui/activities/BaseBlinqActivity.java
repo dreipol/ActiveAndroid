@@ -80,6 +80,12 @@ public abstract class BaseBlinqActivity extends BaseActivity {
             case CROSSFADE:
                 overridePendingTransition(R.anim.fadein, R.anim.fadeout);
                 break;
+            case TO_LEFT:
+                overridePendingTransition(R.anim.right_out_to_left, R.anim.left_to_left_out);
+                break;
+            case TO_RIGHT:
+                overridePendingTransition(R.anim.left_out_to_left, R.anim.left_to_right_out);
+                break;
             case DEFAULT:
                 break;
 

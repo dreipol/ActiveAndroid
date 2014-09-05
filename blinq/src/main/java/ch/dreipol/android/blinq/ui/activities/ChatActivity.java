@@ -1,12 +1,17 @@
 package ch.dreipol.android.blinq.ui.activities;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -20,6 +25,7 @@ import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.model.ChatMessage;
 import ch.dreipol.android.blinq.services.model.Match;
 import ch.dreipol.android.blinq.ui.adapters.ChatCursorAdapter;
+import ch.dreipol.android.dreiworks.ui.activities.ActivityTransitionType;
 
 public class ChatActivity extends BaseBlinqActivity {
 
@@ -41,19 +47,37 @@ public class ChatActivity extends BaseBlinqActivity {
 
 
         Button button =  findButtonWithId(R.id.send_button);
+
         final EditText inputView = (EditText) findViewById(R.id.chat_input);
 
 
-        setupList();
+        inputView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_GO) {
+                    // hide virtual keyboard
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(inputView.getWindowToken(), 0);
+                    return true;
+                }
+                return false;
+            }});
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            setupList();
+
+            button.setOnClickListener(new View.OnClickListener()
+
+            {
+                @Override
+                public void onClick (View v){
                 String chatMessage = inputView.getText().toString();
+                inputView.clearFocus();
+                ChatActivity.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 //              TODO: sam, go 4 it!
             }
-        });
-    }
+            }
+
+            );
+        }
 
     private void setupList() {
 
@@ -102,4 +126,9 @@ public class ChatActivity extends BaseBlinqActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overrideTransitionForAnimationDirection(ActivityTransitionType.TO_RIGHT);
+    }
 }

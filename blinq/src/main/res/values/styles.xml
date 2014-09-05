@@ -5,8 +5,10 @@
         <item name="android:windowActionBar">false</item>
         <item name="android:windowTitleSize">0dp</item>
         <item name="android:buttonStyle">@style/BlinqDefaultButton</item>
+        <item name="android:radioButtonStyle">@style/BlinqDefaultToggleButton</item>
         <item name="android:buttonStyleToggle">@style/BlinqDefaultToggleButton</item>
         <item name="android:seekBarStyle">@style/BlingDefaultSeekBar</item>
+
     </style>
     <style name="BlingDefaultSeekBar">
         <item name="android:progressDrawable">@drawable/blinq_progress</item>

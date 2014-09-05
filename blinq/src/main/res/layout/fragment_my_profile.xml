@@ -104,23 +104,32 @@
             android:baselineAligned="false"
             android:background="@color/blinq_background_light_grey_eeeeee">
 
-            <ToggleButton
-                android:layout_width="60dp"
-                android:background="@drawable/default_switch_left_button"
+            <RadioGroup
+                android:layout_width="wrap_content"
                 android:layout_height="60dp"
-                android:text="m"
-                android:id="@+id/toggle_female"
-                android:checked="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp" />
-            <ToggleButton
-                android:layout_width="60dp"
-                android:background="@drawable/default_switch_right_button"
-                android:layout_height="60dp"
-                android:text="f"
-                android:id="@+id/toggle_male"
-                android:checked="false"
-                android:layout_marginTop="20dp" />
+                android:orientation="horizontal"
+
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                >
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="m"
+                    android:id="@+id/radio_male"
+                    android:checked="false"
+                    android:background="@drawable/default_switch_left_button"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="f"
+                    android:id="@+id/radio_female"
+                    android:checked="false"
+                    android:background="@drawable/default_switch_right_button"/>
+            </RadioGroup>
 
             <Button
                 android:layout_width="fill_parent"
@@ -130,8 +139,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="10dp" />
+        </LinearLayout>
 
-            </LinearLayout>
 
     </LinearLayout>
 

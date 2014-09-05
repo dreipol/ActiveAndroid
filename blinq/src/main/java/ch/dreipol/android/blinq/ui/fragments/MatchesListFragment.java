@@ -100,11 +100,12 @@ public class MatchesListFragment extends BlinqFragment {
                 mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Bog.d(Bog.Category.UI, "Selected id " + id + "at position " + position);
                         BaseBlinqActivity activity = (BaseBlinqActivity) getActivity();
                         Bundle params = new Bundle();
                         params.putLong(ChatActivity.MATCH_ID,id);
-                        activity.startActivity(ChatActivity.class, ActivityTransitionType.DEFAULT, params);
+
+
+                        activity.startActivity(ChatActivity.class, ActivityTransitionType.TO_LEFT, params);
 
                     }
                 });

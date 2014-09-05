@@ -1,12 +1,22 @@
 package ch.dreipol.android.blinq.ui.activities;
 
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Base64;
 import android.view.View;
+
+import com.activeandroid.util.Log;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.application.BlinqApplication;
@@ -36,6 +46,21 @@ public class MainActivity extends BaseBlinqActivity implements ISettingsListList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+//        try {
+////            ApplicationInfo ai = ctx.getPackageManager().getApplicationInfo( PackageManager.GET_META_DATA);
+//            PackageInfo info = getApplicationContext().getPackageManager().getPackageInfo(
+//                    getApplicationContext().getPackageName(),
+//                    PackageManager.GET_SIGNATURES);
+//            for (Signature signature : info.signatures) {
+//                MessageDigest md = MessageDigest.getInstance("SHA");
+//                md.update(signature.toByteArray());
+//                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+//            }
+//        } catch (PackageManager.NameNotFoundException e) {
+//
+//        } catch (NoSuchAlgorithmException e) {
+//
+//        }
 
         mLayout = (BlinqDrawerLayout) findViewById(R.id.drawer_layout);
 
