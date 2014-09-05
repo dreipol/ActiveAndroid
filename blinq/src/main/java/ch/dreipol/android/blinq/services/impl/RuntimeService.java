@@ -75,4 +75,10 @@ public class RuntimeService extends BaseService implements IRuntimeService {
         device.name = Build.BRAND + "-" + Build.MODEL;
         return device;
     }
+
+    @Override
+    public String getString(int res_id) {
+        return getService().getContext().getString(res_id);
+    }
+
 }

@@ -17,5 +17,7 @@ public interface IRuntimeService  extends IService{
     public <T> T getMetadata(String key);
 
     DeviceInformation getDeviceInformation();
+
+    String getString(int action_settings);
 //    public Map getMetadata(String key);
 }

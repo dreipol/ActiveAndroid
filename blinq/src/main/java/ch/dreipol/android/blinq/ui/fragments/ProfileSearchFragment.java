@@ -101,6 +101,17 @@ public class ProfileSearchFragment extends BlinqFragment implements IHeaderConfi
             public String getTitle() {
                 return null;
             }
+
+            @Override
+            public boolean hasIcon() {
+                return true;
+            }
+
+            @Override
+            public int getIconDrawable() {
+                return R.drawable.icon_chat_standard;
+
+            }
         };
     }
 }

@@ -47,6 +47,16 @@ public abstract class BaseWebViewFragment extends BlinqFragment implements IHead
             public String getTitle() {
                 return BaseWebViewFragment.this.getTitle();
             }
+
+            @Override
+            public boolean hasIcon() {
+                return false;
+            }
+
+            @Override
+            public int getIconDrawable() {
+                return 0;
+            }
         };
     }
 }

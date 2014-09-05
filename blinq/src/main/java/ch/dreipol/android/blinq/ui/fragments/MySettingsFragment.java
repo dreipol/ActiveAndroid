@@ -15,6 +15,7 @@ import ch.dreipol.android.blinq.services.IAccountService;
 import ch.dreipol.android.blinq.services.model.GenderInterests;
 import ch.dreipol.android.blinq.services.model.LoadingInfo;
 import ch.dreipol.android.blinq.services.model.SearchSettings;
+import ch.dreipol.android.blinq.ui.headers.IHeaderViewConfiguration;
 import ch.dreipol.android.blinq.util.Bog;
 import rx.Observable;
 import rx.Subscription;
@@ -27,7 +28,7 @@ import rx.subjects.BehaviorSubject;
 /**
  * Created by phil on 24.04.14.
  */
-public class MySettingsFragment extends BlinqFragment {
+public class MySettingsFragment extends BlinqFragment implements IHeaderConfigurationProvider {
 
 
     private SearchSettings mSearchSettings;
@@ -73,6 +74,31 @@ public class MySettingsFragment extends BlinqFragment {
         mLoadingSubscription.unsubscribeOn(Schedulers.io());
     }
 
+    @Override
+    public IHeaderViewConfiguration getHeaderConfiguration() {
+        return new IHeaderViewConfiguration() {
+            @Override
+            public boolean showTitle() {
+                return true;
+            }
+
+            @Override
+            public String getTitle() {
+                return AppService.getInstance().getRuntimeService().getString(R.string.action_settings);
+            }
+
+            @Override
+            public boolean hasIcon() {
+                return false;
+            }
+
+            @Override
+            public int getIconDrawable() {
+                return 0;
+            }
+        };
+    }
+
 
     @Override
     protected int getLayoutResourceId() {
@@ -113,7 +139,7 @@ public class MySettingsFragment extends BlinqFragment {
 
         ToggleButton toBeEnabled = null;
 
-        switch (mSearchSettings.getInterestedIn()){
+        switch (mSearchSettings.getInterestedIn()) {
             case MALE:
                 toBeEnabled = maleButton;
                 break;
@@ -143,7 +169,7 @@ public class MySettingsFragment extends BlinqFragment {
                 bothButton.setChecked(false);
                 mSearchSettings.setInterestedIn(GenderInterests.FEMALE);
                 updateSettings();
-        }
+            }
 
         });
         bothButton.setOnClickListener(new View.OnClickListener() {

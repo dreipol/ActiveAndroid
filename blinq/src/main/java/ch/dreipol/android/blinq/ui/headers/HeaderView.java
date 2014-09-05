@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -25,6 +26,7 @@ public class HeaderView extends RelativeLayout {
     public void updateConfiguration(IHeaderViewConfiguration config) {
         View headerImage = findViewById(R.id.blinq_header_image);
         TextView headerTitle = (TextView) findViewById(R.id.blinq_header_title);
+        ImageView headerIcon = (ImageView)findViewById(R.id.blinq_header_right_button);
 
         if (config.showTitle()) {
             headerImage.setVisibility(GONE);
@@ -35,5 +37,12 @@ public class HeaderView extends RelativeLayout {
             headerImage.setVisibility(VISIBLE);
             headerTitle.setVisibility(GONE);
         }
+        if(config.hasIcon()){
+            headerIcon.setVisibility(VISIBLE);
+            headerIcon.setImageDrawable(getResources().getDrawable(config.getIconDrawable()));
+        }else{
+            headerIcon.setVisibility(INVISIBLE);
+        }
+
     }
 }

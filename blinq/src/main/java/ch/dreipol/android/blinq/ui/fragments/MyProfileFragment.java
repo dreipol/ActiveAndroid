@@ -216,6 +216,16 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
             public String getTitle() {
                 return "Profile";
             }
+
+            @Override
+            public boolean hasIcon() {
+                return true;
+            }
+
+            @Override
+            public int getIconDrawable() {
+                return R.drawable.icon_preview_standard;
+            }
         };
     }
 
