@@ -27,7 +27,7 @@ public class ProfileImageView extends RelativeLayout {
 
     public ProfileImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        LayoutInflater inflater = AppService.getInstance().getRuntimeService().getLayoutInflator(context);
+        LayoutInflater inflater = StaticResources.getLayoutInflator(context);
         inflater.inflate(R.layout.ui_profil_image, this, true);
 
         mImageView = (ImageView) findViewById(R.id.image);

@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import ch.dreipol.android.blinq.R;
-import ch.dreipol.android.blinq.services.AppService;
+import ch.dreipol.android.blinq.util.StaticResources;
 
 /**
  * Created by phil on 25/08/14.
@@ -24,8 +24,7 @@ public class LoaderView extends RelativeLayout {
     public LoaderView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-
-        LayoutInflater layoutInflator = AppService.getInstance().getRuntimeService().getLayoutInflator(context);
+        LayoutInflater layoutInflator = StaticResources.getLayoutInflator(context);
         layoutInflator.inflate(R.layout.ui_loader, this);
 
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -98,5 +99,9 @@ public class StaticResources {
 
     public static void convertDisplayPointsToPixel(int i) {
 
+    }
+
+    public static LayoutInflater getLayoutInflator(Context context) {
+        return (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 }

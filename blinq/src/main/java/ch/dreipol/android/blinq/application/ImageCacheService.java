@@ -109,7 +109,7 @@ public class ImageCacheService extends BaseService implements IImageCacheService
     @Override
     public Observable<LoadingInfo> displayPhoto(Photo photo, final ImageView view) {
         Observable<Photo> startingObservable = Observable.just(photo);
-        if (photo.isExpired()) {
+        if (photo !=null && photo.isExpired()) {
             startingObservable = renew(photo).subscribeOn(Schedulers.io());
         }
         return startingObservable.observeOn(AndroidSchedulers.mainThread()).concatMap(new Func1<Photo, Observable<LoadingInfo>>() {

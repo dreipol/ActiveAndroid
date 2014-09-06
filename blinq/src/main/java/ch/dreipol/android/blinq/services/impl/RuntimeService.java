@@ -13,6 +13,7 @@ import ch.dreipol.android.blinq.application.BlinqApplicationFlavour;
 import ch.dreipol.android.blinq.services.DeviceInformation;
 import ch.dreipol.android.blinq.services.IRuntimeService;
 import ch.dreipol.android.blinq.util.Bog;
+import ch.dreipol.android.blinq.util.StaticResources;
 
 /**
  * Created by phil on 17.04.14.
@@ -23,7 +24,7 @@ public class RuntimeService extends BaseService implements IRuntimeService {
 
     @Override
     public LayoutInflater getLayoutInflator(Context context) {
-        return (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        return StaticResources.getLayoutInflator(context);
     }
 
     public BlinqApplicationFlavour getFlavour() {
