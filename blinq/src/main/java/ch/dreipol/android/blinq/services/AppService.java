@@ -24,6 +24,7 @@ public class AppService {
 
     public static AppService getInstance() {
         if (instance == null) {
+
             throw new IllegalStateException("BLINQ App Services not initialized. Call initialize before using the service.");
         }
         return instance;
