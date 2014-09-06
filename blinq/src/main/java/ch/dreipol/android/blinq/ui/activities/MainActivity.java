@@ -21,6 +21,7 @@ import java.security.NoSuchAlgorithmException;
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.application.BlinqApplication;
 import ch.dreipol.android.blinq.ui.fragments.BlinqFragment;
+import ch.dreipol.android.blinq.ui.fragments.HiOrByeFragment;
 import ch.dreipol.android.blinq.ui.fragments.IHeaderConfigurationProvider;
 import ch.dreipol.android.blinq.ui.fragments.ISettingsListListener;
 import ch.dreipol.android.blinq.ui.fragments.ProfileSearchFragment;
@@ -80,6 +81,21 @@ public class MainActivity extends BaseBlinqActivity implements ISettingsListList
             @Override
             public void onClick(View v) {
 
+                if (mCurrentCenterFragment instanceof IHeaderConfigurationProvider) {
+                    IHeaderConfigurationProvider headerProvider = (IHeaderConfigurationProvider) mCurrentCenterFragment;
+                    if(!headerProvider.getHeaderConfiguration().hasIcon()){
+                        toggleToLeft();
+                    }else{
+                        headerProvider.getHeaderConfiguration().iconTapped();
+                    }
+                }else{
+                    toggleToLeft();
+                }
+
+
+            }
+
+            private void toggleToLeft() {
                 if(mLayout.getDrawerPosition().equals(DrawerPosition.LEFT)){
                     setPosition(DrawerPosition.CENTER);
                 }else{
@@ -89,7 +105,7 @@ public class MainActivity extends BaseBlinqActivity implements ISettingsListList
         });
 
 
-        setCenterFragment(ProfileSearchFragment.class);
+        setCenterFragment(HiOrByeFragment.class);
 
 
         mLayout.setDrawerLayoutListener(new IDrawerLayoutListener() {
@@ -132,12 +148,12 @@ public class MainActivity extends BaseBlinqActivity implements ISettingsListList
 
 
         BlinqFragment newFragment;
-        if (newCenterFragmentClass.isAssignableFrom(ProfileSearchFragment.class)) {
-            if (mProfileSearchFragment == null) {
-                mProfileSearchFragment = new ProfileSearchFragment();
-            }
-            newFragment = mProfileSearchFragment;
-        } else {
+//        if (newCenterFragmentClass.isAssignableFrom(ProfileSearchFragment.class)) {
+//            if (mProfileSearchFragment == null) {
+//                mProfileSearchFragment = new ProfileSearchFragment();
+//            }
+//            newFragment = mProfileSearchFragment;
+//        } else {
             try {
                 newFragment = newCenterFragmentClass.newInstance();
             } catch (InstantiationException e) {
@@ -145,7 +161,7 @@ public class MainActivity extends BaseBlinqActivity implements ISettingsListList
             } catch (IllegalAccessException e) {
                 throw getBlinqRuntimeException();
             }
-        }
+//        }
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -192,7 +208,7 @@ public class MainActivity extends BaseBlinqActivity implements ISettingsListList
         if(!mCurrentCenterFragment.equals(mProfileSearchFragment) && mLayout.getDrawerPosition().equals(DrawerPosition.CENTER)){
             setPosition(DrawerPosition.RIGHT);
         }else if (!mLayout.getDrawerPosition().equals(DrawerPosition.CENTER) && !mCurrentCenterFragment.equals(mProfileSearchFragment)) {
-            setCenterFragment(ProfileSearchFragment.class);
+            setCenterFragment(HiOrByeFragment.class);
             setPosition(DrawerPosition.CENTER);
 
         }else if (!mLayout.getDrawerPosition().equals(DrawerPosition.CENTER)) {
@@ -232,7 +248,7 @@ public class MainActivity extends BaseBlinqActivity implements ISettingsListList
     @Override
     public void homeTapped() {
         setPosition(DrawerPosition.CENTER);
-        setCenterFragment(ProfileSearchFragment.class);
+        setCenterFragment(HiOrByeFragment.class);
     }
 
     private void setPosition(DrawerPosition drawerPosition) {

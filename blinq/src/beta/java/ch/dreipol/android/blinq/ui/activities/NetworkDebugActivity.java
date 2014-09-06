@@ -43,6 +43,7 @@ public class NetworkDebugActivity extends BaseBlinqActivity {
         valueStore.put("radius", -1);
         valueStore.put("min_age", 18);
         valueStore.put("max_age", 69);
+
         mManager = new SwarmManager();
         final ISwarmIterator swarmIterator = mManager.firstIterator();
         swarmIterator.setProfileListener(new IProfileListener() {
@@ -57,6 +58,8 @@ public class NetworkDebugActivity extends BaseBlinqActivity {
                 });
             }
         });
+
+
 
         findButtonWithId(R.id.test_swarm).setOnClickListener(new View.OnClickListener() {
             @Override

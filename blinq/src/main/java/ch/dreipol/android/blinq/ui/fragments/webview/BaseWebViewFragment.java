@@ -57,6 +57,11 @@ public abstract class BaseWebViewFragment extends BlinqFragment implements IHead
             public int getIconDrawable() {
                 return 0;
             }
+
+            @Override
+            public void iconTapped() {
+
+            }
         };
     }
 }

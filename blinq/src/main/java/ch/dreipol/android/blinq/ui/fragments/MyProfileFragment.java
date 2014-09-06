@@ -226,6 +226,11 @@ public class MyProfileFragment extends BlinqFragment implements IHeaderConfigura
             public int getIconDrawable() {
                 return R.drawable.icon_preview_standard;
             }
+
+            @Override
+            public void iconTapped() {
+                
+            }
         };
     }
 
