@@ -13,4 +13,5 @@ public interface IHeaderViewConfiguration {
 
     int getIconDrawable();
 
+    void iconTapped();
 }

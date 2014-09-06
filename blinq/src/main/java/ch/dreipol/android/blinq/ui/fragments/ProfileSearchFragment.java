@@ -1,6 +1,7 @@
 package ch.dreipol.android.blinq.ui.fragments;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -8,6 +9,7 @@ import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.ILocationService;
 import ch.dreipol.android.blinq.services.impl.LocationService;
+import ch.dreipol.android.blinq.ui.activities.MainActivity;
 import ch.dreipol.android.blinq.ui.headers.IHeaderViewConfiguration;
 import ch.dreipol.android.blinq.ui.viewgroups.DrawerPosition;
 import rx.Subscription;
@@ -111,6 +113,15 @@ public class ProfileSearchFragment extends BlinqFragment implements IHeaderConfi
             public int getIconDrawable() {
                 return R.drawable.icon_chat_standard;
 
+            }
+
+            @Override
+            public void iconTapped() {
+                FragmentActivity activity = getActivity();
+                if(activity instanceof MainActivity){
+                    MainActivity ac = (MainActivity) activity;
+                    ac.matchesTapped();
+                }
             }
         };
     }

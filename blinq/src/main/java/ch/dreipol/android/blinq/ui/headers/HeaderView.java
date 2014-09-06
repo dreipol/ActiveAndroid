@@ -23,7 +23,7 @@ public class HeaderView extends RelativeLayout {
 
     }
 
-    public void updateConfiguration(IHeaderViewConfiguration config) {
+    public void updateConfiguration(final IHeaderViewConfiguration config) {
         View headerImage = findViewById(R.id.blinq_header_image);
         TextView headerTitle = (TextView) findViewById(R.id.blinq_header_title);
         ImageView headerIcon = (ImageView)findViewById(R.id.blinq_header_right_button);
@@ -40,9 +40,17 @@ public class HeaderView extends RelativeLayout {
         if(config.hasIcon()){
             headerIcon.setVisibility(VISIBLE);
             headerIcon.setImageDrawable(getResources().getDrawable(config.getIconDrawable()));
+            headerIcon.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    config.iconTapped();
+                }
+            });
         }else{
             headerIcon.setVisibility(INVISIBLE);
         }
+
+
 
     }
 }

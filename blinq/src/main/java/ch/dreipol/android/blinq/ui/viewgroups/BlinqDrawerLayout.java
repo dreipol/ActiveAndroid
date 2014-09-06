@@ -17,6 +17,7 @@ import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.ui.activities.IDrawerLayoutListener;
 import ch.dreipol.android.blinq.ui.headers.HeaderView;
 import ch.dreipol.android.blinq.ui.headers.IHeaderViewConfiguration;
+import ch.dreipol.android.blinq.util.Bog;
 import ch.dreipol.android.blinq.util.StaticResources;
 
 
@@ -129,16 +130,17 @@ public class BlinqDrawerLayout extends ViewGroup {
         final GestureDetector swipeDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                boolean toLeft = velocityX < 0;
+//                boolean toLeft = ;
+                Bog.d(Bog.Category.UI, "velocity: " + velocityX);
 
-                if (toLeft) {
+                if (velocityX < -4000) {
                     if (mSnap == DrawerPosition.RIGHT) {
                         setDrawerPosition(DrawerPosition.CENTER);
                     } else if (mSnap == DrawerPosition.CENTER) {
                         setDrawerPosition(DrawerPosition.LEFT);
                     }
 
-                } else {
+                } else if(velocityX > 4000) {
                     if (mSnap == DrawerPosition.LEFT) {
                         setDrawerPosition(DrawerPosition.CENTER);
                     } else if (mSnap == DrawerPosition.CENTER) {

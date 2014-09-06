@@ -96,6 +96,11 @@ public class MySettingsFragment extends BlinqFragment implements IHeaderConfigur
             public int getIconDrawable() {
                 return 0;
             }
+
+            @Override
+            public void iconTapped() {
+
+            }
         };
     }
 
