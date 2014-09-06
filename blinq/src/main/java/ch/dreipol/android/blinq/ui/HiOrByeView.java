@@ -32,6 +32,8 @@ public class HiOrByeView extends ViewGroup {
     private float mBaseAlpha;
     private float mEventX;
     private CardProvider mCardProvider;
+    private HiOrByeCard mFirstCard;
+    private HiOrByeCard mSecondCard;
 
     public HiOrByeView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -119,10 +121,12 @@ public class HiOrByeView extends ViewGroup {
                 Bog.d(Bog.Category.UI, "Animating  1123Back: " + value);
                 mFirstViewContainer.animate().setInterpolator(bounceInterpolator).setDuration(animationDuration).translationX(-mRight).scaleX(1).scaleY(1).rotationY(0).alpha(1);
                 mSecondViewContainer.animate().setInterpolator(bounceInterpolator).setDuration(animationDuration).translationX(centerTranslation).scaleX(1).scaleY(1).rotationY(0).alpha(1);
+                mFirstCard.bye();
                 break;
             case HI:
                 mFirstViewContainer.animate().setInterpolator(bounceInterpolator).setDuration(animationDuration).translationX(mRight).scaleX(1).scaleY(1).rotationY(0).alpha(1);
                 mSecondViewContainer.animate().setInterpolator(bounceInterpolator).setDuration(animationDuration).translationX(centerTranslation).scaleX(1).scaleY(1).rotationY(0).alpha(1);
+                mFirstCard.hi();
                 break;
 
         }
@@ -145,16 +149,22 @@ public class HiOrByeView extends ViewGroup {
                         break;
                     case HI:
                     case BYE:
+
                         RelativeLayout tempGroup = mFirstViewContainer;
                         mFirstViewContainer = mSecondViewContainer;
                         mSecondViewContainer = tempGroup;
-                        break;
-                }
-                if(finalTransition !=HIORBYE.BACK){
-                    bringChildToFront(mFirstViewContainer);
-                    requestLayout();
-                    invalidate();
+                        bringChildToFront(mFirstViewContainer);
+                        requestLayout();
+                        invalidate();
+                        mFirstCard = mSecondCard;
 
+                        if(mCardProvider!=null){
+                            mSecondCard = mCardProvider.requestCard();
+                            mSecondViewContainer.removeAllViews();
+                            mSecondViewContainer.addView(mSecondCard.getView(), new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+                        }
+
+                        break;
                 }
             }
             @Override
@@ -214,12 +224,12 @@ public class HiOrByeView extends ViewGroup {
 
         if (mCardProvider != null) {
             mFirstViewContainer.removeAllViews();
-            HiOrByeCard card = mCardProvider.requestCard();
-            mFirstViewContainer.addView(card.getView(), new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+            mFirstCard = mCardProvider.requestCard();
+            mFirstViewContainer.addView(mFirstCard.getView(), new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 
             mSecondViewContainer.removeAllViews();
-            card = mCardProvider.requestCard();
-            mSecondViewContainer.addView(card.getView(), new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+            mSecondCard = mCardProvider.requestCard();
+            mSecondViewContainer.addView(mSecondCard.getView(), new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         }
 
     }
