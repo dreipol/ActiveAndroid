@@ -25,7 +25,7 @@ public class HiOrByeView extends ViewGroup {
     private float mXTranslation;
 
     public enum HIORBYE{
-        HI, BYE, BACK
+        HI, BYE, INIT, BACK
     }
 
     private float mBaseScale;
@@ -88,13 +88,17 @@ public class HiOrByeView extends ViewGroup {
         });
     }
 
+    public void setFirstCard(HiOrByeCard hiOrByeCard) {
+
+        mSecondCard = hiOrByeCard;
+        mSecondViewContainer.removeAllViews();
+        mSecondViewContainer.addView(hiOrByeCard.getView(), new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        animateTransition(HIORBYE.INIT);
+    }
 
 
     private void finishTransition(float x) {
         float percentage = Math.abs(x) / (getScaledRight() - mBorderMargin);
-        float centerTranslation = 0;
-        long animationDuration = 300;
-        Interpolator bounceInterpolator = new OvershootInterpolator(1.0f);
         HIORBYE transition = null;
 
         if(percentage<.3f){
@@ -106,8 +110,16 @@ public class HiOrByeView extends ViewGroup {
             }else{
                 transition = HIORBYE.BYE;
             }
-
         }
+
+        animateTransition(transition);
+
+    }
+
+    private void animateTransition(HIORBYE transition) {
+        float centerTranslation = 0;
+        long animationDuration = 300;
+        Interpolator bounceInterpolator = new OvershootInterpolator(1.0f);
 
         Bog.d(Bog.Category.UI, "transition: " + transition);
         switch (transition){
@@ -129,6 +141,11 @@ public class HiOrByeView extends ViewGroup {
                 mFirstCard.hi();
                 break;
 
+            case INIT:
+                mFirstViewContainer.animate().setInterpolator(bounceInterpolator).setDuration(animationDuration).translationY(getBottom()).scaleX(1).scaleY(1).rotationY(0).alpha(1);
+                mSecondViewContainer.animate().setInterpolator(bounceInterpolator).setDuration(animationDuration).translationX(centerTranslation).scaleX(1).scaleY(1).rotationY(0).alpha(1);
+                break;
+
         }
         final float finalCenterTranslation = centerTranslation;
 
@@ -148,14 +165,19 @@ public class HiOrByeView extends ViewGroup {
                     case BACK:
                         break;
                     case HI:
+                    case INIT:
                     case BYE:
 
                         RelativeLayout tempGroup = mFirstViewContainer;
+
                         mFirstViewContainer = mSecondViewContainer;
                         mSecondViewContainer = tempGroup;
                         bringChildToFront(mFirstViewContainer);
                         requestLayout();
                         invalidate();
+
+                        mFirstViewContainer.setTranslationY(0);
+                        mSecondViewContainer.setTranslationY(0);
                         mFirstCard = mSecondCard;
 
                         if(mCardProvider!=null){
@@ -173,7 +195,6 @@ public class HiOrByeView extends ViewGroup {
 
             }
         });
-
     }
 
     private void updateViewWithTranslation(float x) {
@@ -210,7 +231,7 @@ public class HiOrByeView extends ViewGroup {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return true;
+        return mFirstCard.isInteractive();
     }
 
 

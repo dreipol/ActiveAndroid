@@ -39,19 +39,7 @@ public class HiOrByeFragment extends BlinqFragment implements CardProvider {
 
 
         mSwarmIterator = mSwarmManager.firstIterator();
-        mSwarmIterator.setProfileListener(new IProfileListener() {
-            @Override
-            public void setProfile(Profile profile) {
-                mProfile = profile;
-//                final Photo photo = profile.getPhotos().get(0);
-//                getActivity().runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//
-//                    }
-//                });
-            }
-        });
+
         mSwarmManager.reloadSwarm();
 
         mViewSubject.subscribe(new Action1<View>() {
@@ -62,13 +50,50 @@ public class HiOrByeFragment extends BlinqFragment implements CardProvider {
 
                 container.requestDisallowInterceptTouchEvent(true);
 
-                HiOrByeView child = new HiOrByeView(container.getContext(), null);
+                final HiOrByeView child = new HiOrByeView(container.getContext(), null);
 
                 child.setCardProvider(HiOrByeFragment.this);
 
 
                 container.addView(child);
 
+
+                mSwarmIterator.setProfileListener(new IProfileListener() {
+                    @Override
+                    public void setProfile(final Profile profile) {
+
+
+                        if(mProfile==null){
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    child.setFirstCard(new HiOrByeCard() {
+                                        @Override
+                                        public View getView() {
+                                            return new ProfileOverviewView(getActivity(), profile);
+                                        }
+
+                                        @Override
+                                        public void hi() {
+                                            mSwarmIterator.hi();
+                                        }
+
+                                        @Override
+                                        public void bye() {
+                                            mSwarmIterator.bye();
+                                        }
+
+                                        @Override
+                                        public boolean isInteractive() {
+                                            return true;
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                        mProfile = profile;
+                    }
+                });
             }
         });
     }
@@ -76,7 +101,7 @@ public class HiOrByeFragment extends BlinqFragment implements CardProvider {
     @Override
     public HiOrByeCard requestCard() {
         mSwarmManager.reloadSwarm();
-        if(mProfile!=null){
+        if (mProfile != null) {
             return new HiOrByeCard() {
                 @Override
                 public View getView() {
@@ -93,8 +118,13 @@ public class HiOrByeFragment extends BlinqFragment implements CardProvider {
                 public void bye() {
                     mSwarmIterator.bye();
                 }
+
+                @Override
+                public boolean isInteractive() {
+                    return true;
+                }
             };
-        }else{
+        } else {
             return new SearchCard();
         }
 
@@ -122,6 +152,11 @@ public class HiOrByeFragment extends BlinqFragment implements CardProvider {
         @Override
         public void bye() {
 
+        }
+
+        @Override
+        public boolean isInteractive() {
+            return false;
         }
     }
 
