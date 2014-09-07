@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
-import android.widget.RelativeLayout;import ch.dreipol.android.blinq.R;
+import android.widget.RelativeLayout;
+
+import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.util.Bog;
 import ch.dreipol.android.blinq.util.StaticResources;
 
@@ -25,7 +27,7 @@ public class HiOrByeView extends ViewGroup {
     private float mInitialX;
     private float mXTranslation;
 
-    public enum HIORBYE{
+    public enum HIORBYE {
         HI, BYE, INIT, BACK
     }
 
@@ -55,6 +57,20 @@ public class HiOrByeView extends ViewGroup {
 
         mHiOrByeButtons = new HiOrByeButtons(context, null);
         addView(mHiOrByeButtons);
+
+        mHiOrByeButtons.getHiButton().setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        mHiOrByeButtons.getByeButton().setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
 
         setBackgroundColor(getResources().getColor(R.color.blinq_black));
@@ -107,12 +123,12 @@ public class HiOrByeView extends ViewGroup {
         HIORBYE transition = null;
 
         if (percentage < .3f) {
-            transition =  HIORBYE.BACK;
-        }else{
+            transition = HIORBYE.BACK;
+        } else {
             if (mEventX > getScaledRight() / 2) {
                 transition = HIORBYE.HI;
 
-            }else{
+            } else {
                 transition = HIORBYE.BYE;
             }
         }
@@ -127,7 +143,7 @@ public class HiOrByeView extends ViewGroup {
         Interpolator bounceInterpolator = new OvershootInterpolator(1.0f);
 
         Bog.d(Bog.Category.UI, "transition: " + transition);
-        switch (transition){
+        switch (transition) {
             case BACK:
                 mFirstViewContainer.animate().setInterpolator(bounceInterpolator).setDuration(animationDuration).translationX(centerTranslation).scaleX(1).scaleY(1).rotationY(0).alpha(1);
                 mSecondViewContainer.animate().setInterpolator(bounceInterpolator).setDuration(animationDuration).translationX(centerTranslation).scaleX(mBaseScale).scaleY(mBaseScale).rotationY(0).alpha(mBaseAlpha);
@@ -186,7 +202,7 @@ public class HiOrByeView extends ViewGroup {
                         mSecondViewContainer.setTranslationY(0);
                         mFirstCard = mSecondCard;
 
-                        if(mCardProvider!=null){
+                        if (mCardProvider != null) {
                             mSecondCard = mCardProvider.requestCard();
                             mSecondViewContainer.removeAllViews();
                             mSecondViewContainer.addView(mSecondCard.getView(), new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
@@ -195,6 +211,7 @@ public class HiOrByeView extends ViewGroup {
                         break;
                 }
             }
+
             @Override
             public void onAnimationStart(Animator animation) {
                 super.onAnimationStart(animation);
@@ -210,16 +227,30 @@ public class HiOrByeView extends ViewGroup {
         float percentage = Math.abs(x) / (getScaledRight() - mBorderMargin);
 
 
-        float scalePercentage  = mBaseScale + percentage*(1.0f-mBaseScale);
-        float alphaPercentage  = mBaseAlpha + percentage*(1.0f-mBaseAlpha);
+        float scalePercentage = mBaseScale + percentage * (1.0f - mBaseScale);
+        float alphaPercentage = mBaseAlpha + percentage * (1.0f - mBaseAlpha);
 
-        Bog.d(Bog.Category.UI, "PERCENTAGE: "+ percentage + " x: " + x);
+        Bog.d(Bog.Category.UI, "PERCENTAGE: " + percentage + " x: " + x);
 
 
-        mSecondViewContainer.setScaleX(scalePercentage);
         mSecondViewContainer.setTranslationX(0);
+        mSecondViewContainer.setScaleX(scalePercentage);
         mSecondViewContainer.setScaleY(scalePercentage);
         mSecondViewContainer.setAlpha(alphaPercentage);
+
+        float buttonScale = 1 + percentage*1.5f;
+        if (mEventX > getScaledRight() / 2) {
+            mHiOrByeButtons.getHiButton().setScaleX(buttonScale);
+            mHiOrByeButtons.getHiButton().setScaleY(buttonScale);
+            mHiOrByeButtons.getByeButton().setScaleX(1);
+            mHiOrByeButtons.getByeButton().setScaleY(1);
+        } else {
+            mHiOrByeButtons.getHiButton().setScaleX(1);
+            mHiOrByeButtons.getHiButton().setScaleY(1);
+            mHiOrByeButtons.getByeButton().setScaleX(buttonScale);
+            mHiOrByeButtons.getByeButton().setScaleY(buttonScale);
+        }
+
 
     }
 
@@ -231,8 +262,8 @@ public class HiOrByeView extends ViewGroup {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         mRight = r;
-        mFirstViewContainer.layout(l,t,r,b);
-        mSecondViewContainer.layout(l,t,r,b);
+        mFirstViewContainer.layout(l, t, r, b);
+        mSecondViewContainer.layout(l, t, r, b);
 
         int height = StaticResources.convertDisplayPointsToPixel(getContext(), 90);
         int top_buttons = b - height;
@@ -245,7 +276,7 @@ public class HiOrByeView extends ViewGroup {
     }
 
 
-    public void setCardProvider(CardProvider provider){
+    public void setCardProvider(CardProvider provider) {
         mCardProvider = provider;
     }
 
