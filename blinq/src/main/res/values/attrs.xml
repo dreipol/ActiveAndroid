@@ -4,18 +4,7 @@
         <attr name="buttonText" format="string"/>
         <attr name="buttonTextColor" format="color"/>
         <attr name="leftImage" format="reference"/>
-        <attr name="downBackground" format="reference" />
-    </declare-styleable>
-
-    <declare-styleable name="FlowLayout">
-        <attr name="itemSize" format="dimension"/>
-        <attr name="horizontalSpacing" format="dimension"/>
-        <attr name="verticalSpacing" format="dimension"/>
-    </declare-styleable>
-
-    <declare-styleable name="FlowLayout_LayoutParams">
-        <attr name="layout_spacing" format="dimension"/>
-        <attr name="breakline" format="boolean"/>
+        <attr name="downBackground" format="reference"/>
     </declare-styleable>
 
 </resources>

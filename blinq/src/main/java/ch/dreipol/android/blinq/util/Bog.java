@@ -1,6 +1,9 @@
 package ch.dreipol.android.blinq.util;
 
+import android.text.TextUtils;
 import android.util.Log;
+
+import java.util.StringTokenizer;
 
 /**
  * Blinq Log - BlinqLog - BliLog - Blog - Bog. Even more joyful Java party times.
@@ -20,6 +23,14 @@ public class Bog {
 
     public static int d(Category category, String msg) {
         return Log.d(TAG, createMessage(category, msg));
+    }
+
+    public static int d(Category category, Object... msg) {
+        return d(category, TextUtils.join(", ", msg));
+    }
+
+    public static int e(Category category, Object... msg) {
+        return e(category, TextUtils.join(", ", msg));
     }
 
     public static int v(Category category, String msg, Throwable tr) {

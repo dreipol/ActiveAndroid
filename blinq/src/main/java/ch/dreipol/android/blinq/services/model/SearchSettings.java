@@ -5,18 +5,21 @@ package ch.dreipol.android.blinq.services.model;
  */
 public class SearchSettings implements ILoadable {
 
-    private Integer mDistance;
+    private Integer mRadius;
     private Integer mFrom;
     private Integer mTo;
     private GenderInterests mInterestedIn;
     private Boolean mVibrate;
 
-    public Integer getDistance() {
-        return mDistance;
+    public Integer getRadius() {
+        if(mRadius==null){
+            mRadius = 0;
+        }
+        return mRadius;
     }
 
-    public void setDistance(Integer distance) {
-        mDistance = distance;
+    public void setRadius(Integer radius) {
+        mRadius = radius;
     }
 
     public Integer getFrom() {
@@ -56,7 +59,7 @@ public class SearchSettings implements ILoadable {
         SearchSettings result = new SearchSettings();
         result.setFrom(18);
         result.setTo(20);
-        result.setDistance(10);
+        result.setRadius(10);
         result.setInterestedIn(GenderInterests.FEMALE);
         result.setVibrate(true);
         return result;

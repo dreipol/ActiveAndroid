@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:weightSum="2">
+
+
+    <LinearLayout
+        android:id="@+id/bye_button"
+        android:layout_gravity="start"
+        android:gravity="start"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:src="@drawable/icon_bye_small"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <view
+            class="ch.dreipol.android.blinq.ui.textviews.ABTextView"
+            android:text="BYE"
+            android:textSize="40sp"
+            android:textColor="@color/blinq_white"
+            android:layout_width="wrap_content"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            >
+        </view>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/hi_button"
+        android:layout_gravity="end"
+
+        android:gravity="end"
+
+        android:orientation="horizontal"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <view
+            class="ch.dreipol.android.blinq.ui.textviews.ABTextView"
+            android:text="HI"
+            android:textSize="40sp"
+            android:textColor="@color/blinq_white"
+            android:layout_width="wrap_content"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:src="@drawable/icon_hi_small"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>

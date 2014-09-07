@@ -8,7 +8,9 @@ import android.view.View;
 public interface HiOrByeCard {
 
     public View getView();
+
     public void hi();
+
     public void bye();
 
     boolean isInteractive();

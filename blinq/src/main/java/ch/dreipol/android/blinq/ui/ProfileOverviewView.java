@@ -1,6 +1,8 @@
 package ch.dreipol.android.blinq.ui;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -38,6 +40,12 @@ public class ProfileOverviewView extends RelativeLayout {
         ImageView profileImage = (ImageView) findViewById(R.id.image);
 //
 //        AppService.getInstance().getImageCacheService().displayPhoto(profile.getMainPhoto(), profileImage);
+
+        int bottomColor = Color.parseColor(profile.getColorBottom());
+        GradientDrawable g = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.parseColor(profile.getColorTop()), bottomColor});
+        g.setGradientType(GradientDrawable.LINEAR_GRADIENT);
+
+        findViewById(R.id.profile_background).setBackgroundDrawable(g);
 
 
 
