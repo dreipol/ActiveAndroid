@@ -35,8 +35,8 @@ public class ProfileOverviewView extends RelativeLayout {
         titleView.setText(profile.getFirstName());
         ageView.setText(profile.getAge().toString());
 
-//        ImageView profileImage = (ImageView) findViewById(R.id.image);
-
+        ImageView profileImage = (ImageView) findViewById(R.id.image);
+//
 //        AppService.getInstance().getImageCacheService().displayPhoto(profile.getMainPhoto(), profileImage);
 
 
