@@ -1,37 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
+
+                android:orientation="horizontal"
                 android:weightSum="2">
 
 
     <LinearLayout
         android:id="@+id/bye_button"
-        android:layout_gravity="start"
-        android:gravity="start"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="start"
         android:layout_marginLeft="20dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:gravity="start"
+        android:orientation="horizontal">
 
         <ImageView
-            android:src="@drawable/icon_bye_small"
-            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/icon_bye_small"/>
 
         <view
             class="ch.dreipol.android.blinq.ui.textviews.ABTextView"
-            android:text="BYE"
-            android:textSize="40sp"
-            android:textColor="@color/blinq_white"
             android:layout_width="wrap_content"
-            android:textAlignment="center"
-            android:gravity="center"
             android:layout_height="match_parent"
+            android:gravity="center"
+            android:shadowColor="@color/blinq_text_very_dark_grey_666666"
+            android:shadowDx="0"
+            android:shadowDy="4"
+            android:shadowRadius="0.01"
+            android:text="BYE"
+            android:textAlignment="center"
+            android:textColor="@color/blinq_white"
+
+            android:textSize="40sp"
             >
         </view>
     </LinearLayout>
@@ -39,31 +45,35 @@
 
     <LinearLayout
         android:id="@+id/hi_button"
-        android:layout_gravity="end"
-
-        android:gravity="end"
-
-        android:orientation="horizontal"
-        android:layout_marginRight="20dp"
         android:layout_width="match_parent"
+
         android:layout_height="match_parent"
-        android:layout_weight="1">
+
+        android:layout_gravity="end"
+        android:layout_marginRight="20dp"
+        android:layout_weight="1"
+        android:gravity="end"
+        android:orientation="horizontal">
 
         <view
             class="ch.dreipol.android.blinq.ui.textviews.ABTextView"
-            android:text="HI"
-            android:textSize="40sp"
-            android:textColor="@color/blinq_white"
             android:layout_width="wrap_content"
-            android:textAlignment="center"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:layout_height="match_parent"/>
+            android:shadowColor="@color/blinq_text_very_dark_grey_666666"
+            android:shadowDx="0"
+            android:shadowDy="4"
+            android:shadowRadius="0.01"
+            android:text="HI"
+            android:textAlignment="center"
+            android:textColor="@color/blinq_white"
+            android:textSize="40sp"/>
 
         <ImageView
-            android:src="@drawable/icon_hi_small"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_height="wrap_content" />
+            android:src="@drawable/icon_hi_small" />
 
     </LinearLayout>
 

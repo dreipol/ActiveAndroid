@@ -3,7 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:id="@+id/profile_background"
-
+                android:background="@color/blinq_red_f9395C"
                 android:layout_height="match_parent"
     >
 
