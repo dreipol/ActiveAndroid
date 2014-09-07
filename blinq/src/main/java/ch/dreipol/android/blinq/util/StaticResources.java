@@ -97,9 +97,6 @@ public class StaticResources {
         return justMeAgain;
     }
 
-    public static void convertDisplayPointsToPixel(int i) {
-
-    }
 
     public static LayoutInflater getLayoutInflator(Context context) {
         return (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

@@ -17,6 +17,7 @@ import ch.dreipol.android.blinq.util.StaticResources;
  * Created by phil on 05/09/14.
  */
 public class HiOrByeView extends ViewGroup {
+    private final HiOrByeButtons mHiOrByeButtons;
     private RelativeLayout mFirstViewContainer;
     private RelativeLayout mSecondViewContainer;
     private int mBorderMargin;
@@ -41,19 +42,23 @@ public class HiOrByeView extends ViewGroup {
         mBaseScale = 0.75f;
         mBaseAlpha = 0.1f;
 
-        mBorderMargin = StaticResources.convertDisplayPointsToPixel(getContext(), 0);
+        mInitialX = 0;
+        mXTranslation = 0;
+
+        mBorderMargin = StaticResources.convertDisplayPointsToPixel(context, 0);
+
         mSecondViewContainer = new RelativeLayout(context, null);
         addView(mSecondViewContainer);
 
         mFirstViewContainer = new RelativeLayout(context, null);
         addView(mFirstViewContainer);
 
+        mHiOrByeButtons = new HiOrByeButtons(context, null);
+        addView(mHiOrByeButtons);
+
+
         setBackgroundColor(getResources().getColor(R.color.blinq_black));
 
-
-
-        mInitialX = 0;
-        mXTranslation = 0;
 
         this.setOnTouchListener(new OnTouchListener() {
 
@@ -101,7 +106,7 @@ public class HiOrByeView extends ViewGroup {
         float percentage = Math.abs(x) / (getScaledRight() - mBorderMargin);
         HIORBYE transition = null;
 
-        if(percentage<.3f){
+        if (percentage < .3f) {
             transition =  HIORBYE.BACK;
         }else{
             if (mEventX > getScaledRight() / 2) {
@@ -113,8 +118,8 @@ public class HiOrByeView extends ViewGroup {
         }
 
         animateTransition(transition);
-
     }
+
 
     private void animateTransition(HIORBYE transition) {
         float centerTranslation = 0;
@@ -173,6 +178,7 @@ public class HiOrByeView extends ViewGroup {
                         mFirstViewContainer = mSecondViewContainer;
                         mSecondViewContainer = tempGroup;
                         bringChildToFront(mFirstViewContainer);
+                        bringChildToFront(mHiOrByeButtons);
                         requestLayout();
                         invalidate();
 
@@ -227,6 +233,10 @@ public class HiOrByeView extends ViewGroup {
         mRight = r;
         mFirstViewContainer.layout(l,t,r,b);
         mSecondViewContainer.layout(l,t,r,b);
+
+        int height = StaticResources.convertDisplayPointsToPixel(getContext(), 90);
+        int top_buttons = b - height;
+        mHiOrByeButtons.layout(l, top_buttons, r, b);
     }
 
     @Override
