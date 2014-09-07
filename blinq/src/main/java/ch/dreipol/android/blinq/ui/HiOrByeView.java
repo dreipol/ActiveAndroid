@@ -125,7 +125,7 @@ public class HiOrByeView extends ViewGroup {
         if (percentage < .3f) {
             transition = HIORBYE.BACK;
         } else {
-            if (mEventX > getScaledRight() / 2) {
+            if (x>0) {
                 transition = HIORBYE.HI;
 
             } else {
@@ -232,14 +232,14 @@ public class HiOrByeView extends ViewGroup {
 
         Bog.d(Bog.Category.UI, "PERCENTAGE: " + percentage + " x: " + x);
 
-
         mSecondViewContainer.setTranslationX(0);
         mSecondViewContainer.setScaleX(scalePercentage);
         mSecondViewContainer.setScaleY(scalePercentage);
         mSecondViewContainer.setAlpha(alphaPercentage);
 
         float buttonScale = 1 + percentage*1.5f;
-        if (mEventX > getScaledRight() / 2) {
+
+        if (x > 0) {
             mHiOrByeButtons.getHiButton().setScaleX(buttonScale);
             mHiOrByeButtons.getHiButton().setScaleY(buttonScale);
             mHiOrByeButtons.getByeButton().setScaleX(1);
