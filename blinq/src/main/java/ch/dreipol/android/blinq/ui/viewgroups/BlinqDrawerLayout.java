@@ -1,5 +1,7 @@
 package ch.dreipol.android.blinq.ui.viewgroups;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -13,6 +15,9 @@ import android.widget.RelativeLayout;
 
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.ui.activities.IDrawerLayoutListener;
+import ch.dreipol.android.blinq.ui.headers.HeaderView;
+import ch.dreipol.android.blinq.ui.headers.IHeaderViewConfiguration;
+import ch.dreipol.android.blinq.util.Bog;
 import ch.dreipol.android.blinq.util.StaticResources;
 
 
@@ -24,20 +29,22 @@ public class BlinqDrawerLayout extends ViewGroup {
     private final RelativeLayout mLeftView;
     private final RelativeLayout mRightView;
     private final RelativeLayout mCenterView;
+    private final HeaderView mHeaderView;
+    private final RelativeLayout mCenterOverlayView;
     private View mBackgroundView;
     private FrameLayout mLeftViewContainer;
     private FrameLayout mRightViewContainer;
-    private FrameLayout mCenterViewContainer;
+    private RelativeLayout mCenterViewContainer;
     private int mLeft;
     private int mRight;
-    private DrawerSnap mSnap;
+    private DrawerPosition mSnap;
     private float mBaseAlpha;
     private float mXTranslation;
     private int mBaseRotation;
     private float mBaseScale;
     private float mBorderMargin;
 
-
+    public float mInitialX;
     private IDrawerLayoutListener mDrawerLayoutListener;
 
 
@@ -49,15 +56,15 @@ public class BlinqDrawerLayout extends ViewGroup {
 
         mLeftViewContainer = new FrameLayout(context);
         mLeftViewContainer.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-        mLeftViewContainer.setBackgroundColor(getResources().getColor(R.color.blinq_dark_grey));
+        mLeftViewContainer.setBackgroundColor(getResources().getColor(R.color.blinq_background_almost_black_2f2f2f));
         addView(mLeftViewContainer);
 
         mRightViewContainer = new FrameLayout(context);
         mRightViewContainer.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-        mRightViewContainer.setBackgroundColor(getResources().getColor(R.color.blinq_dark_grey));
+        mRightViewContainer.setBackgroundColor(getResources().getColor(R.color.blinq_background_almost_black_2f2f2f));
         addView(mRightViewContainer);
 
-        mCenterViewContainer = new FrameLayout(context);
+        mCenterViewContainer = new RelativeLayout(context);
         mCenterViewContainer.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         mCenterViewContainer.setBackgroundColor(getResources().getColor(R.color.blinq_white));
         addView(mCenterViewContainer);
@@ -65,9 +72,26 @@ public class BlinqDrawerLayout extends ViewGroup {
 
         mBorderMargin = StaticResources.convertDisplayPointsToPixel(getContext(), 60);
 
+        mHeaderView = new HeaderView(context, null);
+        mHeaderView.setId(StaticResources.generateViewId());
+
+
+        mCenterViewContainer.addView(mHeaderView, new LayoutParams(LayoutParams.MATCH_PARENT, StaticResources.convertDisplayPointsToPixel(context, 44)));
+
         mCenterView = new RelativeLayout(context);
         mCenterView.setId(StaticResources.generateViewId());
-        mCenterViewContainer.addView(mCenterView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        RelativeLayout.LayoutParams centerParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        centerParams.addRule(RelativeLayout.BELOW, mHeaderView.getId());
+        mCenterViewContainer.addView(mCenterView, centerParams);
+
+
+        mCenterOverlayView = new RelativeLayout(context);
+        mCenterOverlayView.setId(StaticResources.generateViewId());
+        RelativeLayout.LayoutParams centerOverlayParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        centerOverlayParams.addRule(RelativeLayout.BELOW, mCenterOverlayView.getId());
+        mCenterViewContainer.addView(mCenterOverlayView, centerOverlayParams);
+        mCenterOverlayView.setBackgroundColor(context.getResources().getColor(R.color.blinq_transparent));
+        mCenterOverlayView.setVisibility(GONE);
 
         mLeftView = new RelativeLayout(context);
         mLeftView.setId(StaticResources.generateViewId());
@@ -82,7 +106,7 @@ public class BlinqDrawerLayout extends ViewGroup {
         mRightViewContainer.addView(mRightView, rightViewParams);
 
 
-        mSnap = DrawerSnap.CENTER;
+        mSnap = DrawerPosition.CENTER;
         mBaseAlpha = 0.3f;
         mBaseRotation = 0;
         mBaseScale = 1.0f;
@@ -93,11 +117,11 @@ public class BlinqDrawerLayout extends ViewGroup {
 //        addDebugControls();
 
         mXTranslation = 0;
+
         final GestureDetector detector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onSingleTapUp(MotionEvent e) {
-                setDrawerPosition(DrawerSnap.CENTER);
-
+                setDrawerPosition(DrawerPosition.CENTER);
                 return super.onSingleTapUp(e);
 
             }
@@ -106,24 +130,23 @@ public class BlinqDrawerLayout extends ViewGroup {
         final GestureDetector swipeDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                boolean toLeft = velocityX < 0;
+//                boolean toLeft = ;
+                Bog.d(Bog.Category.UI, "velocity: " + velocityX);
 
-                if (toLeft) {
-                    if (mSnap == DrawerSnap.RIGHT) {
-                        setDrawerPosition(DrawerSnap.CENTER);
-                    }else if(mSnap == DrawerSnap.CENTER){
-                        setDrawerPosition(DrawerSnap.LEFT);
+                if (velocityX < -4000) {
+                    if (mSnap == DrawerPosition.RIGHT) {
+                        setDrawerPosition(DrawerPosition.CENTER);
+                    } else if (mSnap == DrawerPosition.CENTER) {
+                        setDrawerPosition(DrawerPosition.LEFT);
                     }
 
-                }else {
-                    if (mSnap == DrawerSnap.LEFT) {
-                        setDrawerPosition(DrawerSnap.CENTER);
-                    }else if(mSnap == DrawerSnap.CENTER){
-                        setDrawerPosition(DrawerSnap.RIGHT);
+                } else if(velocityX > 4000) {
+                    if (mSnap == DrawerPosition.LEFT) {
+                        setDrawerPosition(DrawerPosition.CENTER);
+                    } else if (mSnap == DrawerPosition.CENTER) {
+                        setDrawerPosition(DrawerPosition.RIGHT);
                     }
-
                 }
-
                 return super.onFling(e1, e2, velocityX, velocityY);
             }
         });
@@ -137,20 +160,20 @@ public class BlinqDrawerLayout extends ViewGroup {
         });
 
         this.setOnTouchListener(new OnTouchListener() {
-            public float mInitialX;
+
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 swipeDetector.onTouchEvent(event);
                 detector.onTouchEvent(event);
 
+
                 float eventX = event.getX();
-                boolean xBigger = eventX > mCenterViewContainer.getX();
-                boolean xWidthBigger = eventX < mCenterViewContainer.getX() + mRight;
+
 
                 int actionMasked = event.getActionMasked();
 
-                if (!(xBigger && xWidthBigger) && actionMasked == MotionEvent.ACTION_DOWN) {
+                if (!isTouchInCenter(event) && actionMasked == MotionEvent.ACTION_DOWN) {
                     return false;
                 }
 
@@ -174,11 +197,34 @@ public class BlinqDrawerLayout extends ViewGroup {
         });
     }
 
-    public void setDrawerPosition(DrawerSnap position) {
+    private boolean isTouchInCenter(MotionEvent event) {
+        float eventX = event.getX();
+        boolean xBigger = eventX > mCenterViewContainer.getX();
+        boolean xWidthBigger = eventX < mCenterViewContainer.getX() + mRight;
+        return (xBigger && xWidthBigger);
+    }
+
+    public void setDrawerPosition(DrawerPosition position) {
         mSnap = position;
+
         centerViewUpdateFinished();
     }
 
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        int actionMasked = ev.getActionMasked();
+        if (isTouchInCenter(ev) && mCenterOverlayView.getVisibility() == VISIBLE) {
+            return true;
+        }
+
+
+        if (isTouchInCenter(ev) && actionMasked != MotionEvent.ACTION_DOWN && actionMasked != MotionEvent.ACTION_UP && actionMasked != MotionEvent.ACTION_MOVE) {
+            return true;
+        } else {
+            mInitialX = ev.getX() - mXTranslation;
+            return false;
+        }
+    }
 
     private void centerViewUpdateFinished() {
         float centerTranslation = 0;
@@ -204,7 +250,42 @@ public class BlinqDrawerLayout extends ViewGroup {
                 centerTranslation = centerTranslation + mBorderMargin;
                 break;
         }
-        mCenterViewContainer.animate().setDuration(animationDuration).setInterpolator(bounceInterpolator).translationX(centerTranslation);
+        mCenterViewContainer.animate().setDuration(animationDuration).setInterpolator(bounceInterpolator).translationX(centerTranslation).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                switch (mSnap) {
+                    case CENTER:
+                        mLeftViewContainer.setVisibility(GONE);
+                        mRightViewContainer.setVisibility(GONE);
+                        mCenterOverlayView.setVisibility(GONE);
+                        break;
+                    case LEFT:
+                        mLeftViewContainer.setVisibility(GONE);
+                        mRightViewContainer.setVisibility(VISIBLE);
+                        mCenterOverlayView.setVisibility(VISIBLE);
+                        break;
+                    case RIGHT:
+                        mRightViewContainer.setVisibility(GONE);
+                        mLeftViewContainer.setVisibility(VISIBLE);
+                        mCenterOverlayView.setVisibility(VISIBLE);
+                }
+
+                if (mDrawerLayoutListener != null) {
+                    mDrawerLayoutListener.finishMovementOnPosition(mSnap);
+                }
+
+
+            }
+
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                mLeftViewContainer.setVisibility(VISIBLE);
+                mRightViewContainer.setVisibility(VISIBLE);
+
+            }
+        });
         final float finalCenterTranslation = centerTranslation;
 
         this.postDelayed(new Runnable() {
@@ -239,20 +320,24 @@ public class BlinqDrawerLayout extends ViewGroup {
         float maxPercentage = Math.max(1, percentage);
         float additionalPercentage = 1.0f;
         if (maxPercentage > 1) {
+
+
+            maxPercentage = 1 + (maxPercentage - 1) / 2;
             additionalPercentage = maxPercentage;
-        }else{
+            maxPercentage = 1 + (maxPercentage - 1) / 2;
+        } else {
             additionalPercentage = 1;
         }
 
 
         if (toRight) {
-            mLeftViewContainer.setX(leftPosition-(mBorderMargin * (1-additionalPercentage)));
+            mLeftViewContainer.setX(leftPosition - (mBorderMargin * (1 - additionalPercentage)));
             mLeftViewContainer.setAlpha(alpha);
             mLeftViewContainer.setScaleX(maxPercentage);
             mRightViewContainer.setX(mRight + (percentage * mRight));
         } else {
             mLeftViewContainer.setX(percentage * (mLeft - mRight) - mRight);
-            mRightViewContainer.setX(rightPosition+(mBorderMargin * (1-additionalPercentage)));
+            mRightViewContainer.setX(rightPosition + (mBorderMargin * (1 - additionalPercentage)));
             mRightViewContainer.setAlpha(alpha);
             mRightViewContainer.setScaleX(maxPercentage);
         }
@@ -263,13 +348,15 @@ public class BlinqDrawerLayout extends ViewGroup {
 
         if (percentage > .3f) {
             if (toRight) {
-                mSnap = DrawerSnap.RIGHT;
+                mSnap = DrawerPosition.RIGHT;
             } else {
-                mSnap = DrawerSnap.LEFT;
+                mSnap = DrawerPosition.LEFT;
             }
         } else {
-            mSnap = DrawerSnap.CENTER;
+            mSnap = DrawerPosition.CENTER;
         }
+        mLeftViewContainer.setVisibility(VISIBLE);
+        mRightViewContainer.setVisibility(VISIBLE);
     }
 
     private float getScaledRight() {
@@ -285,6 +372,7 @@ public class BlinqDrawerLayout extends ViewGroup {
         float right = getScaledRight() / 2;
         return right - (percentage) * right;
     }
+
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
@@ -336,95 +424,11 @@ public class BlinqDrawerLayout extends ViewGroup {
         return mCenterView.getId();
     }
 
+    public DrawerPosition getDrawerPosition() {
+        return mSnap;
+    }
 
-//
-//    private void addDebugControls() {
-//        LinearLayout lV = new LinearLayout(getContext());
-//        lV.setOrientation(LinearLayout.VERTICAL);
-//        SeekBar alphaBar = new SeekBar(getContext());
-//        alphaBar.setMax(100);
-//        alphaBar.setProgress((int) (mBaseAlpha * 100));
-//        alphaBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                float val = (float) progress / 100.0f;
-//                mBaseAlpha = val;
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//        });
-//
-//
-//        SeekBar rotationBar = new SeekBar(getContext());
-//        rotationBar.setMax(90);
-//
-//        rotationBar.setProgress((45 + mBaseRotation));
-//        rotationBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                mBaseRotation = progress - 45;
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//        });
-//
-//
-//        SeekBar scaleBar = new SeekBar(getContext());
-//        scaleBar.setMax(100);
-//
-//        scaleBar.setProgress((int) (mBaseScale * 100));
-//        scaleBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                mBaseScale = progress / 100.0f;
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//        });
-//
-//        lV.addView(alphaBar, new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-//        lV.addView(rotationBar, new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-//        lV.addView(scaleBar, new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-//
-//        mCenterView.addView(lV, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-//
-//
-//    }
-//
-//
-//    private void addDemoContent(RelativeLayout container) {
-//        String text = "Lorem Ipsum Dolor Sit ";
-//        for (int i = 0; i < 1; i++) {
-//            text = text + text;
-//        }
-//        Button tv = new Button(getContext());
-//        tv.setText(text);
-//
-//        container.addView(tv, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-//
-//    }
+    public void updateHeaderConfiguration(IHeaderViewConfiguration headerConfiguration) {
+        mHeaderView.updateConfiguration(headerConfiguration);
+    }
 }

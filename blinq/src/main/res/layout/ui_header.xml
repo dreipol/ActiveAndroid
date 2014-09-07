@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="44dp"
+                android:background="@color/blinq_background_almost_black_2f2f2f">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/blinq_header_image"
+        android:layout_alignParentTop="false"
+        android:layout_centerInParent="true"
+        android:src="@drawable/blinq_schriftzug"
+        android:adjustViewBounds="true"/>
+
+    <view
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        class="ch.dreipol.android.blinq.ui.textviews.AVMTextView"
+        android:id="@+id/blinq_header_title"
+        android:layout_alignParentBottom="false"
+        android:layout_centerInParent="true"
+        android:text="Header Title"
+        android:textColor="@color/blinq_text_light_grey_AAAAAA"
+        android:textSize="22sp"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/blinq_header_left_button"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/icon_menu_standard"
+        android:cropToPadding="false"
+        android:clickable="false"
+        android:adjustViewBounds="true"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/blinq_header_right_button"
+        android:layout_alignParentBottom="false"
+        android:layout_marginLeft="58dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/icon_match_standard"
+        android:adjustViewBounds="true"/>
+
+</RelativeLayout>

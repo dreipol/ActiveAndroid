@@ -1,19 +1,72 @@
 <LinearLayout
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:context="ch.dreipol.android.blinq.ui.activities.DebugActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Debug"
+        android:text="Debug Information"
         android:id="@+id/textView"
+        android:layout_gravity="center_horizontal"
+        android:textSize="20dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Facebook Infos"
+        android:id="@+id/debug_facebook_button"
         android:layout_gravity="center_horizontal"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="System Information"
+        android:text="Device Information"
         android:id="@+id/debug_system_information" android:layout_gravity="center_horizontal"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Network Services"
+        android:id="@+id/debug_network_services"
+        android:layout_gravity="center_horizontal"/>
+
+    <view
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        class="ch.dreipol.android.blinq.ui.LoaderView"
+        android:id="@+id/loader_view_default"
+        android:layout_gravity="center_horizontal"/>
+
+    <view
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        class="ch.dreipol.android.blinq.ui.LoaderView"
+        android:id="@+id/loader_view_dark_big"
+        android:layout_gravity="center_horizontal"/>
+
+    <view
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        class="ch.dreipol.android.blinq.ui.LoaderView"
+        android:id="@+id/loader_view_dark_small"
+        android:layout_gravity="center_horizontal"/>
+
+
+    <view
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        class="ch.dreipol.android.blinq.ui.LoaderView"
+        android:id="@+id/loader_view_light_big"
+        android:layout_gravity="center_horizontal"/>
+
+    <view
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        class="ch.dreipol.android.blinq.ui.LoaderView"
+        android:id="@+id/loader_view_light_small"
+        android:layout_gravity="center_horizontal"/>
 
 </LinearLayout>

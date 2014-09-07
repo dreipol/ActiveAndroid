@@ -1,18 +1,21 @@
 package ch.dreipol.android.blinq.ui.activities;
 
-import android.content.Intent;
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.AppService;
+import ch.dreipol.android.blinq.ui.fragments.JoinBlinqFragment;
+import ch.dreipol.android.dreiworks.ui.activities.ActivityTransitionType;
 
-public class LaunchActivity extends BaseBlinqActivity {
+public class LaunchActivity extends BaseBlinqActivity implements JoinBlinqFragment.JoinBlinqFragmentListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
+
 
     }
 
@@ -30,17 +33,29 @@ public class LaunchActivity extends BaseBlinqActivity {
             @Override
             public void run() {
 
-                Intent startIntent;
+                Class<? extends Activity> startIntent;
+                ActivityTransitionType transitionType = ActivityTransitionType.DEFAULT;
 
-                if (AppService.getInstance().getSessionService().hasFacebookSession()) {
-                    startIntent = new Intent(getApplicationContext(), HomeActivity.class);
+                if (AppService.getInstance().getFacebookService().hasFacebookSession()) {
+                    startIntent = MainActivity.class;
                 } else {
-                    startIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startIntent = LoginActivity.class;
+                    transitionType = ActivityTransitionType.CROSSFADE;
                 }
 
-                startActivity(startIntent);
+                startActivity(startIntent, transitionType);
             }
         }, (long) 300.0f);
+
+    }
+
+    @Override
+    public void showLoginScreen() {
+
+    }
+
+    @Override
+    public void showNextScreen() {
 
     }
 }

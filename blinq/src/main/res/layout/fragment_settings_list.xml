@@ -1,59 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/blinq_dark_grey">
+              android:background="@color/blinq_background_very_dark_grey_383838"
+              android:weightSum="1">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="HI or BYE"
-        android:id="@+id/textView"
-        android:textColor="@color/blinq_white"
-        android:textSize="20dp"
-        android:layout_margin="15dp"/>
+    <ch.dreipol.android.blinq.ui.buttons.SettingsButton
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        app:buttonText="@string/hiOrBye"
+        app:buttonTextColor="@color/blinq_white"
+        app:leftImage="@drawable/icon_menu_main_standard"
+        android:id="@+id/home"
+        android:layout_gravity="center_horizontal"/>
 
-    <Button
+    <ch.dreipol.android.blinq.ui.buttons.SettingsButton
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        app:buttonText="@string/matchesTitle"
+        app:buttonTextColor="@color/blinq_white"
+        app:leftImage="@drawable/icon_menu_match_standard"
+        android:id="@+id/matches"
+        android:layout_gravity="center_horizontal"/>
+
+    <Space
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button"/>
+        android:layout_height="30dp"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button2"/>
+    <ch.dreipol.android.blinq.ui.buttons.SettingsButton
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        app:buttonText="@string/profile"
+        app:buttonTextColor="@color/blinq_white"
+        app:leftImage="@drawable/icon_menu_profile_standard"
+        android:id="@+id/profile"
+        android:layout_gravity="center_horizontal"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button3"/>
+    <ch.dreipol.android.blinq.ui.buttons.SettingsButton
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        app:buttonText="@string/search"
+        app:buttonTextColor="@color/blinq_white"
+        app:leftImage="@drawable/icon_menu_searchsettings_standard"
+        android:id="@+id/settings"
+        android:layout_gravity="center_horizontal"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button4"/>
+    <ch.dreipol.android.blinq.ui.buttons.SettingsButton
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        app:buttonText="@string/help"
+        app:buttonTextColor="@color/blinq_white"
+        app:leftImage="@drawable/icon_menu_help_standard"
+        android:id="@+id/help"
+        android:layout_gravity="center_horizontal"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button5"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button6"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button7"/>
 </LinearLayout>

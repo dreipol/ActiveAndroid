@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/blinq_background_light_grey_eeeeee"
+        android:orientation="vertical"        >
+
+
+        <view
+            android:id="@+id/profile_picture"
+            class="ch.dreipol.android.blinq.ui.textviews.AVMTextView"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Search Distance" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal">
+
+
+            <SeekBar
+                android:id="@+id/distance_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:indeterminate="false"
+                android:max="200" />
+
+            <view
+                android:id="@+id/distance_text"
+                class="ch.dreipol.android.blinq.ui.textviews.AMTextView"
+                android:textSize="20sp"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="199 km"
+                android:gravity="right" />
+        </LinearLayout>
+
+
+        <view
+            class="ch.dreipol.android.blinq.ui.LightSeparatorView"
+            android:layout_width="fill_parent"
+            android:layout_height="4dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp" />
+
+        <view
+            android:id="@+id/view1232"
+            class="ch.dreipol.android.blinq.ui.textviews.AVMTextView"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="20dp"
+            android:text="Age" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="horizontal">
+
+            <view
+                android:id="@+id/view1"
+                class="ch.dreipol.android.blinq.ui.textviews.AVMTextView"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:text="from"
+                android:textSize="16sp"
+                android:textColor="@color/blinq_text_dark_grey_777777" />
+
+            <SeekBar
+                android:id="@+id/from_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:progress="0"
+                android:max="42"
+                android:indeterminate="false" />
+
+            <view
+                android:id="@+id/from_label"
+                class="ch.dreipol.android.blinq.ui.textviews.AMTextView"
+                android:textSize="20sp"
+
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:text="15"
+                android:gravity="right" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <view
+                android:id="@+id/status_text"
+                class="ch.dreipol.android.blinq.ui.textviews.AVMTextView"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:text="to"
+                android:textSize="16sp"
+                android:textColor="@color/blinq_text_dark_grey_777777" />
+
+            <SeekBar
+                android:id="@+id/to_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:indeterminate="false"
+                android:max="42" />
+
+            <view
+                android:id="@+id/to_label"
+                class="ch.dreipol.android.blinq.ui.textviews.AMTextView"
+                android:textSize="20sp"
+
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:text="15"
+                android:gravity="right" />
+        </LinearLayout>
+
+        <view
+            android:id="@+id/view5"
+            class="ch.dreipol.android.blinq.ui.LightSeparatorView"
+            android:layout_width="fill_parent"
+            android:layout_height="4dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp" />
+
+        <view
+            android:id="@+id/view123"
+            class="ch.dreipol.android.blinq.ui.textviews.AVMTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginLeft="20dp"
+            android:text="Interest" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <ToggleButton
+                android:id="@+id/interest_males"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:layout_weight="1"
+                android:checked="false"
+                android:text="Males" />
+
+            <ToggleButton
+                android:id="@+id/interest_females"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textSize="20sp"
+                android:layout_weight="1"
+                android:checked="false"
+                android:text="Females" />
+
+            <ToggleButton
+                android:id="@+id/interest_both"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="20sp"
+                android:checked="false"
+                android:text="Both" />
+        </LinearLayout>
+
+        <view
+            class="ch.dreipol.android.blinq.ui.LightSeparatorView"
+            android:layout_width="fill_parent"
+            android:layout_height="4dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:autoText="true" />
+
+        <view
+            android:id="@+id/view111223"
+            class="ch.dreipol.android.blinq.ui.textviews.AVMTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:textSize="16sp"
+            android:text="Vibration" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <ToggleButton
+                android:id="@+id/vibration_on"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/default_switch_left_button"
+                android:checked="false"
+                android:textSize="20sp"
+                android:text="On" />
+
+            <ToggleButton
+                android:id="@+id/vibration_off"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/default_switch_right_button"
+                android:checked="false"
+                android:textSize="20sp"
+                android:text="Off" />
+        </LinearLayout>
+
+        <view
+            class="ch.dreipol.android.blinq.ui.LightSeparatorView"
+            android:layout_width="fill_parent"
+            android:layout_height="4dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp" />
+
+
+        <Button
+            android:id="@+id/help_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:textSize="22sp"
+            android:text="Help" />
+
+
+        <Button
+            android:id="@+id/contact_us_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:textSize="22sp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Contact Us" />
+
+
+        <Button
+            android:id="@+id/logout_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:textSize="22sp"
+            android:layout_marginTop="20dp"
+            android:text="Logout"
+            android:layout_marginBottom="20dp" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="300dp"
+            android:background="@color/blinq_colored_grey_cdcdcd">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete Account"
+                android:id="@+id/delete_account_button"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/blinq_delete_account_button"
+                android:layout_marginBottom="20dp"
+                android:singleLine="false"
+                android:textColor="@color/blinq_text_almost_black_1F1F1F" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</ScrollView>

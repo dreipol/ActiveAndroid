@@ -3,11 +3,35 @@
     <color name="debug_orange">#ff6600</color>
     <color name="debug_green">#66FF00</color>
     <color name="debug_blue">#0066FF</color>
-    <color name="blinq_black">#000000</color>
+
+
+    <color name="blinq_black">#202020</color>
     <color name="blinq_white">#FFFFFF</color>
-    <color name="blinq_dark_grey">#ff2f2f2f</color>
-    <color name="blinq_darker_grey">#FF202020</color>
-    <color name="blinq_light_grey">#eaeaea</color>
+
+
+
+    <color name="blinq_red_f9395C">#f9395C</color>
+    <color name="blinq_dark_red_593d57">#593d57</color>
+    <color name="blinq_light_blue_85e1ea">#85e1ea</color>
+    <color name="blinq_blue_4a799e">#4a799e</color>
+    <color name="blinq_colored_grey_cdcdcd">#cdcdcd</color>
+    <color name="blinq_beige_c1afa3">#c1afa3</color>
+
+    <color name="blinq_text_light_grey_AAAAAA">#AAAAAA</color>
+    <color name="blinq_text_dark_grey_999999">#999999</color>
+    <color name="blinq_text_dark_grey_777777">#777777</color>
+    <color name="blinq_text_very_dark_grey_666666">#666666</color>
+    <color name="blinq_text_almost_black_1F1F1F">#1F1F1F</color>
+
+
+    <color name="blinq_background_almost_black_2f2f2f">#2f2f2f</color>
+    <color name="blinq_background_very_dark_grey_383838">#383838</color>
+    <color name="blinq_background_dark_grey_474747">#474747</color>
+    <color name="blinq_background_grey_888888">#888888</color>
+    <color name="blinq_background_light_grey_eeeeee">#eeeeee</color>
+    <color name="blinq_transparent">#00000000</color>
+    <color name="blinq_almost_white">#ededed</color>
+    <color name="blinq_overlay_transparent">#55000000</color>
 </resources>
 
 

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:id="@+id/profile_background"
+                android:background="@color/blinq_red_f9395C"
+                android:layout_height="match_parent"
+    >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:src="@drawable/background_main_568h_standard"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:scaleType="fitXY"/>
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/image"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="59dp"
+        android:layout_centerInParent="true">
+
+        <view
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            class="ch.dreipol.android.blinq.ui.textviews.ABTextView"
+            android:textColor="@color/blinq_white"
+            android:text="Mira"
+            android:id="@+id/prename"
+            android:textSize="40dp"/>
+
+        <view
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blinq_white"
+            class="ch.dreipol.android.blinq.ui.textviews.AMTextView"
+
+            android:id="@+id/age"
+            android:text="22"
+            android:layout_marginLeft="20dp"
+            android:textSize="30dp"/>
+    </LinearLayout>
+
+</RelativeLayout>

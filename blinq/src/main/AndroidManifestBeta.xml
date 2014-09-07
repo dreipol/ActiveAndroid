@@ -1,21 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="ch.dreipol.android.blinqtest" >
-    <application>
-        <meta-data android:name="BLINQ_FLAVOUR" android:value="BETA" />
-        <meta-data android:name="BLINQ_SERVER" android:value="https://beta.server.blinqapp.ch" />
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/fb_app_id_beta" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <application
+        android:name="ch.dreipol.android.blinq.BlinqBetaApplication"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:icon="@drawable/icon"
+        tools:replace="android:name,android:icon"
+        >
+        <meta-data
+            android:name="BLINQ_FLAVOUR"
+            android:value="BETA"/>
+        <meta-data
+            android:name="BLINQ_SERVER"
+            android:value="https://beta.blinqapp.ch/"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/fb_app_id_beta"/>
+        <meta-data
+            android:name="RESET_DATABASE"
+            android:value="true"/>
 
         <activity
             android:name="ch.dreipol.android.blinq.ui.activities.DebugActivity"
-            android:label="@string/title_activity_debug">
+            android:label="@string/debug_activity_debug">
         </activity>
 
         <activity
             android:name="ch.dreipol.android.blinq.ui.activities.SystemInformationActivity"
-            android:label="@string/title_activity_system_information" >
+            android:label="@string/debug_activity_system_information">
         </activity>
 
-
+        <activity
+            android:name="ch.dreipol.android.blinq.ui.activities.FacebookDebugActivity"
+            android:label="@string/debug_activity_facebook_debug">
+        </activity>
+        <activity
+            android:name="ch.dreipol.android.blinq.ui.activities.NetworkDebugActivity"
+            android:label="@string/debug_activity_network_debug">
+        </activity>
+        <provider android:authorities="ch.dreipol.android.blinqtest" android:exported="false" android:name="com.activeandroid.content.ContentProvider" />
     </application>
 </manifest>

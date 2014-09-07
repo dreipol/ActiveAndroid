@@ -1,0 +1,147 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ch.dreipol.android.blinq.ui.fragments.MyProfileFragment"
+    android:background="@color/blinq_white"
+    android:clickable="false">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profile_background"
+            android:background="@color/blinq_black">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:orientation="horizontal"
+                android:layout_height="230dp"
+                android:id="@+id/profile_overview"
+                android:baselineAligned="false"
+                android:background="@drawable/detailscreen_background_standard"
+                android:layout_alignParentTop="false">
+
+                <view
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    class="ch.dreipol.android.blinq.ui.ProfileImageView"
+                    android:id="@+id/main_profile_view"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:focusableInTouchMode="true"/>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/small_images"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp">
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="230dp"
+                android:id="@+id/loading_blocker"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="false"
+                android:background="@color/blinq_overlay_transparent">
+
+                <view
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    class="ch.dreipol.android.blinq.ui.LoaderView"
+                    android:id="@+id/loader_view"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"/>
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profile_overview"
+            android:baselineAligned="true"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:background="@color/blinq_white"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="25dp">
+
+            <view
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                class="ch.dreipol.android.blinq.ui.textviews.ABTextView"
+                android:id="@+id/profile_name"
+                android:textSize="42dp" />
+
+            <view
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                class="ch.dreipol.android.blinq.ui.textviews.AMTextView"
+                android:id="@+id/profile_age"
+                android:textSize="32dp"
+                android:layout_marginLeft="15dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:baselineAligned="false"
+            android:background="@color/blinq_background_light_grey_eeeeee">
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                >
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="m"
+                    android:id="@+id/radio_male"
+                    android:checked="false"
+                    android:background="@drawable/default_switch_left_button"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="f"
+                    android:id="@+id/radio_female"
+                    android:checked="false"
+                    android:background="@drawable/default_switch_right_button"/>
+            </RadioGroup>
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:text="Colorpicker"
+                android:id="@+id/button_colorpicker"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

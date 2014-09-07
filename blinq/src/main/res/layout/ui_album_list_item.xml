@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+    <ImageView
+        android:id="@+id/photo"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center_vertical"
+        android:scaleType="centerCrop"/>
+
+    <view
+        android:id="@+id/text"
+        class="ch.dreipol.android.blinq.ui.textviews.AVMTextView"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/arrow_view"
+        android:layout_toRightOf="@+id/photo"
+        android:gravity="center_vertical|left"
+        android:text="Timeline Photos"
+        android:textAlignment="center"/>
+
+    <ImageView
+        android:id="@+id/arrow_view"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/icon_arrowup_selected"/>
+
+    <ViewStub
+        android:id="@+id/viewStub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="323dp"
+        android:layout_marginTop="467dp"/>
+</RelativeLayout>

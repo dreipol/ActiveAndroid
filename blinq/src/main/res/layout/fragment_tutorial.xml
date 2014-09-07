@@ -1,0 +1,33 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:context="ch.dreipol.android.blinq.ui.fragments.TutorialFragment">
+
+    <com.makeramen.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/tutorial_image"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:paddingBottom="80dp"
+        android:src="@drawable/tutorial_01"
+        app:oval="true" />
+
+    <TextView
+        android:id="@+id/tutorial_text"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center|top"
+        android:singleLine="false"
+        android:text="Medium Text"
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/blinq_text_dark_grey_999999" />
+</RelativeLayout>

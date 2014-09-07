@@ -1,2 +1,2 @@
-include ':blinq'
+include ':blinq', ':Dreiworks', ':ActiveAndroid'
 include ':libraries:facebook'

@@ -3,12 +3,12 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.9.+'
+        classpath 'com.android.tools.build:gradle:0.12.2'
     }
 }
 
-apply plugin: 'android'
 
+apply plugin: 'com.android.application'
 
 repositories {
     mavenCentral()
@@ -16,28 +16,28 @@ repositories {
     mavenLocal()
 }
 
+
 android {
     compileSdkVersion 19
-    buildToolsVersion '19.0.1'
+    buildToolsVersion '19.1.0'
 
 
 
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 19
-        versionCode 1
+        versionCode 5
         versionName "1.0"
     }
 
     productFlavors {
 
         production {
-            packageName "ch.dreipol.android.blinq"
+            applicationId = "ch.dreipol.android.blinq"
         }
 
         beta {
-            packageName "ch.dreipol.android.blinqbeta"
-
+            applicationId = "ch.dreipol.android.blinqtest"
         }
     }
 
@@ -64,15 +64,40 @@ android {
             manifest.srcFile 'src/main/AndroidManifestBeta.xml'
         }
     }
+
+    signingConfigs {
+        debug {
+//            storeFile file("debug.keystore")
+        }
+        release {
+            storeFile file("blinq.jks")
+            storePassword "bazinga"
+            keyAlias "ch.dreipol.android.blinq.android"
+            keyPassword "bazinga"
+        }
+    }
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:+'
-    compile 'com.google.android.gms:play-services:4.2.42'
+    //    compile 'com.google.guava:guava:16.0.1'
+    //    compile 'com.android.support:appcompat-v7:+'
+    compile 'com.google.android.gms:play-services:5.0.89'
+    compile 'com.google.guava:guava:17.0'
+    compile 'com.android.support:support-v4:20.0.0'
+    compile 'com.google.code.gson:gson:2.2.4'
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.couchbase.cblite:CBLite:1.0.0-beta2'
-    compile 'com.netflix.rxjava:rxjava-android:0.17.1'
-    compile 'com.squareup.retrofit:retrofit:1.4.1'
-    compile 'net.hockeyapp.android:HockeySDK:3.0.1'
+    compile 'com.netflix.rxjava:rxjava-core:0.20.3'
+    compile 'com.netflix.rxjava:rxjava-android:0.20.3'
+    compile 'com.squareup.retrofit:retrofit:1.6.1'
+    compile 'com.squareup.okio:okio:1.0.1'
+    compile 'com.squareup.okhttp:okhttp:2.0.0'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
+
+    compile 'net.hockeyapp.android:HockeySDK:3.0.2'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.2'
+    compile 'com.makeramen:roundedimageview:1.3.0'
     compile project(':libraries:facebook')
+    //    compile project(':services')
+    compile project(':Dreiworks')
+    compile project(':ActiveAndroid')
 }

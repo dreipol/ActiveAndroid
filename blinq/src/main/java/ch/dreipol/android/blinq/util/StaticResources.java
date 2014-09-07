@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -14,10 +15,11 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class StaticResources {
     private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
-    private static Typeface regular;
-    private static Typeface semiBold;
-    private static Typeface specialMedium
-            ;
+    private static Typeface avenirMedium;
+    private static Typeface archerSemibold;
+    private static Typeface justMeAgain;
+    private static Typeface archerBold;
+    private static Typeface archerMedium;
 
     public static int convertDisplayPointsToPixel(Context context, float dp) {
         final float scale = context.getResources().getDisplayMetrics().density;
@@ -44,12 +46,12 @@ public class StaticResources {
     }
 
 
-    public static Typeface regular(View targetView, AssetManager assets) {
-        if (regular == null) {
-            String fontName = "Archer-Medium.otf";
-            regular = getFromAsset(targetView, assets, fontName);
+    public static Typeface avenirMedium(View targetView, AssetManager assets) {
+        if (avenirMedium == null) {
+            String fontName = "avenirmedium.otf";
+            avenirMedium = getFromAsset(targetView, assets, fontName);
         }
-        return regular;
+        return avenirMedium;
     }
 
 
@@ -62,19 +64,41 @@ public class StaticResources {
 
     }
 
-    public static Typeface semiBold(View targetView, AssetManager assets) {
-        if (semiBold == null) {
-            String fontName = "Archer-Semibold.otf";
-            semiBold = getFromAsset(targetView, assets, fontName);
+    public static Typeface archerBold(View targetView, AssetManager assets) {
+        if (archerBold == null) {
+            String fontName = "Archer-Bold.otf";
+            archerBold = getFromAsset(targetView, assets, fontName);
         }
-        return semiBold;
+        return archerBold ;
     }
 
-    public static Typeface specialMedium(View targetView, AssetManager assets) {
-        if (specialMedium== null) {
-            String fontName = "avenirmedium";
-            specialMedium = getFromAsset(targetView, assets, fontName);
+    public static Typeface archerMedium(View targetView, AssetManager assets) {
+        if (archerMedium == null) {
+            String fontName = "Archer-Medium.otf";
+            archerMedium = getFromAsset(targetView, assets, fontName);
         }
-        return specialMedium;
+        return archerMedium;
+    }
+
+
+    public static Typeface archerSemiBold(View targetView, AssetManager assets) {
+        if (archerSemibold == null) {
+            String fontName = "Archer-Semibold.otf";
+            archerSemibold = getFromAsset(targetView, assets, fontName);
+        }
+        return archerSemibold;
+    }
+
+    public static Typeface justMeAgain(View targetView, AssetManager assets) {
+        if (justMeAgain == null) {
+            String fontName = "JustMeAgainDownHerelasttry-Regular.ttf";
+            justMeAgain = getFromAsset(targetView, assets, fontName);
+        }
+        return justMeAgain;
+    }
+
+
+    public static LayoutInflater getLayoutInflator(Context context) {
+        return (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 }

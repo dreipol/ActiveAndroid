@@ -1,6 +1,5 @@
 package ch.dreipol.android.blinq.services.impl;
 
-import java.util.Observable;
 
 import ch.dreipol.android.blinq.services.AppService;
 import ch.dreipol.android.blinq.services.IService;
@@ -8,10 +7,11 @@ import ch.dreipol.android.blinq.services.IService;
 /**
  * Created by phil on 22.03.14.
  */
-public abstract class BaseService extends Observable implements IService {
+public abstract class BaseService  implements IService {
 
 
     private AppService mAppService;
+
 
     @Override
     public void setup(AppService appService) {

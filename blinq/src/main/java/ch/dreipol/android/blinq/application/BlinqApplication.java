@@ -3,17 +3,29 @@ package ch.dreipol.android.blinq.application;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import ch.dreipol.android.blinq.services.AppService;
+import ch.dreipol.android.blinq.services.IAccountService;
+import ch.dreipol.android.blinq.services.IDatabaseService;
+import ch.dreipol.android.blinq.services.IFacebookService;
+import ch.dreipol.android.blinq.services.IImageCacheService;
+import ch.dreipol.android.blinq.services.IMatchesService;
+import ch.dreipol.android.blinq.services.INetworkMethods;
+import ch.dreipol.android.blinq.services.IRuntimeService;
 import ch.dreipol.android.blinq.services.IServiceConfiguration;
-import ch.dreipol.android.blinq.services.ILocationService;
-import ch.dreipol.android.blinq.services.ISessionService;
-import ch.dreipol.android.blinq.services.impl.DeviceSessionService;
+import ch.dreipol.android.blinq.services.IValueStoreService;
+import ch.dreipol.android.blinq.services.impl.AccountService;
+import ch.dreipol.android.blinq.services.impl.FacebookService;
 import ch.dreipol.android.blinq.services.impl.LocationService;
+import ch.dreipol.android.blinq.services.impl.NetworkService;
+import ch.dreipol.android.blinq.services.impl.RuntimeService;
+import ch.dreipol.android.blinq.services.model.SearchSettings;
 import ch.dreipol.android.blinq.util.Bog;
+import ch.dreipol.android.blinq.services.impl.DatabaseService;
+import ch.dreipol.android.dreiworks.ICacheService;
+import ch.dreipol.android.dreiworks.JsonStoreName;
+import ch.dreipol.android.dreiworks.ServiceBuilder;
 
 /**
  * Created by phil on 19.03.14.
@@ -28,24 +40,70 @@ public class BlinqApplication extends Application implements Application.Activit
         super.onCreate();
         Bog.v(Bog.Category.SYSTEM, "Starting BLINQ: " + getApplicationContext().getPackageName());
         registerActivityLifecycleCallbacks(this);
-        Bog.v(Bog.Category.SYSTEM, "BLINQ Flavour is: " + getFlavour());
 
-        AppService.initialize(new IServiceConfiguration() {
+
+        AppService.initialize(getConfiguration());
+        Bog.v(Bog.Category.SYSTEM, "BLINQ Flavour is: " + AppService.getInstance().getRuntimeService().getFlavour());
+    }
+
+    protected IServiceConfiguration getConfiguration() {
+        return new IServiceConfiguration() {
             @Override
             public Context getContext() {
                 return getApplicationContext();
             }
 
             @Override
-            public Class<? extends ILocationService> locationService() {
-                return LocationService.class;
+            public ServiceBuilder<? extends ch.dreipol.android.blinq.services.ILocationService> locationServiceBuilder() {
+                return new ServiceBuilder<LocationService>(LocationService.class);
             }
 
             @Override
-            public Class<? extends ISessionService> sessionService() {
-                return DeviceSessionService.class;
+            public ServiceBuilder<? extends IRuntimeService> runtimeServiceBuilder() {
+                return new ServiceBuilder<RuntimeService>(RuntimeService.class);
             }
-        });
+
+            @Override
+            public ServiceBuilder<? extends IFacebookService> facebookServiceBuilder() {
+                return new ServiceBuilder<FacebookService>(FacebookService.class);
+            }
+
+            @Override
+            public ServiceBuilder<? extends IValueStoreService> valueStoreServiceBuilder() {
+                return new ServiceBuilder<PreferencesValueStore>(PreferencesValueStore.class);
+            }
+
+            @Override
+            public ServiceBuilder<? extends INetworkMethods> networkServiceBuilder() {
+                return new ServiceBuilder<NetworkService>(NetworkService.class);
+            }
+
+            @Override
+            public ServiceBuilder<? extends IImageCacheService> imageCacheServiceBuilder() {
+                return new ServiceBuilder<ImageCacheService>(ImageCacheService.class);
+            }
+
+            @Override
+            public ServiceBuilder<? extends IMatchesService> matchesServiceBuilder() {
+                return new ServiceBuilder<MatchesService>(MatchesService.class);
+            }
+
+            @Override
+            public ServiceBuilder<? extends IAccountService> accountServiceBuilder() {
+                return new ServiceBuilder<AccountService>(AccountService.class);
+            }
+
+            @Override
+            public ServiceBuilder<? extends IDatabaseService> databaseServiceBuilder() {
+                return new ServiceBuilder<DatabaseService>(DatabaseService.class);
+            }
+
+            @Override
+            public ServiceBuilder<? extends ICacheService> jsonCacheServiceBuilder() {
+                return new JsonStoreServiceBuilder().
+                        addDefault(JsonStoreName.SEARCH_SETTINGS.toString(), SearchSettings.defaultSettings());
+            }
+        };
     }
 
 
@@ -82,21 +140,5 @@ public class BlinqApplication extends Application implements Application.Activit
     @Override
     public void onActivityDestroyed(Activity activity) {
         Bog.v(Bog.Category.UI, "Destroyed Activity: " + activity.getLocalClassName());
-    }
-
-
-    public BlinqApplicationFlavour getFlavour() {
-        BlinqApplicationFlavour result = BlinqApplicationFlavour.PRODUCTION;
-        try {
-            ApplicationInfo ai = getApplicationContext().getPackageManager().getApplicationInfo(getApplicationContext().getPackageName(), PackageManager.GET_META_DATA);
-            Bundle bundle = ai.metaData;
-            String stringFlavour = bundle.getString("BLINQ_FLAVOUR");
-            result = BlinqApplicationFlavour.valueOf(stringFlavour);
-        } catch (NullPointerException e) {
-            Bog.e(Bog.Category.SYSTEM, "Could not get Metadata", e);
-        } catch (PackageManager.NameNotFoundException e) {
-            Bog.e(Bog.Category.SYSTEM, "Could not get Metadata", e);
-        }
-        return result;
     }
 }

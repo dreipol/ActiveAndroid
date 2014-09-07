@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true" android:state_pressed="false" android:color="@color/blinq_text_dark_grey_777777" />
+    <item android:state_focused="true" android:state_pressed="true" android:color="@color/blinq_text_almost_black_1F1F1F" />
+    <item android:state_focused="false" android:state_pressed="true" android:color="@color/blinq_text_almost_black_1F1F1F" />
+    <item android:state_checked="true" android:color="@color/blinq_text_almost_black_1F1F1F" />
+    <item android:color="@color/blinq_text_dark_grey_777777" />
+</selector>
