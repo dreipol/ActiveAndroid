@@ -37,13 +37,14 @@ public class HiOrByeView extends ViewGroup {
     private CardProvider mCardProvider;
     private HiOrByeCard mFirstCard;
     private HiOrByeCard mSecondCard;
+    private float mTargetButtonScale;
 
     public HiOrByeView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         mBaseScale = 0.75f;
         mBaseAlpha = 0.1f;
-
+        mTargetButtonScale = 1.5f;
         mInitialX = 0;
         mXTranslation = 0;
 
@@ -61,6 +62,9 @@ public class HiOrByeView extends ViewGroup {
         mHiOrByeButtons.getHiButton().setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.setScaleX(mTargetButtonScale);
+                v.setScaleY(mTargetButtonScale);
+                animateTransition(HIORBYE.HI);
 
             }
         });
@@ -68,7 +72,9 @@ public class HiOrByeView extends ViewGroup {
         mHiOrByeButtons.getByeButton().setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                v.setScaleX(mTargetButtonScale);
+                v.setScaleY(mTargetButtonScale);
+                animateTransition(HIORBYE.BYE);
             }
         });
 
@@ -114,6 +120,8 @@ public class HiOrByeView extends ViewGroup {
         mSecondCard = hiOrByeCard;
         mSecondViewContainer.removeAllViews();
         mSecondViewContainer.addView(hiOrByeCard.getView(), new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+
+        toggleHiOrByeButtons(mSecondCard);
         animateTransition(HIORBYE.INIT);
     }
 
@@ -168,6 +176,12 @@ public class HiOrByeView extends ViewGroup {
                 break;
 
         }
+        mHiOrByeButtons.getByeButton().animate().setInterpolator(bounceInterpolator).setDuration(animationDuration).scaleX(1);
+        mHiOrByeButtons.getByeButton().animate().setInterpolator(bounceInterpolator).setDuration(animationDuration).scaleY(1);
+        mHiOrByeButtons.getHiButton().animate().setInterpolator(bounceInterpolator).setDuration(animationDuration).scaleX(1);
+        mHiOrByeButtons.getHiButton().animate().setInterpolator(bounceInterpolator).setDuration(animationDuration).scaleY(1);
+
+
         final float finalCenterTranslation = centerTranslation;
 
         final HIORBYE finalTransition = transition;
@@ -195,12 +209,16 @@ public class HiOrByeView extends ViewGroup {
                         mSecondViewContainer = tempGroup;
                         bringChildToFront(mFirstViewContainer);
                         bringChildToFront(mHiOrByeButtons);
+
+                        toggleHiOrByeButtons(mSecondCard);
+
                         requestLayout();
                         invalidate();
 
                         mFirstViewContainer.setTranslationY(0);
                         mSecondViewContainer.setTranslationY(0);
                         mFirstCard = mSecondCard;
+
 
                         if (mCardProvider != null) {
                             mSecondCard = mCardProvider.requestCard();
@@ -220,6 +238,14 @@ public class HiOrByeView extends ViewGroup {
         });
     }
 
+    private void toggleHiOrByeButtons(HiOrByeCard card) {
+        if(card.isInteractive()){
+            mHiOrByeButtons.setVisibility(VISIBLE);
+        }else{
+            mHiOrByeButtons.setVisibility(GONE);
+        }
+    }
+
     private void updateViewWithTranslation(float x) {
         mFirstViewContainer.setTranslationX(x);
 
@@ -237,7 +263,7 @@ public class HiOrByeView extends ViewGroup {
         mSecondViewContainer.setScaleY(scalePercentage);
         mSecondViewContainer.setAlpha(alphaPercentage);
 
-        float buttonScale = 1 + percentage*1.5f;
+        float buttonScale = 1 + percentage* mTargetButtonScale;
 
         if (x > 0) {
             mHiOrByeButtons.getHiButton().setScaleX(buttonScale);
@@ -287,6 +313,7 @@ public class HiOrByeView extends ViewGroup {
         if (mCardProvider != null) {
             mFirstViewContainer.removeAllViews();
             mFirstCard = mCardProvider.requestCard();
+            toggleHiOrByeButtons(mFirstCard);
             mFirstViewContainer.addView(mFirstCard.getView(), new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 
             mSecondViewContainer.removeAllViews();

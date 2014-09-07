@@ -1,29 +1,21 @@
 package ch.dreipol.android.blinq.ui.fragments;
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import ch.dreipol.android.blinq.R;
 import ch.dreipol.android.blinq.services.AppService;
-import ch.dreipol.android.blinq.services.IAccountService;
 import ch.dreipol.android.blinq.services.model.GenderInterests;
 import ch.dreipol.android.blinq.services.model.LoadingInfo;
 import ch.dreipol.android.blinq.services.model.SearchSettings;
 import ch.dreipol.android.blinq.ui.headers.IHeaderViewConfiguration;
 import ch.dreipol.android.blinq.util.Bog;
-import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.functions.Func2;
 import rx.schedulers.Schedulers;
-import rx.subjects.BehaviorSubject;
 
 /**
  * Created by phil on 24.04.14.
@@ -245,12 +237,12 @@ public class MySettingsFragment extends BlinqFragment implements IHeaderConfigur
                 }
 
                 distanceText.setText(distanceString);
-                mSearchSettings.setDistance(progress);
+                mSearchSettings.setRadius(progress);
                 updateSettings();
             }
         });
 
-        distanceBar.setProgress(mSearchSettings.getDistance());
+        distanceBar.setProgress(mSearchSettings.getRadius());
     }
 
     private void updateSettings() {

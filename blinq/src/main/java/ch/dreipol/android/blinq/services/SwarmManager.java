@@ -1,12 +1,14 @@
 package ch.dreipol.android.blinq.services;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
 import ch.dreipol.android.blinq.services.model.Profile;
+import ch.dreipol.android.blinq.services.model.SearchSettings;
 import ch.dreipol.android.dreiworks.collections.CompoundIterator;
 import ch.dreipol.android.dreiworks.collections.FunctionMap;
 import ch.dreipol.android.dreiworks.collections.ILazyIterator;
@@ -57,10 +59,16 @@ public class SwarmManager {
     }
 
     private void getSwarm() {
+//        TODO: sam, please refactor this, thx!
 //        AppService.getInstance().getJsonCacheService()
-        IValueStoreService valueStore = AppService.getInstance().getValueStore();
-        HashSet<String> keys = new HashSet<String>(Arrays.asList("radius", "min_age", "max_age"));
-        Map<String, ?> searchSettings = valueStore.getEntriesAsMap(keys);
+//        IValueStoreService valueStore = AppService.getInstance().getValueStore();
+        SearchSettings settings = AppService.getInstance().getAccountService().getSearchSettings().toBlocking().first();
+//        HashSet<String> keys = new HashSet<String>(Arrays.asList("radius", "min_age", "max_age"));
+        Map<String, Object> searchSettings = new HashMap<String, Object>();
+        searchSettings.put("radius", settings.getRadius());
+        searchSettings.put("min_age", settings.getFrom());
+        searchSettings.put("max_age", settings.getTo());
+
 
         mNetworkService.getSwarm(searchSettings).subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io()).subscribe(new Action1<Map<Long, Profile>>() {

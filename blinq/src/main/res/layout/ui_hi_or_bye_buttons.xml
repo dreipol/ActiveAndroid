@@ -4,8 +4,6 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
-                android:paddingRight="20dp"
-                android:paddingLeft="20dp"
                 android:weightSum="2">
 
 
@@ -16,6 +14,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="20dp"
         android:layout_weight="1">
 
         <ImageView
@@ -45,7 +44,7 @@
         android:gravity="end"
 
         android:orientation="horizontal"
-
+        android:layout_marginRight="20dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
