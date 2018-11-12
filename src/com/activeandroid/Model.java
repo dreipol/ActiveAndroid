@@ -189,8 +189,12 @@ public abstract class Model {
     }
 
     // Model population
-
     public final void loadFromCursor(Cursor cursor) {
+        loadFromCursor(cursor, true);
+    }
+
+
+    public final void loadFromCursor(Cursor cursor, boolean saveToCache) {
         /**
          * Obtain the columns ordered to fix issue #106 (https://github.com/pardom/ActiveAndroid/issues/106)
          * when the cursor have multiple columns with same name obtained from join tables.
@@ -275,7 +279,7 @@ public abstract class Model {
             }
         }
 
-        if (mId != null) {
+        if (saveToCache && mId != null) {
             Cache.addEntity(this);
         }
     }
